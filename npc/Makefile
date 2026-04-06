@@ -34,6 +34,7 @@ nv: $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE)
 		--top-module $(TOPNAME) \
 		$(VSRCS) $(NV_CSRCS) $(SRC_AUTO_BIND) \
 		$(NVBOARD_ARCHIVE) \
+		$(addprefix -CFLAGS , $(INCFLAGS)) \
 		$(addprefix -CFLAGS , $(CXXFLAGS)) \
 		$(addprefix -LDFLAGS , $(LDFLAGS))
 
