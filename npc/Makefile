@@ -6,7 +6,7 @@ test:
 verilog:
 	$(call git_commit, "generate verilog")
 	mkdir -p $(BUILD_DIR)
-	mill -i runMain Elaborate --target-dir $(BUILD_DIR)
+	mill -i runMain logic.Elaborate --target-dir $(BUILD_DIR)
 
 help:
 	mill -i runMain Elaborate --help
