@@ -30,8 +30,9 @@ nv: $(SRC_AUTO_BIND)
 	$(VERILATOR) -cc --exe --build \
 		--top-module $(TOPNAME) \
 		$(VSRCS) $(NV_CSRCS) $(SRC_AUTO_BIND) \
-		-CFLAGS -I$(NVBOARD_HOME)/include \
-		-LDFLAGS "-L$(NVBOARD_HOME)/build -lnvboard"
+		-CFLAGS "-I$(NVBOARD_HOME)/include -I/usr/include/SDL2 -D_REENTRANT"\
+		-LDFLAGS "-L$(NVBOARD_HOME)/build -lnvboard -lSDL2 -lSDL2_image -lSDL2_ttf"
+
 	./obj_dir/V$(TOPNAME)
 
 
