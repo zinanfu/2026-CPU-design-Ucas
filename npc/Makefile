@@ -26,7 +26,6 @@ sim:
 	$(VERILATOR) $(VERILATOR_FLAGS) $(VSRCS) $(SIM_CSRCS)
 	./obj_dir/V$(TOPNAME)
 
-
 nv: $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE)
 	$(call git_commit, "nvboard RTL")
 
@@ -34,11 +33,11 @@ nv: $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE)
 		--top-module $(TOPNAME) \
 		$(VSRCS) $(NV_CSRCS) $(SRC_AUTO_BIND) \
 		$(NVBOARD_ARCHIVE) \
-		$(addprefix -CFLAGS , $(INCFLAGS)) \
-		$(addprefix -CFLAGS , $(CXXFLAGS)) \
-		$(addprefix -LDFLAGS , $(LDFLAGS))
+		-CFLAGS "$(INCFLAGS) $(CXXFLAGS)" \
+		-LDFLAGS "$(LDFLAGS)"
 
 	./obj_dir/V$(TOPNAME)
+
 
 
 clean:
