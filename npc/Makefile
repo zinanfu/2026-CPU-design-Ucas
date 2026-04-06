@@ -1,4 +1,6 @@
 $(shell mkdir -p build)
+CXXFLAGS += -DTOP_NAME=\"V$(TOPNAME)\"
+
 
 TOPNAME = top
 
@@ -26,13 +28,14 @@ sim:
 
 
 nv: $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE)
-	$(call git_commit, "nvboard RTL") 
+	$(call git_commit, "nvboard RTL")
+
 	$(VERILATOR) -cc --exe --build \
 		--top-module $(TOPNAME) \
 		$(VSRCS) $(NV_CSRCS) $(SRC_AUTO_BIND) \
 		$(NVBOARD_ARCHIVE) \
-		-CFLAGS "-I$(NVBOARD_HOME)/include -I/usr/include/SDL2 -D_REENTRANT -DTOP_NAME=\\\"V$(TOPNAME)\\\""\
-		-LDFLAGS "-L$(NVBOARD_HOME)/build -lnvboard -lSDL2 -lSDL2_image -lSDL2_ttf"
+		$(addprefix -CFLAGS , $(CXXFLAGS)) \
+		$(addprefix -LDFLAGS , $(LDFLAGS))
 
 	./obj_dir/V$(TOPNAME)
 
