@@ -10,7 +10,7 @@ NXDC_FILES = constr/top.nxdc
 SRC_AUTO_BIND = build/auto_bind.cpp
 
 $(SRC_AUTO_BIND): $(NXDC_FILES)
-	
+
 	python3 $(NVBOARD_HOME)/scripts/auto_pin_bind.py $^ $@
 
 VERILATOR = verilator
@@ -30,8 +30,8 @@ nv: $(SRC_AUTO_BIND)
 	$(VERILATOR) -cc --exe --build \
 		--top-module $(TOPNAME) \
 		$(VSRCS) $(NV_CSRCS) $(SRC_AUTO_BIND) \
-		-I$(NVBOARD_HOME)/include \
-		-L$(NVBOARD_HOME)/build -lnvboard
+		-CFLAGS -I$(NVBOARD_HOME)/include \
+		-LDFLAGS "-L$(NVBOARD_HOME)/build -lnvboard"
 	./obj_dir/V$(TOPNAME)
 
 
