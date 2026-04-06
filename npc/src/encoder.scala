@@ -4,8 +4,8 @@ import chisel3._
 
 class Encoder4to2 extends Module {
     val io = IO(new Bundle {
-        val in = Input(UInt(4.w))
-        val out = Output(UInt(2.w))
+        val in = Input(UInt(4.W))
+        val out = Output(UInt(2.W))
     })
 
     io.out := 0.U
