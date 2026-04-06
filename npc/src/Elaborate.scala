@@ -1,0 +1,27 @@
+package logic
+
+import circt.stage.ChiselStage
+
+
+object Elaborate extends App {
+  val firtoolOptions = Array(
+    "--default-layer-specialization=enable",
+    "--verification-flavor=immediate",
+    "--lowering-options=" + List(
+      // make yosys happy
+      // see https://github.com/llvm/circt/blob/main/docs/VerilogGeneration.md
+      "disallowLocalVariables",
+      "disallowPackedArrays",
+      "locationInfoStyle=wrapInAtSquareBracket"
+    ).reduce(_ + "," + _)
+  )
+  //circt.stage.ChiselStage.emitSystemVerilogFile(new gcd.GCD(), args, firtoolOptions)
+
+  ChiselStage.emitSystemVerilogFile(
+    new Decoder2to4(),  
+    args,
+    firtoolOptions      
+  )
+
+
+}
