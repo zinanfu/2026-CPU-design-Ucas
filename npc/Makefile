@@ -1,8 +1,13 @@
 $(shell mkdir -p build)
-CXXFLAGS += -DTOP_NAME=\"V$(TOPNAME)\"
 
 
 TOPNAME = top
+
+include $(NVBOARD_HOME)/scripts/nvboard.mk
+
+
+CXXFLAGS += -DTOP_NAME=\"V$(TOPNAME)\"
+CXXFLAGS += -I$(NVBOARD_HOME)/include
 
 VSRCS = $(wildcard vsrc/*.v)
 SIM_CSRCS = csrc/sim_main.cpp
@@ -33,7 +38,7 @@ nv: $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE)
 		--top-module $(TOPNAME) \
 		$(VSRCS) $(NV_CSRCS) $(SRC_AUTO_BIND) \
 		$(NVBOARD_ARCHIVE) \
-		-CFLAGS "$(INCFLAGS) $(CXXFLAGS)" \
+		-CFLAGS "$(CXXFLAGS)" \
 		-LDFLAGS "$(LDFLAGS)"
 
 	./obj_dir/V$(TOPNAME)
@@ -41,9 +46,9 @@ nv: $(SRC_AUTO_BIND) $(NVBOARD_ARCHIVE)
 
 
 clean:
-	rm -rf obj_dir wave.fst
+	rm -rf obj_dir wave.fst build
 
 include ../Makefile
 
-include $(NVBOARD_HOME)/scripts/nvboard.mk
+
 
