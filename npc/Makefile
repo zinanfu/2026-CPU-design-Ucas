@@ -40,3 +40,6 @@ clean:
 	rm -rf obj_dir wave.fst
 
 include ../Makefile
+
+include $(NVBOARD_HOME)/scripts/nvboard.mk
+
