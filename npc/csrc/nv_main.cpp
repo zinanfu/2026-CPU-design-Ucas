@@ -1,18 +1,24 @@
+#include <nvboard.h>
 #include "Vtop.h"
 #include "verilated.h"
-#include <iostream>
 
-#include  <nvboard.h>
-#include "verilated_fst_c.h"
+static Vtop* top = NULL;
+
+void nvboard_bind_all_pins(Vtop* top);
 
 int main() {
-    Vtop* top = new Vtop;
-
     nvboard_init();
+
+    top = new Vtop;
+
     nvboard_bind_all_pins(top);
 
-    while(1) {
+    while (1) {
+        top->clk = !top->clk;
         top->eval();
         nvboard_update();
     }
+
+    delete top;
+    return 0;
 }
