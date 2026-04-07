@@ -23,7 +23,7 @@ class Alu(width: Int) extends Module {
         val out = Output(UInt(32.W))
     })
 
-    io.out := 0.UInt
+    io.out := 0.U
 
     switch(io.op) {
         is(ALUOp.ADD) { io.out := io.a + io.b }
