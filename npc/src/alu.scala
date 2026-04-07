@@ -16,7 +16,7 @@ object ALUOp {
 
 
 class Alu extends Module {
-    val io = IO({new Bundle 
+    val io = IO(new Bundle {
         val a = Input(UInt(width.W))
         val b = Input(UInt(width.W))
         val op = Input(UInt(4.W))
