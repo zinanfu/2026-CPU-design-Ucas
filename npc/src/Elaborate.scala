@@ -1,3 +1,8 @@
+package logic
+
+import circt.stage.ChiselStage
+
+
 object Elaborate extends App {
   val firtoolOptions = Array(
     "--default-layer-specialization=enable",
@@ -10,5 +15,13 @@ object Elaborate extends App {
       "locationInfoStyle=wrapInAtSquareBracket"
     ).reduce(_ + "," + _)
   )
-  circt.stage.ChiselStage.emitSystemVerilogFile(new gcd.GCD(), args, firtoolOptions)
+  //circt.stage.ChiselStage.emitSystemVerilogFile(new gcd.GCD(), args, firtoolOptions)
+
+  ChiselStage.emitSystemVerilogFile(
+    new Alu(32),  
+    args,
+    firtoolOptions      
+  )
+
+
 }
