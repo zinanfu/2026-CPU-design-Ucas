@@ -159,6 +159,21 @@ config ITRACE_COND
   string "Only trace instructions when the condition is true"
   default "true"
 
+config MTRACE
+  bool "Enable memory tracer"
+  default n
+  help
+    Enable tracing of physical memory accesses.
+
+config MTRACE_START
+  depends on MTRACE
+  hex "mtrace start address"
+  default 0x0
+
+config MTRACE_END
+  depends on MTRACE
+  hex "mtrace end address"
+  default 0xffffffff
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF

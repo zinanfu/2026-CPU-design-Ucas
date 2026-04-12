@@ -56,7 +56,9 @@ word_t paddr_read(paddr_t addr, int len) {
   out_of_bound(addr);
 
   #ifdef CONFIG_MTRACE
-    mtrace_log("R", addr, len, data);
+    if (addr >= CONFIG_MTRACE_START && addr <= CONFIG_MTRACE_END) {
+      mtrace_log("R", addr, len, pmem_read(addr, len));
+    }
   #endif
 
   return 0;
@@ -65,7 +67,10 @@ word_t paddr_read(paddr_t addr, int len) {
 void paddr_write(paddr_t addr, int len, word_t data) {
 
   #ifdef CONFIG_MTRACE
-    mtrace_log("W", addr, len, data);
+    if (addr >= CONFIG_MTRACE_START && addr <= CONFIG_MTRACE_END) {
+      mtrace_log("W", addr, len, data);
+    }
+    
   #endif
 
   if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }

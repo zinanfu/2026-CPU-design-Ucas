@@ -72,7 +72,17 @@ void iringbuf_print() {
   }
 }
 
+bool mtrace_check(paddr_t addr) {
+#ifdef CONFIG_MTRACE
+  return (addr >= CONFIG_MTRACE_START) && (addr <= CONFIG_MTRACE_END);
+#else
+  return false;
+#endif
+}
+
 void mtrace_log(const char* type, paddr_t addr, int len, word_t data) {
-  if (!mtrace_check())
+  if (!mtrace_check(addr)) {
+    printf("[mtrace] %s addr = 0x%08x, len = %d, data = 0x%08x\n", type, addr, len, data);
+  }
 }
 
