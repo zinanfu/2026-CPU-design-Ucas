@@ -82,3 +82,6 @@ void iringbuf_write(const char* log);
 
 void iringbuf_print();
 
+void mtrace_log(const char* type, paddr_t addr, int len, word_t data);
+
+bool mtrace_check(paddr_t addr);
