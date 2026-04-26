@@ -11,20 +11,25 @@ int itoa(int val, char* buf) {
   int i = 0;
   int j = 0;
   bool negative_sign = false;
+  unsigned u;
 
   if (val == 0) {
     buf[0] = '0';
+    buf[1] = '\0';
     return 1;
   }
 
   if (val < 0) {
     negative_sign = true;
-    val = -val;
+    u = -(unsigned)val;
+  }
+  else {
+    u = val;
   }
 
-  while (val > 0) {
-    temp[i++] = '0' + (val % 10);
-    val /= 10;
+  while (u > 0) {
+    temp[i++] = '0' + (u % 10);
+    u /= 10;
   }
 
   if (negative_sign) {
