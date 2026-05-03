@@ -30,6 +30,8 @@ CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
+static vaddr_t last_pc = 0;
+static int same_pc_count = 0;
 
 void device_update();
 
@@ -83,12 +85,26 @@ static void exec_once(Decode *s, vaddr_t pc) {
 static void execute(uint64_t n) {
   Decode s;
   for (;n > 0; n --) {
+    if (cpu.pc == last_pc) {
+      same_pc_count++;
+      if (same_pc_count > 1000000) {
+        printf("Warning: possible infinite loop at pc: 0x%x\n", last_pc);
+        nemu_state.state = NEMU_STOP;
+        return; 
+      }
+    } 
+    else {
+      same_pc_count = 0;
+      last_pc = cpu.pc;
+    }
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
+
+  
 }
 
 static void statistic() {
