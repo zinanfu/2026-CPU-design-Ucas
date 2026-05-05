@@ -40,6 +40,7 @@ int itoa(int val, char* buf) {
     buf[j++] = temp[k];
   }
 
+  buf[j] = '\0';
   return j;
 }
 
@@ -47,7 +48,41 @@ int itoa(int val, char* buf) {
 
 
 int printf(const char *fmt, ...) {
-  panic("Not implemented");
+  // panic("Not implemented");
+  va_list ap;
+  va_start(ap, fmt);
+  int num = 0;
+
+  for (const char* f = fmt; *f != '\0'; f++) {
+    if (*f != '%') {
+      putch(*f);
+      num++;
+      continue;
+    }
+    else {
+      f++;
+      if (*f == 's') {
+        char* s = va_arg(ap, char*);
+        while (*s != '\0') {
+          putch(*s++);
+          num++;
+        }
+      } else if (*f == 'd') {
+        char buf[64];
+        int val = va_arg(ap, int);
+        int lenth = itoa(val, buf);
+        for (int i = 0; i < lenth; i++) {
+          putch(buf[i]);
+          num++;
+        }
+      }
+    }
+  }
+
+  va_end(ap);
+
+  return num;
+
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
