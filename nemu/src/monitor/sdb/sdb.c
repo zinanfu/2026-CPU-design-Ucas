@@ -62,6 +62,7 @@ static int cmd_x(char *args);
 static int cmd_watch(char *args);
 static int cmd_d(char *args);
 static int cmd_ir(char *args);
+static int cmd_p(char *args);
 
 static struct {
   const char *name;
@@ -79,6 +80,7 @@ static struct {
   { "watch", "Watch the expr", cmd_watch},
   { "d", "Delete the watchpoint", cmd_d},
   { "ir", "Iringbuf debug message", cmd_ir},
+  { "p", "Evaluate expression", cmd_p}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -210,7 +212,20 @@ static int cmd_d(char *args) {
   return 0;
 }
 
+static int cmd_p(char *args) {
+  bool success = true;
 
+  word_t result = expr(args, &success);
+
+  if (success) {
+    printf("%d\n", result);
+  }
+  else {
+    printf("Error: bad expression\n");
+  }
+
+  return 0;
+}
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
