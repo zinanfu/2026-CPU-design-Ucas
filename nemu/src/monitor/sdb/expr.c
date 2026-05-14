@@ -107,7 +107,7 @@ static bool make_token(char *e) {
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
-    printf("position:%d\n", position);
+    // printf("position:%d\n", position);
     for (i = 0; i < NR_REGEX; i ++) {
       // printf("match begin\n");
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
@@ -137,7 +137,7 @@ static bool make_token(char *e) {
           default: 
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
-            printf("nr_token is %d\n", nr_token);
+            // printf("nr_token is %d\n", nr_token);
             tokens[nr_token].str[substr_len] = '\0';
 
             nr_token++;
@@ -158,7 +158,7 @@ static bool make_token(char *e) {
 
 
 word_t expr(char *e, bool *success) {
-  printf("make_token begin\n");
+  // printf("make_token begin\n");
   if (!make_token(e)) {
     *success = false;
     return 0;
