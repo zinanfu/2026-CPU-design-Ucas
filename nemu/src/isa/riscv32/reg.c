@@ -28,7 +28,10 @@ void isa_reg_display() {
     if (strcmp(regs[i], "$0") == 0) {
       printf("%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
     }
-    printf("$%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
+    else {
+      printf("$%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
+    }
+    
   }
 
   printf("pc:\t0x%08x\n", cpu.pc);
