@@ -45,7 +45,7 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  cpu_exec(-1);
+  cpu_exec(-1);  // uint64_t 中的极大
   return 0;
 }
 
@@ -261,7 +261,7 @@ void sdb_mainloop() {
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
         // 优美地退出
-        if (cmd_table[i].handler(args) < 0) { 
+        if (cmd_table[i].handler(args) < 0) { // 返回负数 
           nemu_state.state = NEMU_QUIT;
           return; 
         }

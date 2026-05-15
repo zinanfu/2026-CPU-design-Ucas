@@ -53,19 +53,23 @@ void free_wp(WP *wp) {
   if (wp == NULL) {
     assert(0);
   }
-  // 删除节点
+  if (head == NULL) {
+    assert(0);
+  }
+
   if (head == wp) {
     head = head -> next;
   } 
   else {
     WP *next_wp;
     next_wp = head;
-    while (next_wp -> next != wp && next_wp != NULL) {
+    while (next_wp -> next != NULL && next_wp -> next != wp) {
       next_wp = next_wp -> next;
     }
 
-    if (next_wp == NULL) {
-      printf("Error: watchpoint not found!\n");
+    if (next_wp -> next == NULL) {
+      printf("Error: watchpoint not found\n");
+      return;
     }
 
     next_wp -> next = wp -> next;
