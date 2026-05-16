@@ -150,7 +150,7 @@ static int cmd_x(char *args) {
   bool success = true;
   
   if (args == NULL) {
-    printf("Usage: x N EXPR\n");
+    printf("Error: invalid cmd\n");
     assert(0);
   }
 
