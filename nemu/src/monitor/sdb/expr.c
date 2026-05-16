@@ -286,7 +286,7 @@ int find_op_position(int p, int q) {
       //   }
       // }
       int priority = op_priority(tokens[i].type);
-      if (priority < min_pri) {
+      if (priority <= min_pri) {
         op_position = i;
         min_pri = priority;
       }
