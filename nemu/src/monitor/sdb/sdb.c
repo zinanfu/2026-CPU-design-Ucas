@@ -162,7 +162,7 @@ static int cmd_x(char *args) {
   vaddr_t addr = expr(EXPR_str, &success); 
 
   if (success == false) {
-    printf("Error: invalid addr");
+    printf("Error: invalid addr\n");
     return 0;
   }
 
@@ -176,7 +176,7 @@ static int cmd_x(char *args) {
 
 static int cmd_watch(char *args) {
   if (args == NULL) {
-    printf("Usage: watch EXPR\n");
+    printf("Error: invalid expr\n");
     assert(0);
   }
 
@@ -201,7 +201,7 @@ static int cmd_d(char *args) {
   int id = 0;
 
   if (args == NULL) {
-    printf("Usage: d NO\n");
+    printf("Error: invalid expr\n");
     assert(0);
   }
 
