@@ -28,15 +28,16 @@ enum {
 
 
   /* TODO: Add more token types */
-  TK_DEC,     // 123
-  TK_HEX,     // 0x123
-  TK_REG,     // $a0
+  TK_DEC,       // 123
+  TK_HEX,       // 0x123
+  TK_REG,       // $a0
 
 
-  TK_EQ,      // ==
-  TK_NEQ,     // !=
-  TK_AND,     // &&
-  TK_DEREF,   // *(ref)
+  TK_EQ,        // ==
+  TK_NEQ,       // !=
+  TK_AND,       // &&
+  TK_DEREF,     // *(ref)
+  TK_NEGATIVE,  // -1
 };
 
 static struct rule {
@@ -182,8 +183,11 @@ word_t expr(char *e, bool *success) {
 
   // 解引用判断
   for (int i = 0; i < nr_token; i++) {
-    if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND) ) {
+    if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND)) {
       tokens[i].type = TK_DEREF;
+    }
+    if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND)) {
+      tokens[i].type = TK_NEGATIVE;
     }
   }
 
@@ -332,6 +336,12 @@ int eval(int p, int q, bool *success) {
 
       return vaddr_read(addr, 4);
     }
+    // 负数
+    if (tokens[op].type == TK_NEGATIVE) {
+
+      return - eval(op + 1, q, success);
+    }
+
     int val1 = eval(p, op - 1, success);
     if (!*success) {
       return 0;
