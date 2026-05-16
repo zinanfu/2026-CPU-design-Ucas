@@ -187,10 +187,15 @@ word_t expr(char *e, bool *success) {
       tokens[i].type = TK_DEREF;
     }
     if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND)) {
-      printf("There is a minor\n");
+      // printf("There is a minor\n");
       tokens[i].type = TK_NEGATIVE;
     }
   }
+
+  for (int i = 0; i < 5; i++) {
+    printf("The token_type is %c\n", tokens[i].type);
+  }
+
 
   // expr
   return eval(0, nr_token - 1, success);
