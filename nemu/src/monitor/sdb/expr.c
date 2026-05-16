@@ -192,9 +192,9 @@ word_t expr(char *e, bool *success) {
     }
   }
 
-  for (int i = 0; i < 5; i++) {
-    printf("The token_type is %c\n", tokens[i].type);
-  }
+  // for (int i = 0; i < 5; i++) {
+  //   printf("The token_type is %c\n", tokens[i].type);
+  // }
 
 
   // expr
@@ -333,7 +333,7 @@ int eval(int p, int q, bool *success) {
   else {
     int op = find_op_position(p, q);
 
-    printf("The position is %d, the type is %c\n", op, tokens[op].type);
+    // printf("The position is %d, the type is %c\n", op, tokens[op].type);
 
     if (op == -1) {
       *success = false;
