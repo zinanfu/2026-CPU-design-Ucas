@@ -44,8 +44,6 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  init_monitor(argc, argv);
-
   FILE *fp = fopen(argv[1], "r");
   assert(fp != NULL);
 
@@ -56,18 +54,20 @@ int main(int argc, char *argv[]) {
 
     bool success = true;
 
+    // printf("expr = %s\n", expr_buf);
+
     word_t result = expr(expr_buf, &success);
 
     if (!success) {
       printf("Bad expression: %s\n", expr_buf);
-      continue;
+      return 1;
     }
 
     if (result != expected) {
       printf("Mismatch!\n");
-      printf("expr: %s\n", expr_buf);
-      printf("expected: %u\n", expected);
-      printf("got: %u\n", result);
+      printf("expr     : %s\n", expr_buf);
+      printf("expected : %u\n", expected);
+      printf("result   : %u\n", result);
       return 1;
     }
   }
