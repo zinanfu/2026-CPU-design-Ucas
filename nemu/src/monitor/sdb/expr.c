@@ -333,6 +333,8 @@ int eval(int p, int q, bool *success) {
   else {
     int op = find_op_position(p, q);
 
+    printf("The position is %d, the type is %c\n", op, tokens[op].type);
+
     if (op == -1) {
       *success = false;
       return 0;
