@@ -246,6 +246,8 @@ int op_priority(int type) {
     case '/': return 4;
     // case '(':
     // case ')': return 4;
+   
+    case TK_NEGATIVE: 
     case TK_DEREF: return 5;
     default: return 100;
   }
