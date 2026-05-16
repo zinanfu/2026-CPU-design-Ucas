@@ -299,6 +299,14 @@ int eval(int p, int q, bool *success) {
     switch (tokens[p].type) {
       case TK_DEC: return atoi(tokens[p].str);
       case TK_HEX: return strtoul(tokens[p].str, NULL, 16);
+      case TK_REG: {
+            bool reg_success = true;
+            word_t val = isa_reg_str2val(tokens[p].str + 1, &reg_success);
+            if (!reg_success) {
+              *success = false;
+            }
+            return val;
+          }
       default: 
         *success = false;
         return 0;
