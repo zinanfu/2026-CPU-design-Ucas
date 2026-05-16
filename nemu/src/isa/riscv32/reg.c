@@ -47,9 +47,9 @@ word_t isa_reg_str2val(const char *s, bool *success) {
       return cpu.gpr[i];
     }
   }
-  // if (strcmp(s, "0") == 0) {
-  //   return cpu.gpr[0];
-  // }
+  if (strcmp(s, "0") == 0) {
+    return cpu.gpr[0];
+  }
   *success = false;
   return 0;
 }
