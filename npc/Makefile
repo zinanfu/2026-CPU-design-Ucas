@@ -1,8 +1,11 @@
 BUILD_DIR = ./build
 
-TOPNAME = top
+TOPNAME = Alu # top
 
-VSRCS = $(wildcard vsrc/*.v)
+# VSRCS = $(wildcard vsrc/*.v)
+VSRCS = $(wildcard build/*.sv)
+
+
 SIM_CSRCS = csrc/sim_main.cpp
 
 VERILATOR = verilator
