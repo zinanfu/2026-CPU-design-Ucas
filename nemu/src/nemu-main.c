@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
 
     bool success = true;
 
-    // printf("expr = %s\n", expr_buf);
+    printf("expr = %s\n", expr_buf);
 
     word_t result = expr(expr_buf, &success);
 
