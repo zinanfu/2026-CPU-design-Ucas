@@ -340,6 +340,7 @@ int eval(int p, int q, bool *success) {
     // 负数
     if (tokens[op].type == TK_NEGATIVE) {
 
+      printf("find a negative\n");
       return - eval(op + 1, q, success);
     }
 
