@@ -1,5 +1,6 @@
 #include <am.h>
 #include <nemu.h>
+#include <stdio.h>
 
 void __am_timer_init() {
 }
@@ -7,6 +8,7 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   // uptime->us = 0;
 
+  printf("The RTC_ADDR is 0x%x", RTC_ADDR);
 
   uint32_t hi = inl(RTC_ADDR + 4);
   uint32_t lo = inl(RTC_ADDR);
