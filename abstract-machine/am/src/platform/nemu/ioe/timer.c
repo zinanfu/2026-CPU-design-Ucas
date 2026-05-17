@@ -7,7 +7,7 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   // uptime->us = 0;
 
-  putstr("HIT TIMER\n");
+  // putstr("HIT TIMER\n");
 
   uint32_t hi = inl(0xa0000048 + 4);
   uint32_t lo = inl(0xa0000048);
