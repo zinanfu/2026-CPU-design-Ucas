@@ -18,6 +18,7 @@
 
 #include <common.h>
 
+
 // ----------- state -----------
 
 enum { NEMU_RUNNING, NEMU_STOP, NEMU_END, NEMU_ABORT, NEMU_QUIT };
@@ -85,3 +86,8 @@ void iringbuf_print();
 void mtrace_log(const char* type, paddr_t addr, int len, word_t data);
 
 bool mtrace_check(paddr_t addr);
+
+// void dtrace_log_W(paddr_t addr, int len, word_t data, IOMap *map);
+
+// void dtrace_log_R(paddr_t addr, int len, IOMap *map);
+
