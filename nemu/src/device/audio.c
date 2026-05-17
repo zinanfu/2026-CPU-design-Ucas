@@ -28,9 +28,43 @@ enum {
 };
 
 static uint8_t *sbuf = NULL;
+static uint8_t sbuf_w = 0;
+// static uint8_t sbuf_r = 0;
 static uint32_t *audio_base = NULL;
 
+
+static void audio_callback(void* userdate, uint8_t* stream, int len) {
+  int count = audio_base[reg_count];
+
+  if (count == 0) {
+    memset(stream, 0, len);
+    return;
+  }
+
+  int n = len < count ? len : count;
+
+  memcpy(stream, sbuf + sbuf_w, n);
+
+  sbuf_w += n;
+
+  audio_base[reg_count] -= n;
+}
+
 static void audio_io_handler(uint32_t offset, int len, bool is_write) {
+  if (offset == reg_init * 4 && is_write){
+    SDL_AudioSpec s = {};
+    s.freq = audio_base[reg_freq];
+    s.channels = audio_base[reg_channels];
+    s.samples = audio_base[reg_samples];
+    s.format = AUDIO_S16SYS;
+    s.callback = audio_callback; 
+
+    SDL_OpenAudio(&s, NULL);
+    SDL_PauseAudio(0);
+
+    audio_base[reg_sbuf_size] = CONFIG_SB_SIZE;
+  }
+
 }
 
 void init_audio() {
@@ -45,3 +79,5 @@ void init_audio() {
   sbuf = (uint8_t *)new_space(CONFIG_SB_SIZE);
   add_mmio_map("audio-sbuf", CONFIG_SB_ADDR, sbuf, CONFIG_SB_SIZE, NULL);
 }
+
+
