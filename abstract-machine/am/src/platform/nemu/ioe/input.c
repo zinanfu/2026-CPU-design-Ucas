@@ -12,6 +12,9 @@ void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   kbd->keydown = ((code & KEYDOWN_MASK) != 0);
   kbd->keycode = code & 0x7fff;
 
-  printf("The code is 0x%x\n", code);
+  if (code != 0) {
+    printf("The code is 0x%x\n", code);
+  }
+ 
   
 }
