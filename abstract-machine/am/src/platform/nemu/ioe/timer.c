@@ -7,13 +7,10 @@ void __am_timer_init() {
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
   // uptime->us = 0;
 
-#if defined(__ARCH_X86_NEMU)
+
   uint32_t hi = inl(RTC_ADDR + 4);
-  uint32_t lo = inl(RTC_ADDR + 0);
-#else
-  uint32_t hi = inl(MMIO_BASE + 0x48 + 4);
-  uint32_t lo = inl(MMIO_BASE + 0x48);
-#endif
+  uint32_t lo = inl(RTC_ADDR);
+
 
   uptime->us = ((uint64_t)hi << 32) | lo;
 
@@ -27,3 +24,6 @@ void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
   rtc->month  = 0;
   rtc->year   = 1900;
 }
+
+
+
