@@ -36,6 +36,9 @@ static uint32_t *audio_base = NULL;
 static void audio_callback(void* userdate, uint8_t* stream, int len) {
   int count = audio_base[reg_count];
 
+
+  printf("count = %d\n", audio_base[reg_count]);
+  
   if (count == 0) {
     memset(stream, 0, len);
     return;
