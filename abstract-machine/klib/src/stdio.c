@@ -44,6 +44,38 @@ int itoa(int val, char* buf) {
   return j;
 }
 
+static int utoa_base(unsigned long val, char *buf, int base, bool upper) {
+  char temp[64];
+  int i = 0;
+  int j = 0;
+  const char *digits = upper ? "0123456789ABCDEF" : "0123456789abcdef";
+
+  if (val == 0) {
+    buf[0] = '0';
+    buf[1] = '\0';
+    return 1;
+  }
+
+  while (val > 0) {
+    temp[i++] = digits[val % base];
+    val /= base;
+  }
+
+  for (int k = i - 1; k >= 0; k--) {
+    buf[j++] = temp[k];
+  }
+
+  buf[j] = '\0';
+  return j;
+}
+
+static void putch_repeat(char ch, int count, int *num) {
+  for (int i = 0; i < count; i++) {
+    putch(ch);
+    (*num)++;
+  }
+}
+
 
 
 
@@ -61,6 +93,17 @@ int printf(const char *fmt, ...) {
     }
     else {
       f++;
+      char pad = ' ';
+      int width = 0;
+      if (*f == '0') {
+        pad = '0';
+        f++;
+      }
+      while (*f >= '0' && *f <= '9') {
+        width = width * 10 + (*f - '0');
+        f++;
+      }
+
       if (*f == 's') {
         char* s = va_arg(ap, char*);
         while (*s != '\0') {
@@ -70,12 +113,46 @@ int printf(const char *fmt, ...) {
       } else if (*f == 'd') {
         char buf[64];
         int val = va_arg(ap, int);
-        int lenth = itoa(val, buf);
-        for (int i = 0; i < lenth; i++) {
+        int length = itoa(val, buf);
+        int pad_len = width > length ? width - length : 0;
+        putch_repeat(pad, pad_len, &num);
+        for (int i = 0; i < length; i++) {
           putch(buf[i]);
           num++;
         }
+      } else if (*f == 'x' || *f == 'X') {
+        char buf[64];
+        unsigned int val = va_arg(ap, unsigned int);
+        int length = utoa_base(val, buf, 16, *f == 'X');
+        int pad_len = width > length ? width - length : 0;
+        putch_repeat(pad, pad_len, &num);
+        for (int i = 0; i < length; i++) {
+          putch(buf[i]);
+          num++;
+        }
+      } else if (*f == 'p') {
+        char buf[64];
+        uintptr_t val = (uintptr_t)va_arg(ap, void *);
+        int length = utoa_base(val, buf, 16, false);
+        putch('0'); num++;
+        putch('x'); num++;
+        int pad_len = (int)(sizeof(uintptr_t) * 2) - length;
+        if (pad_len > 0) {
+          putch_repeat('0', pad_len, &num);
+        }
+        for (int i = 0; i < length; i++) {
+          putch(buf[i]);
+          num++;
+        }
+      } else if (*f == 'c') {
+        char ch = (char)va_arg(ap, int);
+        putch(ch);
+        num++;
+      } else if (*f == '%') {
+        putch('%');
+        num++;
       }
+
     }
   }
 
