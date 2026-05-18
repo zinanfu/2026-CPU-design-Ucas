@@ -288,7 +288,7 @@ int find_op_position(int p, int q) {
       int priority = op_priority(tokens[i].type);
 
       if (priority == 5 && min_pri == 5) {
-        printf("need right\n");
+        // printf("need right\n");
       } else {
         if (priority <= min_pri) {
           op_position = i;
