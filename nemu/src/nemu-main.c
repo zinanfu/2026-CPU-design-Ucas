@@ -16,68 +16,70 @@
 #include <common.h>
 
 
-void init_monitor(int, char *[]);
-void am_init_monitor();
-void engine_start();
-int is_exit_status_bad();
-
-int main(int argc, char *argv[]) {
-  /* Initialize the monitor. */
-#ifdef CONFIG_TARGET_AM
-  am_init_monitor();
-#else
-  init_monitor(argc, argv);
-#endif
-
-  /* Start engine. */
-  engine_start();
-
-  return is_exit_status_bad();
-}
-
-// word_t expr(char *e, bool *success);
-// void init_regex();
+// void init_monitor(int, char *[]);
+// void am_init_monitor();
+// void engine_start();
+// int is_exit_status_bad();
 
 // int main(int argc, char *argv[]) {
+//   /* Initialize the monitor. */
+// #ifdef CONFIG_TARGET_AM
+//   am_init_monitor();
+// #else
+//   init_monitor(argc, argv);
+// #endif
 
-//   if (argc != 2) {
-//     printf("Usage: %s input_file\n", argv[0]);
-//     return 1;
-//   }
+//   /* Start engine. */
+//   engine_start();
 
-//   init_regex();
-
-//   FILE *fp = fopen(argv[1], "r");
-//   assert(fp != NULL);
-
-//   char expr_buf[65536];
-//   unsigned expected;
-
-//   while (fscanf(fp, "%u %[^\n]", &expected, expr_buf) == 2) {
-
-//     bool success = true;
-
-//     // printf("expr = %s\n", expr_buf);
-
-//     word_t result = expr(expr_buf, &success);
-
-//     if (!success) {
-//       printf("Bad expression: %s\n", expr_buf);
-//       return 1;
-//     }
-
-//     if (result != expected) {
-//       printf("Mismatch!\n");
-//       printf("expr     : %s\n", expr_buf);
-//       printf("expected : %u\n", expected);
-//       printf("result   : %u\n", result);
-//       return 1;
-//     }
-//   }
-
-//   printf("All tests passed!\n");
-
-//   fclose(fp);
-
-//   return 0;
+//   return is_exit_status_bad();
 // }
+
+word_t expr(char *e, bool *success);
+void init_regex();
+void init_mem();
+
+int main(int argc, char *argv[]) {
+
+  if (argc != 2) {
+    printf("Usage: %s input_file\n", argv[0]);
+    return 1;
+  }
+
+  init_regex();
+  init_mem();
+
+  FILE *fp = fopen(argv[1], "r");
+  assert(fp != NULL);
+
+  char expr_buf[65536];
+  unsigned expected;
+
+  while (fscanf(fp, "%u %[^\n]", &expected, expr_buf) == 2) {
+
+    bool success = true;
+
+    // printf("expr = %s\n", expr_buf);
+
+    word_t result = expr(expr_buf, &success);
+
+    if (!success) {
+      printf("Bad expression: %s\n", expr_buf);
+      return 1;
+    }
+
+    if (result != expected) {
+      printf("Mismatch!\n");
+      printf("expr     : %s\n", expr_buf);
+      printf("expected : %u\n", expected);
+      printf("result   : %u\n", result);
+      return 1;
+    }
+  }
+
+  printf("All tests passed!\n");
+
+  fclose(fp);
+
+  return 0;
+}
