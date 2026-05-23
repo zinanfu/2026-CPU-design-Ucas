@@ -130,8 +130,8 @@ bool check_watchpoint() {
 
     if (new_value != wp -> last_value) {
       printf("Watchpoint NO%d\t%s is changed!\n", wp -> NO, wp -> expr);
-      printf("Old value:\t%u\n", wp -> last_value);
-      printf("New value:\t%u\n", new_value);
+      printf("Old value:\t0x%8x\n", wp -> last_value);
+      printf("New value:\t0x%8x\n", new_value);
 
       wp -> last_value = new_value;
       return true;
