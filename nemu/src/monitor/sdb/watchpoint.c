@@ -112,7 +112,7 @@ void print_watchpoint() {
   }
 
   while (wp != NULL) {
-    printf("NO:%d\t%s\t%d\n", wp -> NO, wp -> expr, wp -> last_value);
+    printf("NO:%d\t%s\t0x%x\n", wp -> NO, wp -> expr, wp -> last_value);
     wp = wp -> next;
   }
 }
