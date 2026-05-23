@@ -205,7 +205,10 @@ static int cmd_d(char *args) {
     assert(0);
   }
 
+  printf("%s\n", args);
+
   id = atoi(args);
+
   
   d_wp(id);
 
