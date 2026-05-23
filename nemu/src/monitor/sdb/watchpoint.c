@@ -119,6 +119,7 @@ void print_watchpoint() {
 
 bool check_watchpoint() {
   WP *wp = head;
+  bool flag = false;
 
   while (wp != NULL) {
     bool success = true;
@@ -133,12 +134,12 @@ bool check_watchpoint() {
       printf("Old value:\t0x%8x\n", wp -> last_value);
       printf("New value:\t0x%8x\n", new_value);
 
+      flag = true;
       wp -> last_value = new_value;
-      return true;
     }
 
     wp = wp -> next;
   }
 
-  return false;
+  return flag;
 }
