@@ -214,11 +214,11 @@ static int cmd_d(char *args) {
 
   if (!isdigits(args)) {
     printf("Error: not num\n");
+    return 0;
   }
 
   id = atoi(args);
 
-  
   d_wp(id);
 
   return 0;
