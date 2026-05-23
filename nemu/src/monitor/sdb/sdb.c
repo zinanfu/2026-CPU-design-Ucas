@@ -77,7 +77,7 @@ static struct {
   { "si", "Modify the step of CPU", cmd_si},
   { "info", "Info command", cmd_info},
   { "x", "Scan memory", cmd_x},
-  { "watch", "Watch the expr", cmd_watch},
+  { "w", "Watch the expr", cmd_watch},
   { "d", "Delete the watchpoint", cmd_d},
   { "ir", "Iringbuf debug message", cmd_ir},
   { "p", "Evaluate expression", cmd_p}
