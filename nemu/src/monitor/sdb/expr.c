@@ -72,7 +72,7 @@ static struct rule {
 static regex_t re[NR_REGEX] = {};
 
 
-int eval(int p, int q, bool *success);
+uint32_t eval(int p, int q, bool *success);
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -303,7 +303,7 @@ int find_op_position(int p, int q) {
   return op_position;
 }
 
-int eval(int p, int q, bool *success) {
+uint32_t eval(int p, int q, bool *success) {
   if (p > q) {
     /* Bad expression */
     *success = false;
