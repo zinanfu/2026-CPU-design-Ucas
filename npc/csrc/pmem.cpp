@@ -14,6 +14,7 @@ void init_pmem(size_t size, uint32_t base) {
     }
 
     pmem = (uint8_t *)malloc(size);
+    assert(pmem);
     memset(pmem, 0, size);
 
     pmem_size = size;
@@ -40,7 +41,7 @@ bool load_image(const char *path, uint32_t load_addr) {
 
     uint32_t offset = load_addr - pmem_base_addr;
 
-    if (offset > pmem_size) {
+    if (offset >= pmem_size) {
         fclose(f);
         return false;
     }
@@ -52,8 +53,8 @@ bool load_image(const char *path, uint32_t load_addr) {
     return n > 0;
 }
 
-static inline bool in_pmem(uint32_t addr) {
-    if (addr >= pmem_base_addr && addr < pmem_base_addr + pmem_size) {
+static inline bool in_pmem(uint32_t addr, int len) {
+    if (addr >= pmem_base_addr && (addr + len) < pmem_base_addr + pmem_size) {
         return true;
     }
     return false;
@@ -61,8 +62,10 @@ static inline bool in_pmem(uint32_t addr) {
 
 uint32_t paddr_read(uint32_t addr, int len) {
     assert(len == 1 || len == 2 || len == 4);
-    if (in_pmem(addr)) {
+    if (!in_pmem(addr, len)) {
         // mmio_read();
+
+        return 0;
     }
 
     uint32_t offset = addr - pmem_base_addr;
@@ -78,5 +81,13 @@ uint32_t paddr_read(uint32_t addr, int len) {
 void paddr_write(uint32_t addr, int len, uint32_t data) {
     assert(len == 1 || len == 2 || len == 4);
 
+    if (!in_pmem(addr, len)) {
+        return;
+    }
+
+    uint32_t offset = addr - pmem_base_addr;
+    for (int i = 0; i < len; i++) {
+        pmem[offset + i] = (data >> (8 * i)) & 0xff;
+    }
 
 }

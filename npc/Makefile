@@ -1,15 +1,15 @@
 BUILD_DIR = ./build
 
-TOPNAME = Alu # top
+TOPNAME = CpuTop
 
 # VSRCS = $(wildcard vsrc/*.v)
 VSRCS = $(wildcard build/*.sv)
 
 
-SIM_CSRCS = csrc/sim_main.cpp
+SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp
 
 VERILATOR = verilator
-VERILATOR_FLAGS = -cc --exe --build --trace-fst --top-module $(TOPNAME)
+VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -CFLAGS "-std=c++17" --top-module $(TOPNAME)
 
 
 test:
@@ -37,12 +37,14 @@ idea:
 
 clean:
 	-rm -rf $(BUILD_DIR)
+	-rm -rf obj_dir
+	-rm -f wave.fst
 
 .PHONY: test verilog help reformat checkformat clean
 
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	$(VERILATOR) $(VERILATOR_FLAGS) $(VSRCS) $(SIM_CSRCS)
-	./obj_dir/V$(TOPNAME)
+	./obj_dir/V$(TOPNAME) $(IMG)  # use: make sim IMG=build/test.bin
 
 -include ../Makefile
