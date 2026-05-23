@@ -112,7 +112,7 @@ void print_watchpoint() {
   }
 
   while (wp != NULL) {
-    printf("NO:%d\t%s\t0x%x\n", wp -> NO, wp -> expr, wp -> last_value);
+    printf("NO:%d\t%s\t%u\n", wp -> NO, wp -> expr, wp -> last_value);
     wp = wp -> next;
   }
 }
@@ -130,8 +130,8 @@ bool check_watchpoint() {
 
     if (new_value != wp -> last_value) {
       printf("Watchpoint NO%d\t%s is changed!\n", wp -> NO, wp -> expr);
-      printf("Old value:\t%d\n", wp -> last_value);
-      printf("New valueL\t%d\n", new_value);
+      printf("Old value:\t%u\n", wp -> last_value);
+      printf("New value:\t%u\n", new_value);
 
       wp -> last_value = new_value;
       return true;
