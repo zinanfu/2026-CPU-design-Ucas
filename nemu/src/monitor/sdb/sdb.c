@@ -44,6 +44,13 @@ static char* rl_gets() {
   return line_read;
 }
 
+static bool isdigits(const char *s) {
+  for (size_t idx = 0; s[idx] != '\0'; ++idx) {
+    if (!isdigit(s[idx])) return false;
+  }
+  return true;
+}
+
 static int cmd_c(char *args) {
   cpu_exec(-1);  // unsigned 中的极大
   return 0;
@@ -205,7 +212,9 @@ static int cmd_d(char *args) {
     assert(0);
   }
 
-  printf("%s\n", args);
+  if (!isdigits(args)) {
+    printf("Error: not num\n");
+  }
 
   id = atoi(args);
 
