@@ -45,7 +45,7 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-  cpu_exec(-1);  // uint64_t 中的极大
+  cpu_exec(-1);  // unsigned 中的极大
   return 0;
 }
 

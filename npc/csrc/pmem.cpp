@@ -1,0 +1,82 @@
+#include "pmem.h"
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cassert>
+
+static uint8_t *pmem = nullptr;
+static size_t pmem_size = 0;
+static uint32_t pmem_base_addr = 0;
+
+void init_pmem(size_t size, uint32_t base) {
+    if (pmem) {
+        free_pmem();
+    }
+
+    pmem = (uint8_t *)malloc(size);
+    memset(pmem, 0, size);
+
+    pmem_size = size;
+    pmem_base_addr = base;
+
+}
+
+void free_pmem() {
+    if (pmem) {
+        free(pmem);
+        pmem = nullptr;
+    }
+
+    pmem_size = 0;
+    pmem_base_addr = 0;
+
+}
+
+bool load_image(const char *path, uint32_t load_addr) {
+    FILE *f = fopen(path, "rb");
+    if (!f) {
+        return false;
+    }
+
+    uint32_t offset = load_addr - pmem_base_addr;
+
+    if (offset > pmem_size) {
+        fclose(f);
+        return false;
+    }
+
+    size_t maxcopy = pmem_size - offset;
+    size_t n = fread(pmem + offset, 1, maxcopy, f);
+
+    fclose(f);
+    return n > 0;
+}
+
+static inline bool in_pmem(uint32_t addr) {
+    if (addr >= pmem_base_addr && addr < pmem_base_addr + pmem_size) {
+        return true;
+    }
+    return false;
+}
+
+uint32_t paddr_read(uint32_t addr, int len) {
+    assert(len == 1 || len == 2 || len == 4);
+    if (in_pmem(addr)) {
+        // mmio_read();
+    }
+
+    uint32_t offset = addr - pmem_base_addr;
+    uint32_t ret = 0;
+
+    for (int i = 0; i < len; i++) {
+        ret |= (uint32_t)pmem[offset + i] << (8 * i);
+    }
+
+    return ret;
+}
+
+void paddr_write(uint32_t addr, int len, uint32_t data) {
+    assert(len == 1 || len == 2 || len == 4);
+
+
+}
