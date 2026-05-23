@@ -193,7 +193,7 @@ static int cmd_watch(char *args) {
     return 0;
   }
 
-  printf("Watchpoint NO:%d\t%s\t%u\n", wp -> NO, wp -> expr, wp -> last_value);
+  printf("Watchpoint NO:%d\t%s\t0x%x\n", wp -> NO, wp -> expr, wp -> last_value);
   return 0;
 }
 
