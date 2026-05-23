@@ -111,6 +111,8 @@ void print_watchpoint() {
     return;
   }
 
+  printf("The value of watchpoints:\n");
+
   while (wp != NULL) {
     printf("NO:%d\t%s\t%u\n", wp -> NO, wp -> expr, wp -> last_value);
     wp = wp -> next;
