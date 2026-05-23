@@ -20,7 +20,7 @@ class register(width:Int) extends Module {
 
     })
 
-    val regs = RegInit(VecInit(seq.fill(32)(0.U(32.W))))
+    val regs = RegInit(VecInit(Seq.fill(32)(0.U(32.W))))
 
     // read
     io.rdata1 := regs(io.raddr1)
@@ -31,5 +31,5 @@ class register(width:Int) extends Module {
         regs(io.waddr) := io.wdata
     }
         
-    regs[0] := 0.U
+    regs(0) := 0.U
 }
