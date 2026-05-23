@@ -107,8 +107,8 @@ void print_watchpoint() {
   WP *wp = head;
 
   if (wp == NULL) {
-    printf("Error: no watchpoint\n");
-    assert(0);
+    printf("no watchpoint\n");
+    return;
   }
 
   while (wp != NULL) {
