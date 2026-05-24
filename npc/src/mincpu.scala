@@ -107,7 +107,7 @@ class CpuTop extends Module {
 
   switch(opcode) {
 
-    // imm
+    // I_type
     is("b0010011".U) { 
       when(funct3 === "b000".U) { // addi
         illegal := false.B
@@ -129,6 +129,23 @@ class CpuTop extends Module {
         wb_en := true.B
         wb_data := rs1_data ^ immI
       }
+      when(funct3 === "b001".U) { // slli
+        illegal := false.B
+        wb_en := true.B
+        wb_data := rs1_data << immI
+      }
+      when(funct3 === "b101".U) {
+        illegal := false.B
+        wb_en := true.B
+        when(funct7 === "0000000") { // srli
+          wb_data := rs1_data >> immI
+        }
+        when(funct7 === "0100000") { // srai
+          wb_data := (rs1_data.asSInt >> immI).asUInt
+        }
+        
+      }
+      
     }
 
     // ========================================================
