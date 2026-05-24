@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
     }
 
     top->reset = 0;
-    int sign = 0;
+    // int sign = 0;
 
     while (!Verilated::gotFinish()) {
 
@@ -46,18 +46,18 @@ int main(int argc, char** argv) {
         }
         uint32_t inst = paddr_read(pc,4);
 
-        uint32_t opcode = inst & 0x7f;
+        // uint32_t opcode = inst & 0x7f;
 
-        if (sign == 1) {
-            printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
-            break;
-        }
+        // if (sign == 1) {
+        //     printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
+        //     break;
+        // }
 
-        if (opcode == 0x6f) {
-            printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
+        // if (opcode == 0x6f) {
+        //     printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
 
-            sign = 1;
-        }
+        //     sign = 1;
+        // }
 
         
 
