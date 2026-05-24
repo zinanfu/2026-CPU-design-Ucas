@@ -100,6 +100,8 @@ class CpuTop extends Module {
   // Decode
   // ============================================================
 
+  val illegal = WireDefault(true.B)
+
   switch(opcode) {
 
     // ========================================================
@@ -109,6 +111,7 @@ class CpuTop extends Module {
 
     is("b0010011".U) {
       when(funct3 === "b000".U) {
+        illegal := false.B;
         wb_en := true.B
         wb_data := rs1_data + immI
       }
@@ -119,6 +122,7 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b0110111".U) {
+      illegal := false.B;
       wb_en := true.B
       wb_data := immU
     }
@@ -128,6 +132,7 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b0010111".U) {
+      illegal := false.B;
       wb_en := true.B
       wb_data := pc + immU
     }
@@ -137,6 +142,7 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b1101111".U) {
+      illegal := false.B;
       wb_en := true.B
       wb_data := pc + 4.U
       next_pc := pc + immJ
@@ -147,6 +153,7 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b1100111".U) {
+      illegal := false.B;
       wb_en := true.B
       wb_data := pc + 4.U
       next_pc := (rs1_data + immI) & (~1.U(32.W))
@@ -159,12 +166,14 @@ class CpuTop extends Module {
     is("b1100011".U) {
 
       when(funct3 === "b000".U) {
+        illegal := false.B;
         when(rs1_data === rs2_data) {
           next_pc := pc + immB
         }
       }
 
       when(funct3 === "b001".U) {
+        illegal := false.B;
         when(rs1_data =/= rs2_data) {
           next_pc := pc + immB
         }
@@ -176,6 +185,7 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b0000011".U) {
+      illegal := false.B;
 
       io.mem_ren := true.B
       io.mem_addr := rs1_data + immI
@@ -192,6 +202,7 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b0100011".U) {
+      illegal := false.B;
 
       io.mem_wen := true.B
       io.mem_addr := rs1_data + immS
@@ -206,6 +217,7 @@ class CpuTop extends Module {
     is("b0110011".U) {
 
       when(funct3 === "b000".U) {
+        illegal := false.B;
 
         wb_en := true.B
 
@@ -225,7 +237,12 @@ class CpuTop extends Module {
   // ============================================================
 
   when(wb_en && wb_addr =/= 0.U) {
+    illegal := false.B;
     regs(wb_addr) := wb_data
+  }
+
+  when(illegal) {
+    printf(p"illegal inst = 0x${Hexadecimal(inst)} pc = 0x${Hexadecimal(pc)}\n")
   }
 
   // ============================================================
