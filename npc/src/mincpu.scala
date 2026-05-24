@@ -192,7 +192,7 @@ class CpuTop extends Module {
       }
       when(funct3 === "b101".U) { //bge
         illegal := false.B;
-        when(rs1_data.asSInt > rs2_data.asSInt) {
+        when(rs1_data.asSInt >= rs2_data.asSInt) {
           next_pc := pc + immB
         }
       }
@@ -204,7 +204,7 @@ class CpuTop extends Module {
       }
       when(funct3 === "b111".U) { //bgeu
         illegal := false.B;
-        when(rs1_data > rs2_data) {
+        when(rs1_data >= rs2_data) {
           next_pc := pc + immB
         }
       }
