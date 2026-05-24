@@ -49,7 +49,7 @@ class CpuTop extends Module {
   // Register File
   // ============================================================
 
-  val regs = RegInit(VecInit(Seq.fill(32)(0.U(32.W))))
+  val regs = RegInit(VecInit(Seq.fill(16)(0.U(32.W))))
 
   val rs1_data = Mux(rs1.orR, regs(rs1), 0.U)
   val rs2_data = Mux(rs2.orR, regs(rs2), 0.U)
@@ -70,7 +70,7 @@ class CpuTop extends Module {
     0.U(1.W)
   )
 
-  val immU = Cat(inst(31,12), Fill(12, 0.U))
+  val immU = Cat(inst(31,12), 0.U(12.W))
 
   val immJ = Cat(
     Fill(12, inst(31)),
