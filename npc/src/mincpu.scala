@@ -63,7 +63,6 @@ class CpuTop extends Module {
   val immS = Cat(Fill(20, inst(31)), inst(31,25), inst(11,7))
   val immB = Cat(
     Fill(20, inst(31)),
-    inst(31),
     inst(7),
     inst(30,25),
     inst(11,8),
@@ -74,7 +73,6 @@ class CpuTop extends Module {
 
   val immJ = Cat(
     Fill(12, inst(31)),
-    inst(31),
     inst(19,12),
     inst(20),
     inst(30,21),
