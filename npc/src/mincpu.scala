@@ -222,7 +222,7 @@ class CpuTop extends Module {
       val load_addr = rs1_data + immI
 
       io.mem_ren := true.B
-      io.mem_addr := load_addr & ~3.U
+      io.mem_addr := load_addr & "hfffffffc".U(32.W)
       
 
       wb_en := true.B
@@ -284,7 +284,7 @@ class CpuTop extends Module {
       val store_addr = rs1_data + immS
 
       io.mem_wen := true.B
-      io.mem_addr := store_addr & ~3.U
+      io.mem_addr := store_addr & "hfffffffc".U(32.W)
 
       printf(p"store_addr = 0x${Hexadecimal(store_addr)}\n")
       printf(p"io.mem_addr = 0x${Hexadecimal(io.mem_addr)}\n")
