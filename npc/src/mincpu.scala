@@ -137,10 +137,10 @@ class CpuTop extends Module {
       when(funct3 === "b101".U) {
         illegal := false.B
         wb_en := true.B
-        when(funct7 === "0000000") { // srli
+        when(funct7 === "b0000000") { // srli
           wb_data := rs1_data >> immI
         }
-        when(funct7 === "0100000") { // srai
+        when(funct7 === "b0100000") { // srai
           wb_data := (rs1_data.asSInt >> immI).asUInt
         }
         
