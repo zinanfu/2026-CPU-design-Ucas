@@ -36,8 +36,12 @@ int main(int argc, char** argv) {
     while (!Verilated::gotFinish()) {
 
         uint32_t pc = top->io_pc;
+        if (pc < 0x80000000 || pc > 0x80100000) {
+            printf("BAD PC = 0x%08x\n", pc);
+            break;
+        }
         uint32_t inst = paddr_read(pc,4);
-        printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
+        // printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
 
 
         // instruction fetch
