@@ -247,7 +247,7 @@ class CpuTop extends Module {
           2.U -> io.mem_rdata(31,16)
         ))
 
-        wb_data := Cat(Fill(16,byte(7)), byte)
+        wb_data := Cat(Fill(16,byte(15)), byte)
       }
       when(funct3 === "b100".U) { //lbu
         illegal := false.B
