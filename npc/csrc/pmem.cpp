@@ -49,6 +49,7 @@ bool load_image(const char *path, uint32_t load_addr) {
     size_t maxcopy = pmem_size - offset;
     size_t n = fread(pmem + offset, 1, maxcopy, f);
 
+    printf("hello\n");
     printf("first inst = 0x%08x\n", *(uint32_t *)pmem);
 
     fclose(f);
