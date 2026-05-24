@@ -35,9 +35,16 @@ int main(int argc, char** argv) {
 
     while (!Verilated::gotFinish()) {
 
+        uint32_t pc = top->io_pc;
+        uint32_t inst = paddr_read(pc,4);
+        printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
+
+
         // instruction fetch
-        top->io_inst =
-            paddr_read(top->io_pc, 4);
+        // top->io_inst =
+        //     paddr_read(top->io_pc, 4);
+
+        top->io_inst = inst;
 
         // data memory read
         top->io_mem_rdata =
