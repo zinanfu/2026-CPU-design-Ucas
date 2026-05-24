@@ -215,7 +215,6 @@ class CpuTop extends Module {
     // ========================================================
 
     is("b0000011".U) {
-      illegal := false.B;
 
       io.mem_ren := true.B
       io.mem_addr := rs1_data + immI
@@ -223,6 +222,7 @@ class CpuTop extends Module {
       wb_en := true.B
 
       when(funct3 === "b010".U) {
+        illegal := false.B;
         wb_data := io.mem_rdata
       }
     }
