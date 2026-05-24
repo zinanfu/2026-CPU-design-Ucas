@@ -132,16 +132,20 @@ class CpuTop extends Module {
       when(funct3 === "b001".U) { // slli
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data << immI
+
+        val shamt = immI(4,0)
+
+        wb_data := (rs1_data << shamt)(31,0)
       }
       when(funct3 === "b101".U) {
         illegal := false.B
         wb_en := true.B
+        val shamt = immI(4,0)
         when(funct7 === "b0000000".U) { // srli
-          wb_data := rs1_data >> immI
+          wb_data := (rs1_data >> shamt)(31,0)
         }
         when(funct7 === "b0100000".U) { // srai
-          wb_data := (rs1_data.asSInt >> immI).asUInt
+          wb_data := (rs1_data.asSInt >> shamt)(31,0).asUInt
         }
         
       }
