@@ -36,13 +36,17 @@ void free_pmem() {
 bool load_image(const char *path, uint32_t load_addr) {
     FILE *f = fopen(path, "rb");
     if (!f) {
+        printf("Error: can't open file\n");
         return false;
     }
 
     uint32_t offset = load_addr - pmem_base_addr;
 
+
+
     if (offset >= pmem_size) {
         fclose(f);
+        printf("Error: offset wrong\n");
         return false;
     }
 
