@@ -93,20 +93,23 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
 
     if (!in_pmem(addr, len)) {
 
+        printf("MMIO write addr = 0x%08x data = 0x%08x wmask = 0x%x\n",
+           addr, data, wmask);
+
         if ((addr & ~0x3) == SERIAL_PORT) {
             uint8_t ch = 0;
 
             if (wmask & 0x1) {
-                ch = data && 0xff;
+                ch = data & 0xff;
             }
             else if (wmask & 0x2) {
-                ch = (data >> 8) && 0xff;
+                ch = (data >> 8) & 0xff;
             }
             else if (wmask & 0x4) {
-                ch = (data >> 16) && 0xff;
+                ch = (data >> 16) & 0xff;
             }
             else if (wmask & 0x8) {
-                ch = (data >> 24) && 0xff;
+                ch = (data >> 24) & 0xff;
             }
 
             putchar(ch);
