@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstdint>
-#include "V<YourTop>.h"   // 改成 Verilator 生成的顶层头文件
+#include "VCpuTop.h"   // 改成 Verilator 生成的顶层头文件
 #include "pmem.h"
 
 static vluint64_t sim_time = 0;
