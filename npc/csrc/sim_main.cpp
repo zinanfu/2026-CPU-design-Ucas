@@ -55,34 +55,27 @@ int main(int argc, char** argv) {
 
   // 4) 主循环
   for (uint64_t cycle = 0; cycle < max_cycles; cycle++) {
-    // =========================
     // 4.1 取指：把内存内容喂给顶层
-    // 约定：top->pc 是输出，top->inst 是输入
-    // =========================
     uint32_t pc = top->io_pc;
-    top->io_inst = pmem_read(top->io_pc, 4);
+    top->io_inst = paddr_read(top->io_pc, 4);
 
-    // =========================
-    // 4.2 数据访存（如果你把数据口也拉到顶层）
-    // 这里给一个常见总线协议例子，按你的信号名改
-    // mem_valid=1 表示有请求
-    // mem_wen=1   表示写；0 表示读
-    // =========================
-    if (top->mem_valid) {
-      if (top->mem_wen) {
+    //数据访存
+   
+    if (top->io_mem_valid) {
+      if (top->io_mem_wen) {
         // 写请求：根据 wmask 计算写字节
         // 例：wmask=0b0001 写1字节, 0b0011写2字节, 0b1111写4字节
         int len = 4;
-        if (top->mem_wmask == 0x1 || top->mem_wmask == 0x2 ||
-            top->mem_wmask == 0x4 || top->mem_wmask == 0x8) len = 1;
-        else if (top->mem_wmask == 0x3 || top->mem_wmask == 0xC) len = 2;
+        if (top->io_mem_wmask == 0x1 || top->io_mem_wmask == 0x2 ||
+            top->io_mem_wmask == 0x4 || top->io_mem_wmask == 0x8) len = 1;
+        else if (top->io_mem_wmask == 0x3 || top->io_mem_wmask == 0xC) len = 2;
         else len = 4;
 
-        paddr_write(top->mem_addr, len, top->mem_wdata);
+        paddr_write(top->io_mem_addr, len, top->io_mem_wdata);
       } else {
         // 读请求
         int len = 4;  // 你如果有 mem_size 信号，就按 mem_size 算
-        top->mem_rdata = paddr_read(top->mem_addr, len);
+        top->io_mem_rdata = paddr_read(top->io_mem_addr, len);
       }
     }
 
