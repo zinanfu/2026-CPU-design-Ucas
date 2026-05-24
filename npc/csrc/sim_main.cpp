@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
         
         if (inst == 0x0000006f) {
             printf("Hit GOOD TRAP\n");
-            break;
+            // break;
         }
 
         // instruction fetch
