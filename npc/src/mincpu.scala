@@ -35,7 +35,7 @@ class CpuTop extends Module {
   // Instruction Fields
   // ============================================================
 
-  val inst = pmem_read(pc)
+  val inst = io.inst
 
   val opcode = inst(6,0)
   val rd     = inst(11,7)

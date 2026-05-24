@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     // 约定：top->pc 是输出，top->inst 是输入
     // =========================
     uint32_t pc = top->pc;
-    top->inst = paddr_read(pc, 4);
+    top->io_inst = pmem_read(top->io_pc, 4);
 
     // =========================
     // 4.2 数据访存（如果你把数据口也拉到顶层）
