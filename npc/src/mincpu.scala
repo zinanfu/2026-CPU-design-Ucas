@@ -216,8 +216,11 @@ class CpuTop extends Module {
 
     is("b0000011".U) {
 
+      val load_addr = rs1_data + immI
+
       io.mem_ren := true.B
-      io.mem_addr := (rs1_data + immI) & ~3.U
+      io.mem_addr := load_addr & ~3.U
+      
 
       wb_en := true.B
 
@@ -228,7 +231,7 @@ class CpuTop extends Module {
       when(funct3 === "b000".U) { //lb
         illegal := false.B
 
-        val byte = MuxLookup(io.mem_addr(1,0), 0.U)(Seq(
+        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
           0.U -> io.mem_rdata(7,0),
           1.U -> io.mem_rdata(15,8),
           2.U -> io.mem_rdata(23,16),
@@ -239,7 +242,7 @@ class CpuTop extends Module {
       }
       when(funct3 === "b001".U) { //lh
         illegal := false.B
-        val byte = MuxLookup(io.mem_addr(1,0), 0.U)(Seq(
+        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
           0.U -> io.mem_rdata(15,0),
           2.U -> io.mem_rdata(31,16)
         ))
@@ -248,7 +251,7 @@ class CpuTop extends Module {
       }
       when(funct3 === "b100".U) { //lbu
         illegal := false.B
-        val byte = MuxLookup(io.mem_addr(1,0), 0.U)(Seq(
+        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
           0.U -> io.mem_rdata(7,0),
           1.U -> io.mem_rdata(15,8),
           2.U -> io.mem_rdata(23,16),
@@ -259,7 +262,7 @@ class CpuTop extends Module {
       }
       when(funct3 === "b101".U) { //lhu
         illegal := false.B
-        val byte = MuxLookup(io.mem_addr(1,0), 0.U)(Seq(
+        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
           0.U -> io.mem_rdata(15,0),
           2.U -> io.mem_rdata(31,16)
         ))
