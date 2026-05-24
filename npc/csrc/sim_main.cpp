@@ -16,8 +16,10 @@ int main(int argc, char** argv) {
 
     // load image
     if (argc > 1) {
-        load_image(argv[1], 0x80000000);
-        printf("load is done\n");
+        bool success = load_image(argv[1], 0x80000000);
+        if (success) {
+            printf("load is done\n");
+        }
     }
 
     // reset
