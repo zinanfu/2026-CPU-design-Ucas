@@ -114,9 +114,17 @@ class CpuTop extends Module {
         wb_en := true.B
         wb_data := rs1_data & immI
       }
+      when(funct3 === "b110".U) { // ori
+        illegal := false.B
+        wb_en := true.B
+        wb_data := rs1_data | immI
+      }
+      when(funct3 === "b100".U) { // xori
+        illegal := false.B
+        wb_en := true.B
+        wb_data := rs1_data ^ immI
+      }
     }
-
-    
 
     // ========================================================
     // LUI
@@ -160,22 +168,41 @@ class CpuTop extends Module {
       next_pc := (rs1_data + immI) & (~1.U(32.W))
     }
 
-    // ========================================================
-    // BRANCH
-    // ========================================================
-
+    // B_type
     is("b1100011".U) {
-
-      when(funct3 === "b000".U) {
+      when(funct3 === "b000".U) { //beq
         illegal := false.B;
         when(rs1_data === rs2_data) {
           next_pc := pc + immB
         }
       }
-
-      when(funct3 === "b001".U) {
+      when(funct3 === "b001".U) { //bne
         illegal := false.B;
         when(rs1_data =/= rs2_data) {
+          next_pc := pc + immB
+        }
+      }
+      when(funct3 === "b100".U) { //blt
+        illegal := false.B;
+        when(rs1_data.asSInt < rs2_data.asSInt) {
+          next_pc := pc + immB
+        }
+      }
+      when(funct3 === "b101".U) { //bge
+        illegal := false.B;
+        when(rs1_data.asSInt > rs2_data.asSInt) {
+          next_pc := pc + immB
+        }
+      }
+      when(funct3 === "b110".U) { //bltu
+        illegal := false.B;
+        when(rs1_data < rs2_data) {
+          next_pc := pc + immB
+        }
+      }
+      when(funct3 === "b111".U) { //bgeu
+        illegal := false.B;
+        when(rs1_data > rs2_data) {
           next_pc := pc + immB
         }
       }
