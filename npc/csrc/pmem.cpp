@@ -88,13 +88,28 @@ uint32_t paddr_read(uint32_t addr, int len) {
     return ret;
 }
 
-void paddr_write(uint32_t addr, int len, uint32_t data) {
+void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
     assert(len == 1 || len == 2 || len == 4);
 
     if (!in_pmem(addr, len)) {
 
-        if (addr == SERIAL_PORT) {
-            putchar(data & 0xff);
+        if ((addr & ~0x3) == SERIAL_PORT) {
+            uint8_t ch = 0;
+
+            if (wmask & 0x1) {
+                ch = data && 0xff;
+            }
+            else if (wmask & 0x2) {
+                ch = (data >> 8) && 0xff;
+            }
+            else if (wmask & 0x4) {
+                ch = (data >> 16) && 0xff;
+            }
+            else if (wmask & 0x8) {
+                ch = (data >> 24) && 0xff;
+            }
+
+            putchar(ch);
             fflush(stdout);
         }
 

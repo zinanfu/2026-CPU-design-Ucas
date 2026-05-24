@@ -9,4 +9,4 @@ void free_pmem();
 bool load_image(const char *path, uint32_t load_addr);
 
 uint32_t paddr_read(uint32_t addr, int len);
-void paddr_write(uint32_t addr, int len, uint32_t data);
+void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask);
