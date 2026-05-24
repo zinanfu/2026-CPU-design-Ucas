@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
     // 4.1 取指：把内存内容喂给顶层
     // 约定：top->pc 是输出，top->inst 是输入
     // =========================
-    uint32_t pc = top->pc;
+    uint32_t pc = top->io_pc;
     top->io_inst = pmem_read(top->io_pc, 4);
 
     // =========================
