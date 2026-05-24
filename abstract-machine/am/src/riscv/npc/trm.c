@@ -1,5 +1,6 @@
 #include <am.h>
 #include <klib-macros.h>
+#include "../riscv.h"
 
 extern char _heap_start;
 int main(const char *args);
@@ -12,6 +13,8 @@ Area heap = RANGE(&_heap_start, PMEM_END);
 static const char mainargs[MAINARGS_MAX_LEN] = TOSTRING(MAINARGS_PLACEHOLDER); // defined in CFLAGS
 
 void putch(char ch) {
+  /* write to serial MMIO so simulator's paddr_write can catch it */
+  outb(0x10000000, (uint8_t)ch);
 }
 
 void halt(int code) {
