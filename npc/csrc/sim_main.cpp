@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 
         if (top->io_mem_wen) {
 
-            paddr_write(top->io_mem_addr, len, top->io_mem_wdata);
+            paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask);
         }
 
         sim_time++;
