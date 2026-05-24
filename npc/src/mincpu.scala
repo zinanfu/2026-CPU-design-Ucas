@@ -333,7 +333,6 @@ class CpuTop extends Module {
   // ============================================================
 
   when(wb_en && wb_addr =/= 0.U) {
-    illegal := false.B;
     regs(wb_addr) := wb_data
   }
 
