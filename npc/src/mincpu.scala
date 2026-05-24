@@ -102,18 +102,21 @@ class CpuTop extends Module {
 
   switch(opcode) {
 
-    // ========================================================
-    // OP-IMM
-    // addi
-    // ========================================================
-
-    is("b0010011".U) {
-      when(funct3 === "b000".U) {
-        illegal := false.B;
+    // imm
+    is("b0010011".U) { 
+      when(funct3 === "b000".U) { // addi
+        illegal := false.B
         wb_en := true.B
         wb_data := rs1_data + immI
       }
+      when(funct3 === "b111".U) { // andi
+        illegal := false.B
+        wb_en := true.B
+        wb_data := rs1_data & immI
+      }
     }
+
+    is
 
     // ========================================================
     // LUI
