@@ -51,8 +51,11 @@ class CpuTop extends Module {
 
   val regs = RegInit(VecInit(Seq.fill(16)(0.U(32.W))))
 
-  val rs1_data = Mux(rs1.orR, regs(rs1), 0.U)
-  val rs2_data = Mux(rs2.orR, regs(rs2), 0.U)
+  val rs1_idx = rs1(3,0)
+  val rs2_idx = rs2(3,0)
+
+  val rs1_data = Mux(rs1.orR, regs(rs1_idx), 0.U)
+  val rs2_data = Mux(rs2.orR, regs(rs2_idx), 0.U)
 
   regs(0) := 0.U
 
