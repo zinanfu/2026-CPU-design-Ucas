@@ -9,7 +9,7 @@ VSRCS = $(wildcard build/*.sv)
 SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp
 
 VERILATOR = verilator
-VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -CFLAGS "-std=c++17" --top-module $(TOPNAME)
+VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -Wno-UNUSEDSIGNAL -CFLAGS "-std=c++17" --top-module $(TOPNAME)
 
 
 test:
