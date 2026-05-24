@@ -8,7 +8,7 @@
 
 static vluint64_t sim_time = 0;
 
-static void single_cycle(V<YourTop>* top, VerilatedFstC* tfp) {
+static void single_cycle(VCpuTop* top, VerilatedFstC* tfp) {
   top->clock = 0;
   top->eval();
   if (tfp) tfp->dump(sim_time++);
@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
   }
 
   // 2) 实例化顶层
-  V<YourTop>* top = new V<YourTop>;
+  VCpuTop* top = new VCpuTop;
 
   // 可选波形
   Verilated::traceEverOn(true);
