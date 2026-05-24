@@ -65,6 +65,10 @@ uint32_t paddr_read(uint32_t addr, int len) {
     if (!in_pmem(addr, len)) {
         // mmio_read();
 
+        if (addr == RTC_ADDR) {
+            // 时钟读取
+        }
+
         return 0;
     }
 
@@ -82,6 +86,13 @@ void paddr_write(uint32_t addr, int len, uint32_t data) {
     assert(len == 1 || len == 2 || len == 4);
 
     if (!in_pmem(addr, len)) {
+
+        if (addr == SERIAL_PORT) {
+            putchar(data & 0xff);
+            fflush(stdout);
+        }
+
+
         return;
     }
 
