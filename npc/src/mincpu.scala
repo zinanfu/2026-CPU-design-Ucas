@@ -286,6 +286,8 @@ class CpuTop extends Module {
       io.mem_wen := true.B
       io.mem_addr := store_addr & ~3.U
 
+      printf(p"store_addr = 0x${Hexadecimal(store_addr)}\n")
+
       when(funct3 === "b000".U) { // sb
         io.mem_wmask := (1.U(4.W) << store_addr(1,0))
         io.mem_wdata := rs2_data << (store_addr(1,0) << 3)
