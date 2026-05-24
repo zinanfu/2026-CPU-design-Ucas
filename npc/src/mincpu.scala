@@ -20,6 +20,7 @@ class CpuTop extends Module {
     val mem_rdata = Input(UInt(32.W))
     val mem_addr  = Output(UInt(32.W))
     val mem_wdata = Output(UInt(32.W))
+    val mem_wmask = Output(UInt(4.W))
     val mem_wen   = Output(Bool())
     val mem_ren   = Output(Bool())
   })
@@ -85,6 +86,7 @@ class CpuTop extends Module {
 
   io.mem_addr  := 0.U
   io.mem_wdata := 0.U
+  io.mem_wmask := 0.U
   io.mem_wen   := false.B
   io.mem_ren   := false.B
 
@@ -235,6 +237,16 @@ class CpuTop extends Module {
       io.mem_wen := true.B
       io.mem_addr := rs1_data + immS
       io.mem_wdata := rs2_data
+
+      when(funct3 === "b000".U) { // sb
+        io.mem_wmask := "b0001".U
+      }
+      when(funct3 === "b001".U) { // sh
+        io.mem_wmask := "b0011".U
+      }
+      when(funct3 === "b010".U) { // sw
+        io.mem_wmask := "b1111".U
+      }
     }
 
     // ========================================================

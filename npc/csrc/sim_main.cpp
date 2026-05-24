@@ -81,13 +81,18 @@ int main(int argc, char** argv) {
         top->eval();
 
         // memory write
+        int len = 4;
+
+        switch(top->io_mem_wmask) {
+            case 0x1: len = 1; break;
+            case 0x3: len = 2; break;
+            case 0xf: len = 4; break;
+        }
+
+
         if (top->io_mem_wen) {
 
-            paddr_write(
-                top->io_mem_addr,
-                4,
-                top->io_mem_wdata
-            );
+            paddr_write(top->io_mem_addr, len, top->io_mem_wdata);
         }
 
         sim_time++;
