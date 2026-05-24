@@ -58,7 +58,7 @@ int main(int argc, char** argv) {
 
         //     sign = 1;
         // }
-
+        printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
         
 
 
