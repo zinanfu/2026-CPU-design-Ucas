@@ -63,18 +63,15 @@ int main(int argc, char** argv) {
 
 
         // instruction fetch
-        // top->io_inst =
-        //     paddr_read(top->io_pc, 4);
 
         top->io_inst = inst;
-
-        // data memory read
-        top->io_mem_rdata =
-            paddr_read(top->io_mem_addr, 4);
 
         // clock low
         top->clock = 0;
         top->eval();
+
+        // data memory read
+        top->io_mem_rdata = paddr_read(top->io_mem_addr, 4);
 
         // clock high
         top->clock = 1;
