@@ -278,18 +278,24 @@ class CpuTop extends Module {
     is("b0100011".U) {
       illegal := false.B;
 
+      val store_addr = rs1_data + immS
+
       io.mem_wen := true.B
-      io.mem_addr := rs1_data + immS
-      io.mem_wdata := rs2_data
+      io.mem_addr := store_addr & ~3.U
 
       when(funct3 === "b000".U) { // sb
-        io.mem_wmask := "b0001".U
+        io.mem_wmask := (1.U(4.W) << store_addr(1,0))
+        io.mem_wdata := rs2_data << (store_addr(1,0) << 3)
       }
+
       when(funct3 === "b001".U) { // sh
-        io.mem_wmask := "b0011".U
+        io.mem_wmask := Mux(store_addr(1), "b1100".U, "b0011".U)
+        io.mem_wdata := rs2_data << (store_addr(1) << 4)
       }
+
       when(funct3 === "b010".U) { // sw
         io.mem_wmask := "b1111".U
+        io.mem_wdata := rs2_data
       }
     }
 
