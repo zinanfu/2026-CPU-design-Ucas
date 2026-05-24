@@ -239,8 +239,11 @@ class CpuTop extends Module {
     regs(wb_addr) := wb_data
   }
 
-  when(illegal) {
+  val illegal_seen = RegInit(false.B)
+
+  when(illegal && !illegal_seen) {
     printf(p"illegal inst = 0x${Hexadecimal(inst)} pc = 0x${Hexadecimal(pc)}\n")
+    illegal_seen := true.B
   }
 
   // ============================================================
