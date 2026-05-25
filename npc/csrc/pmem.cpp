@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
+#include <sys/time.h>
 
 static uint8_t *pmem = nullptr;
 static size_t pmem_size = 0;
@@ -69,10 +70,18 @@ static inline bool in_pmem(uint32_t addr, int len) {
 uint32_t paddr_read(uint32_t addr, int len) {
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
-        // mmio_read();
-
-        if (addr == RTC_ADDR) {
-            // 时钟读取
+        // MMIO: provide RTC value (microseconds since start)
+        if (addr == RTC_ADDR || addr == RTC_ADDR + 4) {
+            struct timeval tv;
+            gettimeofday(&tv, NULL);
+            uint64_t us = (uint64_t)tv.tv_sec * 1000000 + tv.tv_usec;
+            uint32_t lo = (uint32_t)(us & 0xffffffff);
+            uint32_t hi = (uint32_t)((us >> 32) & 0xffffffff);
+            if (addr == RTC_ADDR) {
+                return lo;
+            } else {
+                return hi;
+            }
         }
 
         return 0;

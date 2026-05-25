@@ -2,7 +2,7 @@
 #include <cstddef>
 
 #define SERIAL_PORT 0x10000000
-#define RTC_ADDR 0x00000000
+#define RTC_ADDR 0x10000010
 
 void init_pmem(size_t size, uint32_t base);
 void free_pmem();
