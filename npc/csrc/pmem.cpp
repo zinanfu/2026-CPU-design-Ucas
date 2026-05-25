@@ -77,7 +77,7 @@ uint32_t paddr_read(uint32_t addr, int len) {
         // MMIO: provide RTC value (microseconds since start)
         if (addr == RTC_ADDR || addr == RTC_ADDR + 4) {
 
-            printf("paddr_read mmio called addr = 0x%08x len = %d\n", addr, len);
+            // printf("paddr_read mmio called addr = 0x%08x len = %d\n", addr, len);
             struct timeval tv;
             gettimeofday(&tv, NULL);
             uint64_t us = (uint64_t)tv.tv_sec * 1000000 + tv.tv_usec;
