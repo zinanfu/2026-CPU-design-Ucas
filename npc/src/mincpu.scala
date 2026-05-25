@@ -148,6 +148,20 @@ class CpuTop extends Module {
         }
         
       }
+      when(funct3 === "b010".U) { // slti
+        illegal := false.B
+        wb_en := true.B
+
+        wb_data := (rs1_data.asSInt < immI.asSInt).asUInt 
+      }
+      when(funct3 === "b001".U) { // sltiu
+        illegal := false.B
+        wb_en := true.B
+
+        val shamt = immI(4,0)
+
+        wb_data := (rs1_data < immI).asUInt 
+      }
       
     }
 
@@ -343,7 +357,7 @@ class CpuTop extends Module {
         illegal := false.B
         wb_en := true.B
 
-        wb_data := (rs1_data < rs2_data) 
+        wb_data := (rs1_data < rs2_data).asUInt 
       }
       when(funct3 === "b010".U) { //slt
         illegal := false.B
