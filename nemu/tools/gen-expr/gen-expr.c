@@ -49,23 +49,24 @@ static void gen(char c) {
 }
 
 static void gen_rand_op() {
-  int len = strlen(buf);
+  // int len = strlen(buf);
   
-  switch (choose(3)) {
-    case 0: buf[len] = '+'; break;
-    // case 1: buf[len] = '-'; break;
-    case 1: buf[len] = '*'; break;
-    case 2: buf[len] = '/'; break;
+  switch (choose(6)) {
+    case 0: strcat(buf, "+"); break;
+    case 1: strcat(buf, "*"); break;
+    case 2: strcat(buf, "/"); break;
+    case 3: strcat(buf, "=="); break;
+    case 4: strcat(buf, "&&"); break;
+    case 5: strcat(buf, "-"); break;
   }
-  buf[len + 1] = '\0';
+  // buf[len + 1] = '\0';
 }
 
 static void gen_rand_expr(int depth) {
-  if (depth > 3) {
+  if (depth > 5) {
     gen_num();
     return;
   }
-
 
   switch (choose(3)) {
     case 0: gen_num(); break;
@@ -73,6 +74,16 @@ static void gen_rand_expr(int depth) {
     default: gen_rand_expr(depth + 1); gen_rand_op(); if(buf[strlen(buf) - 1] == '/') {gen_num();} else {gen_rand_expr(depth + 1);}; break;
   }
 }
+
+
+// static void gen_space() {
+//   int n = choose(3);
+
+//   for (int i = 0; i < n; i++) {
+//     strcat(buf, " ");
+//   }
+// }
+
 
 int main(int argc, char *argv[]) {
   int seed = time(0);

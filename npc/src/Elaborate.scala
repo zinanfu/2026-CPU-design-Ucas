@@ -18,7 +18,7 @@ object Elaborate extends App {
   //circt.stage.ChiselStage.emitSystemVerilogFile(new gcd.GCD(), args, firtoolOptions)
 
   ChiselStage.emitSystemVerilogFile(
-    new Alu(32),  
+    new CpuTop,  
     args,
     firtoolOptions      
   )

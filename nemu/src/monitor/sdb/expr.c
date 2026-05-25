@@ -28,15 +28,16 @@ enum {
 
 
   /* TODO: Add more token types */
-  TK_DEC,     // 123
-  TK_HEX,     // 0x123
-  TK_REG,     // $a0
+  TK_DEC,       // 123
+  TK_HEX,       // 0x123
+  TK_REG,       // $a0
 
 
-  TK_EQ,      // ==
-  TK_NEQ,     // !=
-  TK_AND,     // &&
-  TK_DEREF,   // *(ref)
+  TK_EQ,        // ==
+  TK_NEQ,       // !=
+  TK_AND,       // &&
+  TK_DEREF,     // *(ref)
+  TK_NEGATIVE,  // -1
 };
 
 static struct rule {
@@ -71,7 +72,7 @@ static struct rule {
 static regex_t re[NR_REGEX] = {};
 
 
-int eval(int p, int q, bool *success);
+uint32_t eval(int p, int q, bool *success);
 
 /* Rules are used for many times.
  * Therefore we compile them only once before any usage.
@@ -95,7 +96,7 @@ typedef struct token {
   char str[64];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[128] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -107,15 +108,15 @@ static bool make_token(char *e) {
 
   while (e[position] != '\0') {
     /* Try all rules one by one. */
-    printf("position:%d\n", position);
+    // printf("position:%d\n", position);
     for (i = 0; i < NR_REGEX; i ++) {
       // printf("match begin\n");
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
         position += substr_len;
 
@@ -137,7 +138,7 @@ static bool make_token(char *e) {
           default: 
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
-            printf("nr_token is %d\n", nr_token);
+            // printf("nr_token is %d\n", nr_token);
             tokens[nr_token].str[substr_len] = '\0';
 
             nr_token++;
@@ -158,7 +159,7 @@ static bool make_token(char *e) {
 
 
 word_t expr(char *e, bool *success) {
-  printf("make_token begin\n");
+  // printf("make_token begin\n");
   if (!make_token(e)) {
     *success = false;
     return 0;
@@ -180,11 +181,21 @@ word_t expr(char *e, bool *success) {
   //   }
   // }
 
+  // 解引用判断
   for (int i = 0; i < nr_token; i++) {
-    if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND) ) {
+    if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND || tokens[i - 1].type == TK_DEREF || tokens[i-1].type == TK_NEGATIVE)) {
       tokens[i].type = TK_DEREF;
     }
+    if (tokens[i].type == '-' && (i == 0 || tokens[i - 1].type == '+' || tokens[i - 1].type == '-' || tokens[i - 1].type == '*' || tokens[i - 1].type == '/' || tokens[i - 1].type == '(' || tokens[i - 1].type == TK_EQ || tokens[i - 1].type == TK_NEQ || tokens[i - 1].type == TK_AND || tokens[i - 1].type == TK_DEREF || tokens[i-1].type == TK_NEGATIVE)) {
+      // printf("There is a minor\n");
+      tokens[i].type = TK_NEGATIVE;
+    }
   }
+
+  // for (int i = 0; i < 5; i++) {
+  //   printf("The token_type is %c\n", tokens[i].type);
+  // }
+
 
   // expr
   return eval(0, nr_token - 1, success);
@@ -240,6 +251,8 @@ int op_priority(int type) {
     case '/': return 4;
     // case '(':
     // case ')': return 4;
+   
+    case TK_NEGATIVE: 
     case TK_DEREF: return 5;
     default: return 100;
   }
@@ -273,10 +286,16 @@ int find_op_position(int p, int q) {
       //   }
       // }
       int priority = op_priority(tokens[i].type);
-      if (priority < min_pri) {
-        op_position = i;
-        min_pri = priority;
+
+      if (priority == 5 && min_pri == 5) {
+        // printf("need right\n");
+      } else {
+        if (priority <= min_pri) {
+          op_position = i;
+          min_pri = priority;
+        }
       }
+      
 
     }
   }
@@ -284,7 +303,7 @@ int find_op_position(int p, int q) {
   return op_position;
 }
 
-int eval(int p, int q, bool *success) {
+uint32_t eval(int p, int q, bool *success) {
   if (p > q) {
     /* Bad expression */
     *success = false;
@@ -298,6 +317,14 @@ int eval(int p, int q, bool *success) {
     switch (tokens[p].type) {
       case TK_DEC: return atoi(tokens[p].str);
       case TK_HEX: return strtoul(tokens[p].str, NULL, 16);
+      case TK_REG: {
+            bool reg_success = true;
+            word_t val = isa_reg_str2val(tokens[p].str + 1, &reg_success);
+            if (!reg_success) {
+              *success = false;
+            }
+            return val;
+          }
       default: 
         *success = false;
         return 0;
@@ -312,6 +339,8 @@ int eval(int p, int q, bool *success) {
   else {
     int op = find_op_position(p, q);
 
+    // printf("The position is %d, the type is %c\n", op, tokens[op].type);
+
     if (op == -1) {
       *success = false;
       return 0;
@@ -323,6 +352,13 @@ int eval(int p, int q, bool *success) {
 
       return vaddr_read(addr, 4);
     }
+    // 负数
+    if (tokens[op].type == TK_NEGATIVE) {
+
+      // printf("find a negative\n");
+      return - eval(op + 1, q, success);
+    }
+
     int val1 = eval(p, op - 1, success);
     if (!*success) {
       return 0;
@@ -336,7 +372,14 @@ int eval(int p, int q, bool *success) {
       case '+': return val1 + val2;
       case '-': return val1 - val2;
       case '*': return val1 * val2;
-      case '/': return val1 / val2;
+      case '/': {
+        if (val2 == 0) {
+          printf("Error: div 0\n");
+          return 0;
+        }
+        return val1 / val2;
+      }
+      
       case TK_EQ: return val1 == val2;
       case TK_NEQ: return val1 != val2;
       case TK_AND: return val1 && val2;

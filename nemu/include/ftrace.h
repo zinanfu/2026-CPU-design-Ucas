@@ -6,11 +6,15 @@
 #include <inttypes.h>
 #include <stdbool.h>
 #include <string.h>
+#include <elf.h>
 
 #include <generated/autoconf.h>
 #include <macro.h>
+#include <memory/paddr.h>
 
 
+#define MAX_FUNC 256
+#define MAX_DEPTH 100
 
 typedef struct {
     paddr_t addr;
@@ -18,13 +22,13 @@ typedef struct {
     char name[64];
 } Func;
 
-Func func_table[256];
-int func_cnt;
+extern Func func_table[MAX_FUNC];
+extern int func_cnt;
 
-#define MAX_DEPTH 100
 
-paddr_t call_stack[MAX_DEPTH];
-int depth = 0;
+
+extern paddr_t call_stack[MAX_DEPTH];
+extern int depth;
 
 
 void init_ftrace(char* elf_file);

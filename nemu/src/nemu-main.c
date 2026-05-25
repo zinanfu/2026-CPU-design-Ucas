@@ -36,6 +36,8 @@ int main(int argc, char *argv[]) {
 }
 
 // word_t expr(char *e, bool *success);
+// void init_regex();
+// void init_mem();
 
 // int main(int argc, char *argv[]) {
 
@@ -44,33 +46,33 @@ int main(int argc, char *argv[]) {
 //     return 1;
 //   }
 
-//   init_monitor(argc, argv);
+//   init_regex();
+//   init_mem();
+
 //   FILE *fp = fopen(argv[1], "r");
-//   if (fp == NULL) {
-//     perror("fopen");
-//     return 1;
-//   }
+//   assert(fp != NULL);
 
 //   char expr_buf[65536];
 //   unsigned expected;
 
 //   while (fscanf(fp, "%u %[^\n]", &expected, expr_buf) == 2) {
-//     // printf("test begin\n");
-//     printf("expr: %s\n", expr_buf);
+
 //     bool success = true;
+
+//     // printf("expr = %s\n", expr_buf);
+
 //     word_t result = expr(expr_buf, &success);
 
-//     // printf("expr is done\n");
 //     if (!success) {
 //       printf("Bad expression: %s\n", expr_buf);
-//       continue;
+//       return 1;
 //     }
 
 //     if (result != expected) {
 //       printf("Mismatch!\n");
-//       printf("expr: %s\n", expr_buf);
-//       printf("expected: %u\n", expected);
-//       printf("got: %u\n", result);
+//       printf("expr     : %s\n", expr_buf);
+//       printf("expected : %u\n", expected);
+//       printf("result   : %u\n", result);
 //       return 1;
 //     }
 //   }
@@ -78,5 +80,6 @@ int main(int argc, char *argv[]) {
 //   printf("All tests passed!\n");
 
 //   fclose(fp);
+
 //   return 0;
 // }

@@ -25,12 +25,31 @@ const char *regs[] = {
 
 void isa_reg_display() {
   for (int i = 0; i < 32; i++) {
-    printf("$%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
+    if (strcmp(regs[i], "$0") == 0) {
+      printf("%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
+    }
+    else {
+      printf("$%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
+    }
+    
   }
 
   printf("pc:\t0x%08x\n", cpu.pc);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
+  *success = true;
+  if (strcmp(s, "pc") == 0) {
+    return cpu.pc;
+  }
+  for (int i = 0; i < 32; i++) {
+    if (strcmp(regs[i], s) == 0) {
+      return cpu.gpr[i];
+    }
+  }
+  if (strcmp(s, "0") == 0) {
+    return cpu.gpr[0];
+  }
+  *success = false;
   return 0;
 }

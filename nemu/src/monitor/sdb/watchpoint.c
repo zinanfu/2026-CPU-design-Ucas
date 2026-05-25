@@ -42,6 +42,9 @@ WP* new_wp() {
   WP *wp = free_;
   free_ = free_ -> next;
 
+  wp->next = head;
+  head = wp;
+
   return wp;
 
 }
@@ -50,19 +53,23 @@ void free_wp(WP *wp) {
   if (wp == NULL) {
     assert(0);
   }
-  // 删除节点
+  if (head == NULL) {
+    assert(0);
+  }
+
   if (head == wp) {
     head = head -> next;
   } 
   else {
     WP *next_wp;
     next_wp = head;
-    while (next_wp -> next != wp && next_wp != NULL) {
+    while (next_wp -> next != NULL && next_wp -> next != wp) {
       next_wp = next_wp -> next;
     }
 
-    if (next_wp == NULL) {
-      printf("Error: watchpoint not found!\n");
+    if (next_wp -> next == NULL) {
+      printf("Error: watchpoint not found\n");
+      return;
     }
 
     next_wp -> next = wp -> next;
@@ -100,18 +107,21 @@ void print_watchpoint() {
   WP *wp = head;
 
   if (wp == NULL) {
-    printf("Error: no watchpoint\n");
-    assert(0);
+    printf("no watchpoint\n");
+    return;
   }
 
+  printf("The value of watchpoints:\n");
+
   while (wp != NULL) {
-    printf("NO:%d\t%s\t%d\n", wp -> NO, wp -> expr, wp -> last_value);
+    printf("NO:%d\t%s\t%u\n", wp -> NO, wp -> expr, wp -> last_value);
     wp = wp -> next;
   }
 }
 
 bool check_watchpoint() {
   WP *wp = head;
+  bool flag = false;
 
   while (wp != NULL) {
     bool success = true;
@@ -123,15 +133,15 @@ bool check_watchpoint() {
 
     if (new_value != wp -> last_value) {
       printf("Watchpoint NO%d\t%s is changed!\n", wp -> NO, wp -> expr);
-      printf("Old value:\t%d\n", wp -> last_value);
-      printf("New valueL\t%d\n", new_value);
+      printf("Old value:\t0x%8x\n", wp -> last_value);
+      printf("New value:\t0x%8x\n", new_value);
 
+      flag = true;
       wp -> last_value = new_value;
-      return true;
     }
 
     wp = wp -> next;
   }
 
-  return false;
+  return flag;
 }

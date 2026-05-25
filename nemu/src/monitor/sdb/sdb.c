@@ -44,8 +44,15 @@ static char* rl_gets() {
   return line_read;
 }
 
+static bool isdigits(const char *s) {
+  for (size_t idx = 0; s[idx] != '\0'; ++idx) {
+    if (!isdigit(s[idx])) return false;
+  }
+  return true;
+}
+
 static int cmd_c(char *args) {
-  cpu_exec(-1);
+  cpu_exec(-1);  // unsigned 中的极大
   return 0;
 }
 
@@ -62,6 +69,7 @@ static int cmd_x(char *args);
 static int cmd_watch(char *args);
 static int cmd_d(char *args);
 static int cmd_ir(char *args);
+static int cmd_p(char *args);
 
 static struct {
   const char *name;
@@ -76,9 +84,10 @@ static struct {
   { "si", "Modify the step of CPU", cmd_si},
   { "info", "Info command", cmd_info},
   { "x", "Scan memory", cmd_x},
-  { "watch", "Watch the expr", cmd_watch},
+  { "w", "Watch the expr", cmd_watch},
   { "d", "Delete the watchpoint", cmd_d},
   { "ir", "Iringbuf debug message", cmd_ir},
+  { "p", "Evaluate expression", cmd_p}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -136,7 +145,7 @@ static int cmd_info(char *args) {
     isa_reg_display();
   }
   else if (strcmp(args, "w") == 0) {
-    printf("The value of watchpoints:\n");
+    
     print_watchpoint();
   }
 
@@ -148,7 +157,7 @@ static int cmd_x(char *args) {
   bool success = true;
   
   if (args == NULL) {
-    printf("Usage: x N EXPR\n");
+    printf("Error: invalid cmd\n");
     assert(0);
   }
 
@@ -160,7 +169,7 @@ static int cmd_x(char *args) {
   vaddr_t addr = expr(EXPR_str, &success); 
 
   if (success == false) {
-    printf("Error: invalid addr");
+    printf("Error: invalid addr\n");
     return 0;
   }
 
@@ -174,7 +183,7 @@ static int cmd_x(char *args) {
 
 static int cmd_watch(char *args) {
   if (args == NULL) {
-    printf("Usage: watch EXPR\n");
+    printf("Error: invalid expr\n");
     assert(0);
   }
 
@@ -191,7 +200,7 @@ static int cmd_watch(char *args) {
     return 0;
   }
 
-  printf("Watchpoint NO:%d\t%s\t%d\n", wp -> NO, wp -> expr, wp -> last_value);
+  printf("Watchpoint NO:%d\t%s\t0x%x\n", wp -> NO, wp -> expr, wp -> last_value);
   return 0;
 }
 
@@ -199,18 +208,36 @@ static int cmd_d(char *args) {
   int id = 0;
 
   if (args == NULL) {
-    printf("Usage: d NO\n");
+    printf("Error: invalid expr\n");
     assert(0);
   }
 
+  if (!isdigits(args)) {
+    printf("Error: not num\n");
+    return 0;
+  }
+
   id = atoi(args);
-  
+
   d_wp(id);
 
   return 0;
 }
 
+static int cmd_p(char *args) {
+  bool success = true;
 
+  word_t result = expr(args, &success);
+
+  if (success) {
+    printf("%d\n", result);
+  }
+  else {
+    printf("Error: bad expression\n");
+  }
+
+  return 0;
+}
 
 void sdb_set_batch_mode() {
   is_batch_mode = true;
@@ -245,7 +272,11 @@ void sdb_mainloop() {
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
-        if (cmd_table[i].handler(args) < 0) { return; }
+        // 优美地退出
+        if (cmd_table[i].handler(args) < 0) { // 返回负数 
+          nemu_state.state = NEMU_QUIT;
+          return; 
+        }
         break;
       }
     }

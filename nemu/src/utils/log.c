@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <common.h>
+// #include <device/map.h>
 
 #define IRINGBUF_SIZE 16
 
@@ -86,3 +87,10 @@ void mtrace_log(const char* type, paddr_t addr, int len, word_t data) {
   }
 }
 
+// void dtrace_log_W(paddr_t addr, int len, word_t data, IOMap *map) {
+//   printf("[dtrace(W)]: device name: %S, addr = FMT_PADDR, len = %d, data = FMT_WORD\n",map->name, addr, len, data);
+// }
+
+// void dtrace_log_R(paddr_t addr, int len, IOMap *map) {
+//   printf("[dtrace(R)]: device name: %S, addr = FMT_PADDR, len = %d\n",map->name, addr, len);
+// }
