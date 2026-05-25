@@ -61,7 +61,7 @@ bool load_image(const char *path, uint32_t load_addr) {
 }
 
 static inline bool in_pmem(uint32_t addr, int len) {
-    if (addr >= pmem_base_addr && (addr + len) < pmem_base_addr + pmem_size) {
+    if (addr >= pmem_base_addr && (addr + len) <= pmem_base_addr + pmem_size) {
         return true;
     }
     return false;
@@ -139,8 +139,10 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
     }
 
     uint32_t offset = addr - pmem_base_addr;
-    for (int i = 0; i < len; i++) {
-        pmem[offset + i] = (data >> (8 * i)) & 0xff;
+    for (int i = 0; i < 4; i++) {
+        if (wmask & (1u << i)) {
+            pmem[offset + i] = (data >> (8 * i)) & 0xff;
+        }
     }
 
 }
