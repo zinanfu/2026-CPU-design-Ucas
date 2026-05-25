@@ -154,7 +154,7 @@ class CpuTop extends Module {
 
         wb_data := (rs1_data.asSInt < immI.asSInt).asUInt 
       }
-      when(funct3 === "b001".U) { // sltiu
+      when(funct3 === "b011".U) { // sltiu
         illegal := false.B
         wb_en := true.B
 
