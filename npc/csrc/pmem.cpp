@@ -105,8 +105,8 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
     //        addr, len, data, wmask);
     if (!in_pmem(addr, len)) {
 
-        printf("MMIO write addr = 0x%08x data = 0x%08x wmask = 0x%x\n",
-           addr, data, wmask);
+        // printf("MMIO write addr = 0x%08x data = 0x%08x wmask = 0x%x\n",
+        //    addr, data, wmask);
 
         if ((addr & ~0x3) == SERIAL_PORT) {
             uint8_t ch = 0;
