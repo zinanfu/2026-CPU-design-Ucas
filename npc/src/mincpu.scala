@@ -394,22 +394,46 @@ class CpuTop extends Module {
           wb_data := (rs1_data * rs2_data)(31, 0) 
         }
         when(funct3 === "b001".U) { //mulh
-          wb_data := (rs1_data.asSInt * rs2_data.asSInt)(63, 32).asUInt
+          val result = (rs1_data.asSInt * rs2_data.asSInt).asUInt
+          wb_data := result(63,32)
         }
         when(funct3 === "b010".U) { //mulhsu
-          wb_data := (rs1_data.asSInt * rs2_data)(63, 32).asUInt
+          val lhs = rs1_data.asSInt
+          val rhs = rs2_data.zext.asSInt
+
+          val result = (lhs * rhs).asUInt
+
+          wb_data := result(63,32)
         }
         when(funct3 === "b011".U) { //mulhu
           wb_data := (rs1_data * rs2_data)(63, 32)
         }
         when(funct3 === "b100".U) { //div
-          wb_data := (rs1_data.asSInt / rs2_data.asSInt).asUInt
+          when(rs2_data === 0.U) {
+            wb_data := "hffffffff".U
+          }.elsewhen(
+            rs1_data === "h80000000".U &&
+            rs2_data === "hffffffff".U
+          ) {
+            wb_data := "h80000000".U
+          }.otherwise {
+            wb_data := (rs1_data.asSInt / rs2_data.asSInt).asUInt
+          }
         }
         when(funct3 === "b101".U) { //divu
           wb_data := rs1_data / rs2_data
         }
         when(funct3 === "b110".U) { //rem
-          wb_data := (rs1_data.asSInt % rs2_data.asSInt).asUInt
+          when(rs2_data === 0.U) {
+            wb_data := rs1_data
+          }.elsewhen(
+            rs1_data === "h80000000".U &&
+            rs2_data === "hffffffff".U
+          ) {
+            wb_data := 0.U
+          }.otherwise {
+            wb_data := (rs1_data.asSInt % rs2_data.asSInt).asUInt
+          }
         }
         when(funct3 === "b111".U) { //remu
           wb_data := rs1_data % rs2_data
