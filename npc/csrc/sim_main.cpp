@@ -61,8 +61,8 @@ int main(int argc, char** argv) {
         // printf("pc = 0x%08x inst = 0x%08x\n", pc, inst);
         
         if (inst == 0x0000006f) {
-            printf("Hit GOOD TRAP\n");
-            break;
+            // printf("Hit GOOD TRAP\n");
+            // break;
         }
 
         // instruction fetch
