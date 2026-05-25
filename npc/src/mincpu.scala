@@ -152,7 +152,7 @@ class CpuTop extends Module {
         illegal := false.B
         wb_en := true.B
 
-        wb_data := (rs1_data.asSInt < immI.asSInt).asUInt 
+        wb_data := Mux(rs1_data.asSInt < immI.asSInt, 1.U(32.W), 0.U(32.W))
       }
       when(funct3 === "b011".U) { // sltiu
         illegal := false.B
@@ -160,7 +160,7 @@ class CpuTop extends Module {
 
         val shamt = immI(4,0)
 
-        wb_data := (rs1_data < immI).asUInt 
+        wb_data := Mux(rs1_data < immI, 1.U(32.W), 0.U(32.W)) 
       }
       
     }
@@ -357,13 +357,13 @@ class CpuTop extends Module {
           illegal := false.B
           wb_en := true.B
 
-          wb_data := (rs1_data < rs2_data).asUInt 
+          wb_data :=  Mux(rs1_data < rs2_data, 1.U(32.W), 0.U(32.W))
         }
         when(funct3 === "b010".U) { //slt
           illegal := false.B
           wb_en := true.B
 
-          wb_data := (rs1_data.asSInt < rs2_data.asSInt).asUInt 
+          wb_data :=  Mux(rs1_data.asSInt < rs2_data.asSInt, 1.U(32.W), 0.U(32.W)) 
         }
         when(funct3 === "b100".U) { //xor
           illegal := false.B
@@ -421,7 +421,11 @@ class CpuTop extends Module {
           }
         }
         when(funct3 === "b101".U) { //divu
-          wb_data := rs1_data / rs2_data
+          when(rs2_data === 0.U) {
+            wb_data := "hffffffff".U
+          }.otherwise {
+            wb_data := rs1_data / rs2_data
+          }
         }
         when(funct3 === "b110".U) { //rem
           when(rs2_data === 0.U) {
@@ -436,7 +440,11 @@ class CpuTop extends Module {
           }
         }
         when(funct3 === "b111".U) { //remu
-          wb_data := rs1_data % rs2_data
+          when(rs2_data === 0.U) {
+            wb_data := "hffffffff".U
+          }.otherwise {
+            wb_data := rs1_data % rs2_data
+          }
         }
       }
     }
