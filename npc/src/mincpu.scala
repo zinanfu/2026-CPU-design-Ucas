@@ -310,17 +310,64 @@ class CpuTop extends Module {
     is("b0110011".U) {
 
       when(funct3 === "b000".U) {
-        illegal := false.B;
+        illegal := false.B
 
         wb_en := true.B
 
-        when(funct7 === "b0000000".U) {
+        when(funct7 === "b0000000".U) { //add
           wb_data := rs1_data + rs2_data
         }
 
-        when(funct7 === "b0100000".U) {
+        when(funct7 === "b0100000".U) { //sub
           wb_data := rs1_data - rs2_data
         }
+      }
+      when(funct3 === "b001".U) { //sll
+        illegal := false.B
+
+        wb_en := true.B
+        wb_data := rs1_data << rs2_data(4, 0)
+      }
+      when(funct3 === "b101".U) { 
+        illegal := false.B
+        wb_en := true.B
+
+        when(funct7 === "b0000000".U) { //srl
+          wb_data := rs1_data >> rs2_data(4, 0)
+        }
+        when(funct7 === "b0100000".U) { //sra
+          wb_data := (rs1_data.asSInt >> rs2_data(4, 0)).asUInt
+        }
+      }
+      when(funct3 === "b011".U) { //sltu
+        illegal := false.B
+        wb_en := true.B
+
+        wb_data := (rs1_data < rs2_data) 
+      }
+      when(funct3 === "b010".U) { //slt
+        illegal := false.B
+        wb_en := true.B
+
+        wb_data := (rs1_data.asSInt < rs2_data.asSInt).asUInt 
+      }
+      when(funct3 === "b100".U) { //xor
+        illegal := false.B
+        wb_en := true.B
+
+        wb_data := rs1_data ^ rs2_data 
+      }
+      when(funct3 === "b110".U) { //or
+        illegal := false.B
+        wb_en := true.B
+
+        wb_data := rs1_data | rs2_data 
+      }
+      when(funct3 === "b111".U) { //and
+        illegal := false.B
+        wb_en := true.B
+
+        wb_data := rs1_data & rs2_data 
       }
     }
   }
