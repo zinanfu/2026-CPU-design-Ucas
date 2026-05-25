@@ -322,7 +322,7 @@ class CpuTop extends Module {
 
     // R_type
     is("b0110011".U) {
-      when(funct7 === "b0000000" || funct7 === "b0100000") {
+      when(funct7 === "b0000000".U || funct7 === "b0100000".U) {
         when(funct3 === "b000".U) {
           illegal := false.B
 
