@@ -3,6 +3,12 @@
 
 #include "pmem.h"
 
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <iomanip>
+#include <cstdlib>
+
 vluint64_t sim_time = 0;
 
 void step_once(VCpuTop *top);
