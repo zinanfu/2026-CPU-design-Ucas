@@ -4,7 +4,8 @@ import chisel3._
 import chisel3.util._
 
 
-// TODO: 指令存储器 Data Memory Byte Load/Store RV32E
+// in chisel === 会创造一个硬件上的比较相等  == 是作为 scala 的函数语境下的相等
+// 同理 := 是硬件上的赋值，会连线  = 是 scala 的赋值
 
 
 class CpuTop extends Module {
@@ -17,25 +18,25 @@ class CpuTop extends Module {
     val pc = Output(UInt(32.W))
 
     // data memory
-    val mem_rdata = Input(UInt(32.W))
-    val mem_addr  = Output(UInt(32.W))
-    val mem_wdata = Output(UInt(32.W))
-    val mem_wmask = Output(UInt(4.W))
-    val mem_wen   = Output(Bool())
-    val mem_ren   = Output(Bool())
+    val mem_rdata       = Input(UInt(32.W))
+    val mem_addr        = Output(UInt(32.W))
+    val mem_wdata       = Output(UInt(32.W))
+    val mem_wmask       = Output(UInt(4.W))
+    val mem_wen         = Output(Bool())
+    val mem_ren         = Output(Bool())
+
+    // debug 
+    val debug_pc        = Output(UInt(32.W))
+    val debug_inst      = Output(UInt(32.W))
+    val debug_valid     = Output(Bool())
+    val debug_regs_flat = Output(UInt(1024.W))
   })
 
-  // ============================================================
-  // PC
-  // ============================================================
-
+  // pc
   val pc = RegInit("h80000000".U(32.W))
   io.pc := pc
 
-  // ============================================================
-  // Instruction Fields
-  // ============================================================
-
+  // id
   val inst = io.inst
 
   val opcode = inst(6,0)
@@ -45,11 +46,13 @@ class CpuTop extends Module {
   val rs2    = inst(24,20)
   val funct7 = inst(31,25)
 
-  // ============================================================
-  // Register File
-  // ============================================================
+  // reg
+  val XLEN = 32
+  val ARCH_REGS = 16
+  val DEBUG_REGS = 32
+  val debugRegs = Wire(Vec(DEBUG_REGS, UInt(32.W)))
 
-  val regs = RegInit(VecInit(Seq.fill(16)(0.U(32.W))))
+  val regs = RegInit(VecInit(Seq.fill(ARCH_REGS)(0.U(XLEN.W))))
 
   val rs1_idx = rs1(3,0)
   val rs2_idx = rs2(3,0)
@@ -59,10 +62,7 @@ class CpuTop extends Module {
 
   regs(0) := 0.U
 
-  // ============================================================
-  // Immediate
-  // ============================================================
-
+  // imm
   val immI = Cat(Fill(20, inst(31)), inst(31,20))
   val immS = Cat(Fill(20, inst(31)), inst(31,25), inst(11,7))
   val immB = Cat(
@@ -83,9 +83,6 @@ class CpuTop extends Module {
     0.U(1.W)
   )
 
-  // ============================================================
-  // Default
-  // ============================================================
 
   io.mem_addr  := 0.U
   io.mem_wdata := 0.U
@@ -99,7 +96,7 @@ class CpuTop extends Module {
 
   val next_pc = WireDefault(pc + 4.U)
 
-  /*===========================dacode=================================*/
+  /*===========================id & exe=================================*/
 
 
   val illegal = WireDefault(true.B)
@@ -242,7 +239,6 @@ class CpuTop extends Module {
       io.mem_ren := true.B
       io.mem_addr := load_addr & "hfffffffc".U(32.W)
       
-
       wb_en := true.B
 
       when(funct3 === "b010".U) { //lw
@@ -300,9 +296,6 @@ class CpuTop extends Module {
 
       io.mem_wen := true.B
       io.mem_addr := store_addr & "hfffffffc".U(32.W)
-
-      // printf(p"store_addr = 0x${Hexadecimal(store_addr)}\n")
-      // printf(p"io.mem_addr = 0x${Hexadecimal(io.mem_addr)}\n")
 
       when(funct3 === "b000".U) { // sb
         io.mem_wmask := (1.U(4.W) << store_addr(1,0))
@@ -456,6 +449,26 @@ class CpuTop extends Module {
     regs(wb_addr) := wb_data
   }
 
+  // debug
+  io.debug_pc := pc
+  io.debug_inst := inst
+  io.debug_valid := !illegal // only use in no pipe line
+
+  while(i < DEBUG_REGS) {
+    if (i == 0) {
+      debugRegs(i) := 0.U(32.W)
+    }
+    else if (i < ARCH_REGS) {
+      debugRegs(i) := regs(i)
+    }
+    else {
+      debugRegs(i) := 0.U(32.W)
+    }
+    i += 1
+  }
+
+  io.debug_regs_flat := Cat((0 until DEBUG_REGS).reverse.map(i => debugRegs(i)))
+  
   val illegal_seen = RegInit(false.B)
 
   when(illegal && !illegal_seen) {

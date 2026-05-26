@@ -12,13 +12,6 @@ static void __am_timer_config(AM_TIMER_CONFIG_T *cfg) { cfg->present = true; cfg
 static void __am_input_config(AM_INPUT_CONFIG_T *cfg) { cfg->present = true;  }
 static void __am_uart_config(AM_UART_CONFIG_T *cfg) { cfg->present = false; }
 
-// void __am_uart_tx(AM_UART_TX_T *uart) {
-//   putch(uart->data);
-// }
-
-// void __am_uart_rx(AM_UART_RX_T *uart) {
-//   uart->data = -1;
-// }
 
 typedef void (*handler_t)(void *buf);
 static void *lut[128] = {
@@ -28,8 +21,6 @@ static void *lut[128] = {
   [AM_INPUT_CONFIG] = __am_input_config,
   [AM_INPUT_KEYBRD] = __am_input_keybrd,
   [AM_UART_CONFIG]  = __am_uart_config,
-  // [AM_UART_TX     ] = __am_uart_tx,
-  // [AM_UART_RX     ] = __am_uart_rx,
 };
 
 static void fail(void *buf) { panic("access nonexist register"); }
