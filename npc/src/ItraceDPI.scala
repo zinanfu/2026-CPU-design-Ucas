@@ -4,12 +4,12 @@ import chisel3._
 import chisel3.util._
 import chisel3.experimental._
 
-// BlackBox：Chisel 不会生成其内部实现，只在生成的 Verilog 中创建一个实例化接口
-// HasBlackBoxInline: 允许将 Verilog 代码内联到生成的顶层文件中（例如使用 setInline）
+// ExtModule: 需要实例化一个 已经用 Verilog/VHDL 编写好的黑盒模块时使用
+// FlatIO: 在 ExtModule 中，为了避免方向推断的歧义并保持与旧 BlackBox 行为一致，官方推荐使用 FlatIO 而不是普通的 IO
 // import "DPI-C" function void npc_itrace 可将外部的函数引入 systemVerilog 中
 
-class ItraceDPI extends BlackBox with HasBlackBoxInline {
-    val io = IO(new Bundle {
+class ItraceDPI extends ExtModule {
+    val io = FlatIO(new Bundle {
         val clock = Input(Clock())
         val valid = Input(Bool())
         val pc    = Input(UInt(32.W))
