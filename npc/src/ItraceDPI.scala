@@ -1,8 +1,7 @@
 package npc
 
 import chisel3._
-import chisel3.util._
-import chisel3.experimental._
+import chisel3.experimental.ExtModule
 
 // ExtModule: 需要实例化一个 已经用 Verilog/VHDL 编写好的黑盒模块时使用
 // FlatIO: 在 ExtModule 中，为了避免方向推断的歧义并保持与旧 BlackBox 行为一致，官方推荐使用 FlatIO 而不是普通的 IO
