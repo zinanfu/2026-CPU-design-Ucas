@@ -126,7 +126,7 @@ void repl_loop(VCpuTop* top) {
     std :: string line; // 命名空间 std 中的类 string
 
     while(!Verilated::gotFinish()) {
-        std :: cout << "sdb" << std :: flush; // 输出 sdb 到终端（flush 指立即将输出缓冲区的内容输出到终端中）
+        std :: cout << "sdb:\n" ; // 输出 sdb 到终端
 
         if (!std :: getline(std :: cin, line)) { // std :: cin 为标准输入流
             break;
