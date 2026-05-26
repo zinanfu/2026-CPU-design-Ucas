@@ -23,7 +23,7 @@ module ItraceDPI(
     input           clock,
     input           valid,
     input [31:0]    pc,
-    input [32:0]    inst
+    input [31:0]    inst
 );
 
 import "DPI-C" function void npc_itrace(   
