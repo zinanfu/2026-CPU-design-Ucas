@@ -152,7 +152,7 @@ void repl_loop(VCpuTop* top) {
             }
         }
         else if (cmd == "c") {
-            while (!Verilated :: gotfinish()) {
+            while (!Verilated :: gotFinish()) {
                 step_once(top);
             }
         }
