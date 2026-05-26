@@ -111,7 +111,7 @@ void step_once(VCpuTop *top) {
     // debug
 
     if (top->io_debug_valid) {
-        printf("pc = 0x%08x inst = 0x%08x\n", top->io_debug_pc, top->io_debug_inst);
+        // printf("pc = 0x%08x inst = 0x%08x\n", top->io_debug_pc, top->io_debug_inst);
     }
 }
 
