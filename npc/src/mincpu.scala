@@ -454,7 +454,7 @@ class CpuTop extends Module {
   io.debug_inst := inst
   io.debug_valid := !illegal // only use in no pipe line
 
-  val i = 0
+  var i = 0
 
   while(i < DEBUG_REGS) {
     if (i == 0) {
