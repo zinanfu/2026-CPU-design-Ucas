@@ -2,6 +2,7 @@ package logic
 
 import chisel3._
 import chisel3.util._
+import npc
 
 
 // in chisel === 会创造一个硬件上的比较相等  == 是作为 scala 的函数语境下的相等
@@ -31,6 +32,8 @@ class CpuTop extends Module {
     val debug_valid     = Output(Bool())
     val debug_regs_flat = Output(UInt(1024.W))
   })
+
+  
 
   // pc
   val pc = RegInit("h80000000".U(32.W))
@@ -477,6 +480,15 @@ class CpuTop extends Module {
     printf(p"illegal inst = 0x${Hexadecimal(inst)} pc = 0x${Hexadecimal(pc)}\n")
     illegal_seen := true.B
   }
+
+  // itrace
+  val itrace = Module(new ItraceDPI())
+
+  itrace.io.clock := clock
+  itrace.io.valid := io.debug_valid
+  itrace.io.pc    := io.debug_pc
+  itrace.io.inst  := io.debug_inst
+
 
   pc := next_pc
 }

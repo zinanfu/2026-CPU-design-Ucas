@@ -6,10 +6,11 @@ TOPNAME = CpuTop
 VSRCS = $(wildcard build/*.sv)
 
 
-SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp
+SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp csrc/trace.cpp
 
 VERILATOR = verilator
-VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -Wno-UNUSEDSIGNAL -CFLAGS "-std=c++17" --top-module $(TOPNAME)
+CAPSTONE_LIBS ?= -lcapstone
+VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -Wno-UNUSEDSIGNAL -CFLAGS "-std=c++17" $(if $(CAPSTONE_LIBS),-LDFLAGS "$(CAPSTONE_LIBS)") --top-module $(TOPNAME)
 
 
 test:
