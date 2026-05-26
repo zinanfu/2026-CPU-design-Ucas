@@ -152,21 +152,21 @@ void repl_loop(VCpuTop* top) {
             }
         }
         else if (cmd == "c") {
-            while (!Verilated :: gotfinish() {
+            while (!Verilated :: gotfinish()) {
                 step_once(top);
-            })
+            }
         }
         else if (cmd == "info") {
             std :: string sub;
             if (!(iss >> sub)) {
-                std :: cout << "Please use info r\n"
+                std :: cout << "Please use info r\n";
             }
             else {
                 if (sub == "r") {
                     print_regs(top);
                 } 
                 else {
-                    std :: cout << "Please use info r\n"
+                    std :: cout << "Please use info r\n";
                 }
             }
         }
@@ -174,7 +174,7 @@ void repl_loop(VCpuTop* top) {
             int n;
             uint32_t addr;
             if (!(iss >> n >> std :: hex >> addr)) {
-                std :: cout << "Please use x n addr(hex)\n"
+                std :: cout << "Please use x n addr(hex)\n";
             }
             else {
                 for (int i = 0; i < n; i++) {
