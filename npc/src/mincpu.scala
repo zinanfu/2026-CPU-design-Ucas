@@ -2,7 +2,7 @@ package logic
 
 import chisel3._
 import chisel3.util._
-import npc
+import npc.ItraceDPI
 
 
 // in chisel === 会创造一个硬件上的比较相等  == 是作为 scala 的函数语境下的相等

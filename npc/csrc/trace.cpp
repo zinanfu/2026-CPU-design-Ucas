@@ -14,7 +14,7 @@ static void init_capstone() {
 
     // 初始化 riscv32
     if (cs_open(CS_ARCH_RISCV, CS_MODE_RISCV32, &handle) != CS_ERR_OK) {
-        printf("Failed to initialize capstone\n")
+        printf("Failed to initialize capstone\n");
         exit(1);
     }
 
