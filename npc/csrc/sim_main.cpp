@@ -111,14 +111,14 @@ void step_once(VCpuTop *top) {
     // debug
 
     if (top->io_debug_valid) {
-        printf("pc = 0x%08x inst = 0x%08x\n", io_debug_pc, io_debug_inst);
+        printf("pc = 0x%08x inst = 0x%08x\n", top->io_debug_pc, top->io_debug_inst);
     }
 }
 
 void print_regs(VCpuTop* top) {
     printf("If the isa is riscv32e, then the last 16 reg is 0!\n");
     for (int i = 0; i < 32; i++) {
-        printf("reg%2d:\t0x%08x\n", i, top->debug_regs_flat[i]);
+        printf("reg%2d:\t0x%08x\n", i, top->io_debug_regs_flat[i]);
     }
 }
 
