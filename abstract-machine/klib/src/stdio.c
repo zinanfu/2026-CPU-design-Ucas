@@ -69,13 +69,6 @@ static int utoa_base(unsigned long val, char *buf, int base, bool upper) {
   return j;
 }
 
-// static void putch_repeat(char ch, int count, int *num) {
-//   for (int i = 0; i < count; i++) {
-//     putch(ch);
-//     (*num)++;
-//   }
-// }
-
 typedef struct {
   bool to_console;
   char *buf;
