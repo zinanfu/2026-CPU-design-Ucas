@@ -8,11 +8,14 @@
 static uint8_t *pmem = nullptr;
 static size_t pmem_size = 0;
 static uint32_t pmem_base_addr = 0;
+static uint64_t rtc_boot_us = 0;
 
 void init_pmem(size_t size, uint32_t base) {
     if (pmem) {
         free_pmem();
     }
+
+    rtc_boot_us = 0;
 
     pmem = (uint8_t *)malloc(size);
     assert(pmem);
@@ -76,11 +79,13 @@ uint32_t paddr_read(uint32_t addr, int len) {
 
         // MMIO: provide RTC value (microseconds since start)
         if (addr == RTC_ADDR || addr == RTC_ADDR + 4) {
-
-            // printf("paddr_read mmio called addr = 0x%08x len = %d\n", addr, len);
             struct timeval tv;
             gettimeofday(&tv, NULL);
             uint64_t us = (uint64_t)tv.tv_sec * 1000000 + tv.tv_usec;
+            if (rtc_boot_us == 0) {
+                rtc_boot_us = us;
+            }
+            us -= rtc_boot_us;
             uint32_t lo = (uint32_t)(us & 0xffffffff);
             uint32_t hi = (uint32_t)((us >> 32) & 0xffffffff);
             if (addr == RTC_ADDR) {
