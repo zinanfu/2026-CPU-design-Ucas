@@ -481,13 +481,13 @@ class CpuTop extends Module {
     illegal_seen := true.B
   }
 
-  // itrace
-  // val itrace = Module(new ItraceDPI())
+  itrace
+  val itrace = Module(new ItraceDPI())
 
-  // itrace.io.clock := clock
-  // itrace.io.valid := io.debug_valid
-  // itrace.io.pc    := io.debug_pc
-  // itrace.io.inst  := io.debug_inst
+  itrace.io.clock := clock
+  itrace.io.valid := io.debug_valid
+  itrace.io.pc    := io.debug_pc
+  itrace.io.inst  := io.debug_inst
 
 
   pc := next_pc

@@ -101,6 +101,7 @@ void step_once(VCpuTop *top) {
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask);
     }
 
+    
     // sim_time++;
 
     // if (sim_time > 1000000) {
