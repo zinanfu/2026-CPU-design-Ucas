@@ -76,133 +76,183 @@ static void putch_repeat(char ch, int count, int *num) {
   }
 }
 
+typedef struct {
+  bool to_console;
+  char *buf;
+  size_t limit;
+  size_t pos;
+} out_ctx_t;
+
+static void out_char(out_ctx_t *ctx, char ch) {
+  if (ctx->to_console) {
+    putch(ch);
+  }
+
+  if (ctx->buf != NULL && ctx->pos + 1 < ctx->limit) {
+    ctx->buf[ctx->pos] = ch;
+  }
+
+  ctx->pos++;
+}
+
+static void out_repeat(out_ctx_t *ctx, char ch, int count) {
+  for (int i = 0; i < count; i++) {
+    out_char(ctx, ch);
+  }
+}
+
+static void out_finalize(out_ctx_t *ctx) {
+  if (ctx->buf == NULL || ctx->limit == 0) {
+    return;
+  }
+
+  size_t end = (ctx->pos < ctx->limit - 1) ? ctx->pos : (ctx->limit - 1);
+  ctx->buf[end] = '\0';
+}
+
+static int vformat_output(out_ctx_t *ctx, const char *fmt, va_list ap) {
+  for (const char *f = fmt; *f != '\0'; f++) {
+    if (*f != '%') {
+      out_char(ctx, *f);
+      continue;
+    }
+
+    f++;
+    if (*f == '\0') {
+      break;
+    }
+
+    char pad = ' ';
+    int width = 0;
+    if (*f == '0') {
+      pad = '0';
+      f++;
+    }
+    while (*f >= '0' && *f <= '9') {
+      width = width * 10 + (*f - '0');
+      f++;
+    }
+
+    if (*f == 's') {
+      char *s = va_arg(ap, char *);
+      while (*s != '\0') {
+        out_char(ctx, *s++);
+      }
+    } else if (*f == 'd') {
+      char buf[64];
+      int val = va_arg(ap, int);
+      int length = itoa(val, buf);
+      int pad_len = width > length ? width - length : 0;
+      out_repeat(ctx, pad, pad_len);
+      for (int i = 0; i < length; i++) {
+        out_char(ctx, buf[i]);
+      }
+    } else if (*f == 'x' || *f == 'X') {
+      char buf[64];
+      unsigned int val = va_arg(ap, unsigned int);
+      int length = utoa_base(val, buf, 16, *f == 'X');
+      int pad_len = width > length ? width - length : 0;
+      out_repeat(ctx, pad, pad_len);
+      for (int i = 0; i < length; i++) {
+        out_char(ctx, buf[i]);
+      }
+    } else if (*f == 'p') {
+      char buf[64];
+      uintptr_t val = (uintptr_t)va_arg(ap, void *);
+      int length = utoa_base(val, buf, 16, false);
+      out_char(ctx, '0');
+      out_char(ctx, 'x');
+      int pad_len = (int)(sizeof(uintptr_t) * 2) - length;
+      if (pad_len > 0) {
+        out_repeat(ctx, '0', pad_len);
+      }
+      for (int i = 0; i < length; i++) {
+        out_char(ctx, buf[i]);
+      }
+    } else if (*f == 'c') {
+      char ch = (char)va_arg(ap, int);
+      out_char(ctx, ch);
+    } else if (*f == '%') {
+      out_char(ctx, '%');
+    }
+  }
+
+  out_finalize(ctx);
+  return (int)ctx->pos;
+}
+
 
 
 
 int printf(const char *fmt, ...) {
-  // panic("Not implemented");
   va_list ap;
   va_start(ap, fmt);
-  int num = 0;
-
-  for (const char* f = fmt; *f != '\0'; f++) {
-    if (*f != '%') {
-      putch(*f);
-      num++;
-      continue;
-    }
-    else {
-      f++;
-      char pad = ' ';
-      int width = 0;
-      if (*f == '0') {
-        pad = '0';
-        f++;
-      }
-      while (*f >= '0' && *f <= '9') {
-        width = width * 10 + (*f - '0');
-        f++;
-      }
-
-      if (*f == 's') {
-        char* s = va_arg(ap, char*);
-        while (*s != '\0') {
-          putch(*s++);
-          num++;
-        }
-      } else if (*f == 'd') {
-        char buf[64];
-        int val = va_arg(ap, int);
-        int length = itoa(val, buf);
-        int pad_len = width > length ? width - length : 0;
-        putch_repeat(pad, pad_len, &num);
-        for (int i = 0; i < length; i++) {
-          putch(buf[i]);
-          num++;
-        }
-      } else if (*f == 'x' || *f == 'X') {
-        char buf[64];
-        unsigned int val = va_arg(ap, unsigned int);
-        int length = utoa_base(val, buf, 16, *f == 'X');
-        int pad_len = width > length ? width - length : 0;
-        putch_repeat(pad, pad_len, &num);
-        for (int i = 0; i < length; i++) {
-          putch(buf[i]);
-          num++;
-        }
-      } else if (*f == 'p') {
-        char buf[64];
-        uintptr_t val = (uintptr_t)va_arg(ap, void *);
-        int length = utoa_base(val, buf, 16, false);
-        putch('0'); num++;
-        putch('x'); num++;
-        int pad_len = (int)(sizeof(uintptr_t) * 2) - length;
-        if (pad_len > 0) {
-          putch_repeat('0', pad_len, &num);
-        }
-        for (int i = 0; i < length; i++) {
-          putch(buf[i]);
-          num++;
-        }
-      } else if (*f == 'c') {
-        char ch = (char)va_arg(ap, int);
-        putch(ch);
-        num++;
-      } else if (*f == '%') {
-        putch('%');
-        num++;
-      }
-
-    }
-  }
-
+  out_ctx_t ctx = {
+    .to_console = true,
+    .buf = NULL,
+    .limit = 0,
+    .pos = 0,
+  };
+  int num = vformat_output(&ctx, fmt, ap);
   va_end(ap);
 
   return num;
-
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  panic("Not implemented");
+  out_ctx_t ctx = {
+    .to_console = false,
+    .buf = out,
+    .limit = (size_t)-1,
+    .pos = 0,
+  };
+  va_list ap_local;
+  va_copy(ap_local, ap);
+  int num = vformat_output(&ctx, fmt, ap_local);
+  va_end(ap_local);
+  return num;
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  // panic("Not implemented");
-  char* p = out;
   va_list ap;
   va_start(ap, fmt);
-
-  for (const char* f = fmt; *f != '\0'; f++) {
-    if (*f != '%') {
-      *p++ = *f;
-      continue;
-    }
-    else {
-      f++;
-      if (*f == 's') {
-        char* s = va_arg(ap, char*);
-        while (*s != '\0') {
-          *p++ = *s++;
-        }
-      } else if (*f == 'd') {
-        int val = va_arg(ap, int);
-        p += itoa(val, p);
-      }
-    }
-  }
-
+  out_ctx_t ctx = {
+    .to_console = false,
+    .buf = out,
+    .limit = (size_t)-1,
+    .pos = 0,
+  };
+  int num = vformat_output(&ctx, fmt, ap);
   va_end(ap);
-  *p = '\0';
-
-  return p - out;
+  return num;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
-  panic("Not implemented");
+  va_list ap;
+  va_start(ap, fmt);
+  out_ctx_t ctx = {
+    .to_console = false,
+    .buf = out,
+    .limit = n,
+    .pos = 0,
+  };
+  int num = vformat_output(&ctx, fmt, ap);
+  va_end(ap);
+  return num;
 }
 
 int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {
-  panic("Not implemented");
+  out_ctx_t ctx = {
+    .to_console = false,
+    .buf = out,
+    .limit = n,
+    .pos = 0,
+  };
+  va_list ap_local;
+  va_copy(ap_local, ap);
+  int num = vformat_output(&ctx, fmt, ap_local);
+  va_end(ap_local);
+  return num;
 }
 
 #endif
