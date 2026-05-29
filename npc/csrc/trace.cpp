@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <capstone.h>
+#include <capstone/capstone.h>
 
 static csh handle;
 static bool capstone_inited = false;
@@ -20,6 +20,7 @@ static void init_capstone() {
 
     // AT&T 风格等可选配置
     cs_option(handle, CS_OPT_DETAIL, CS_OPT_OFF);
+    capstone_inited = true;
 }
 
 
