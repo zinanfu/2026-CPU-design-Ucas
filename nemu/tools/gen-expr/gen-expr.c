@@ -37,8 +37,16 @@ uint32_t choose(uint32_t n) {
 }
 
 static void gen_num() {
+  int digit = choose(3);
+
   int len = strlen(buf);
-  buf[len] = choose(9) + '1'; // 防止除 0 风险
+  buf[len] = choose(9) + '1'; // 第一项不为 0
+
+  for (int i = 0; i < digit; i++) {
+    buf[len + 1] = choose(10) + '0';
+    len += 1;
+  }
+
   buf[len + 1] = '\0';
 }
 
@@ -63,7 +71,7 @@ static void gen_rand_op() {
 }
 
 static void gen_rand_expr(int depth) {
-  if (depth > 5) {
+  if (depth > 10) {
     gen_num();
     return;
   }
