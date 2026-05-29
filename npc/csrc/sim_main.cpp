@@ -9,7 +9,7 @@
 #include <iomanip>
 #include <cstdlib>
 
-vluint64_t sim_time = 0;
+// vluint64_t sim_time = 0;
 
 void step_once(VCpuTop *top);
 void print_regs(VCpuTop* top);
@@ -101,12 +101,12 @@ void step_once(VCpuTop *top) {
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask);
     }
 
-    sim_time++;
+    // sim_time++;
 
-    if (sim_time > 1000000) {
-        Verilated::gotFinish(true);
-        return;
-    }
+    // if (sim_time > 1000000) {
+    //     Verilated::gotFinish(true);
+    //     return;
+    // }
 
     // debug
 
@@ -152,6 +152,7 @@ void repl_loop(VCpuTop* top) {
             }
         }
         else if (cmd == "c") {
+            print("test begin\n");
             while (!Verilated :: gotFinish()) {
                 step_once(top);
             }
