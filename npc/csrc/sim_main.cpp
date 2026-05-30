@@ -9,7 +9,6 @@
 #include <iomanip>
 #include <cstdlib>
 
-// vluint64_t sim_time = 0;
 
 void step_once(VCpuTop *top);
 void print_regs(VCpuTop* top);
@@ -63,7 +62,7 @@ void step_once(VCpuTop *top) {
         return;
     }
 
-    uint32_t inst = paddr_read(pc,4);
+    uint32_t inst = paddr_read(pc, 4, true);
     
     if (inst == 0x0000006f) {
         printf("Hit GOOD TRAP\n");
@@ -80,7 +79,7 @@ void step_once(VCpuTop *top) {
     top->eval();
 
     // data memory read
-    top->io_mem_rdata = paddr_read(top->io_mem_addr, 4);
+    top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
 
     // clock high
     top->clock = 1;
@@ -98,17 +97,10 @@ void step_once(VCpuTop *top) {
 
     if (top->io_mem_wen) {
 
-        paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask);
+        paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
     }
 
     
-    // sim_time++;
-
-    // if (sim_time > 1000000) {
-    //     Verilated::gotFinish(true);
-    //     return;
-    // }
-
     // debug
 
     if (top->io_debug_valid) {
@@ -179,7 +171,7 @@ void repl_loop(VCpuTop* top) {
             }
             else {
                 for (int i = 0; i < n; i++) {
-                    uint32_t data = paddr_read(addr + i * 4, 4);
+                    uint32_t data = paddr_read(addr + i * 4, 4, 1); // x 的记录不用存在 mtrace 中
                     printf("0x%08x: 0x%08x", addr + i * 4, data);
                 }
             }

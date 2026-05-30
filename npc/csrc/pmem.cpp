@@ -70,7 +70,7 @@ static inline bool in_pmem(uint32_t addr, int len) {
     return false;
 }
 
-uint32_t paddr_read(uint32_t addr, int len) {
+uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
 
@@ -105,19 +105,23 @@ uint32_t paddr_read(uint32_t addr, int len) {
         ret |= (uint32_t)pmem[offset + i] << (8 * i);
     }
 
+
+
+    // mtrace
+    if (!is_inst) {
+        printf("[mtrace(mem)] read addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, ret);
+    }
+    
     return ret;
 }
 
-void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
+void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     
     // Debug: print every physical write to help trace MMIO vs PMEM
     // printf("paddr_write called addr = 0x%08x len = %d data = 0x%08x wmask = 0x%x\n",
     //        addr, len, data, wmask);
     if (!in_pmem(addr, len)) {
-
-        // printf("MMIO write addr = 0x%08x data = 0x%08x wmask = 0x%x\n",
-        //    addr, data, wmask);
 
         if ((addr & ~0x3) == SERIAL_PORT) {
             uint8_t ch = 0;
@@ -149,5 +153,11 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
             pmem[offset + i] = (data >> (8 * i)) & 0xff;
         }
     }
+
+    // mtrace
+    if (!is_inst) {
+        printf("[mtrace(mem)] write addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, data);
+    }
+    
 
 }
