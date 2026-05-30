@@ -13,10 +13,10 @@ class CpuTop extends Module {
   val io = IO(new Bundle {
 
     // instruction memory
-    val inst = Input(UInt(32.W))
+    val inst            = Input(UInt(32.W))
 
     // instruction address
-    val pc = Output(UInt(32.W))
+    val pc              = Output(UInt(32.W))
 
     // data memory
     val mem_rdata       = Input(UInt(32.W))
@@ -481,7 +481,7 @@ class CpuTop extends Module {
     illegal_seen := true.B
   }
 
-  itrace
+  //itrace
   val itrace = Module(new ItraceDPI())
 
   itrace.io.clock := clock
