@@ -29,3 +29,9 @@ To generate Verilog:
 ```bash
 make verilog
 ```
+
+To control itrace during elaboration, pass an extra argument to the entrypoint:
+```bash
+mill -i runMain logic.Elaborate --no-itrace
+mill -i runMain logic.Elaborate --itrace
+```

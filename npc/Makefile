@@ -12,6 +12,15 @@ VERILATOR = verilator
 CAPSTONE_LIBS ?= -lcapstone
 VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -Wno-UNUSEDSIGNAL -CFLAGS "-std=c++17" $(if $(CAPSTONE_LIBS),-LDFLAGS "$(CAPSTONE_LIBS)") --top-module $(TOPNAME)
 
+# Extra arguments forwarded to the Chisel elaboration entrypoint.
+ELAB_ARGS ?=
+ITRACE ?= 0
+ifeq ($(filter 1 true yes on,$(ITRACE)),)
+ITRACE_FLAG :=
+else
+ITRACE_FLAG := --itrace
+endif
+
 
 test:
 	mill -i test
@@ -19,7 +28,7 @@ test:
 verilog:
 	$(call git_commit, "generate verilog")
 	mkdir -p $(BUILD_DIR)
-	mill -i runMain logic.Elaborate --target-dir $(BUILD_DIR)
+	mill -i runMain logic.Elaborate $(ITRACE_FLAG) $(ELAB_ARGS) --target-dir $(BUILD_DIR)
 
 help:
 	mill -i runMain Elaborate --help
