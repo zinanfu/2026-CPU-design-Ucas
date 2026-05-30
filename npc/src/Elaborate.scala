@@ -14,13 +14,6 @@ object Elaborate extends App {
           enableItrace = true
         case "--no-itrace" =>
           enableItrace = false
-        // case _ if arg.startsWith("--itrace=") =>
-        //   val value = arg.stripPrefix("--itrace=").toLowerCase
-        //   enableItrace = value match {
-        //     case "1" | "true" | "yes" | "on" => true
-        //     case "0" | "false" | "no" | "off" => false
-        //     case _ => true
-        //   }
         case other =>
           forwardedArgs += other
       }
