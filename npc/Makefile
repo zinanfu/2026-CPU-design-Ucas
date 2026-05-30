@@ -16,7 +16,7 @@ VERILATOR_FLAGS = -cc --exe --build --trace-fst -I./csrc -Wall -O3 -Wno-UNUSEDSI
 ELAB_ARGS ?=
 ITRACE ?= 0
 ifeq ($(filter 1 true yes on,$(ITRACE)),)
-ITRACE_FLAG :=
+ITRACE_FLAG := --no-itrace
 else
 ITRACE_FLAG := --itrace
 endif
