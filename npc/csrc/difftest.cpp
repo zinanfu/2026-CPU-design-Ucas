@@ -38,6 +38,7 @@ void init_difftest(const char* ref_so_file, const uint8_t* img_start, size_t img
     ref_difftest_memcpy(0x80000000, (void*) img_start, img_size, DIFFTESR_TO_REF);
 
     difftest_cpu_state init_state = {};
+    init_state.pc = 0x80000000; // 不能复写 pc
 
     ref_difftest_regcpy(&init_state, DIFFTESR_TO_REF);
 
