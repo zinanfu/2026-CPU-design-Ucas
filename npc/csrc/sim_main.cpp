@@ -83,8 +83,15 @@ void step_once(VCpuTop *top) {
 
     uint32_t inst = paddr_read(pc, 4, true);
     
-    if (inst == 0x0000006f) {
-        printf("Hit GOOD TRAP\n");
+    if (inst == 0x00100073) {
+        uint32_t code = top->io_debug_regs_flat[10];
+        if (code == 0) {
+            printf("Hit GOOD TRAP (code = %d)\n", code);
+        }
+        else {
+            printf("Hit BAD TRAP (code = %d)\n", code);
+        }
+        
         Verilated::gotFinish(true);
         return;
     }
