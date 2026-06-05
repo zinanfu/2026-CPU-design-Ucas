@@ -39,7 +39,7 @@ void init_difftest(const char* ref_so_file, const uint8_t* img_start, size_t img
 
     difftest_cpu_state init_state = {};
 
-    ref_difftest_regcpy(&init_difftest, DIFFTESR_TO_REF);
+    ref_difftest_regcpy(&init_state, DIFFTESR_TO_REF);
 
 
 }
