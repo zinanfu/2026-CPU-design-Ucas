@@ -38,7 +38,7 @@ VM_MODPREFIX = VCpuTop
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
   -std=c++17 \
-  -DCONFIG_FTRACE \
+  -DCONFIG_MTRACE \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
