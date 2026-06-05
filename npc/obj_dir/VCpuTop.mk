@@ -48,6 +48,7 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
+  difftest \
   ftrace \
   pmem \
   sim_main \
@@ -67,6 +68,8 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
+difftest.o: csrc/difftest.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 ftrace.o: csrc/ftrace.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 pmem.o: csrc/pmem.cpp 
