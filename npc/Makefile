@@ -21,6 +21,11 @@ else
 ITRACE_FLAG := --itrace
 endif
 
+MTRACE ?= 0
+ifneq ($(filter 1 true yes on, $(MTRACE)),)
+VERILATOR_FLAGS += -CFLAGS "-DCONFIG_MTRACE"
+endif
+
 
 test:
 	mill -i test

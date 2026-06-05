@@ -106,10 +106,13 @@ uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     }
     
     // mtrace
+
+#ifdef CONFIG_MTRACE
+
     if (!is_inst) {
         printf("[mtrace(mem)] read addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, ret);
     }
-    
+#endif
     return ret;
 }
 
@@ -153,9 +156,11 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_i
     }
 
     // mtrace
+
+#ifdef CONFIG_MTRACE
     if (!is_inst) {
         printf("[mtrace(mem)] write addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, data);
     }
-    
+#endif
 
 }
