@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     size_t img_size = 128 * 1024 * 1024;
 
     if (diff_so_file) {
-        init_difftest(diff_so_file, get_pmem_ptr, img_size);
+        init_difftest(diff_so_file, get_pmem_ptr(), img_size);
     }
     
 #endif
