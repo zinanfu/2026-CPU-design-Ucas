@@ -35,7 +35,6 @@ DIFFTEST ?= 0
 DIFF_REF_SO ?= /home/nan/Desktop/cpuDesign/ysyx-workbench/nemu/build/riscv32-nemu-interpreter-so
 ifneq ($(filter 1 true yes on, $(DIFFTEST)),)
 VERILATOR_FLAGS += -CFLAGS "-DCONFIG_DIFFTEST"
-VERILATOR_FLAGS += -CFLAGS "-DDIFF_SO_FILE=\\\"$(DIFF_REF_SO)""
 VERILATOR_FLAGS += -LDFLAGS "-ldl"
 endif
 
@@ -73,6 +72,6 @@ clean:
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	$(VERILATOR) $(VERILATOR_FLAGS) $(VSRCS) $(SIM_CSRCS)
-	./obj_dir/V$(TOPNAME) $(IMG) $(ELFPATH) # use: make sim IMG=build/test.bin
+	./obj_dir/V$(TOPNAME) $(IMG) $(ELFPATH) $(if $(filter 1 true yes on, $(DIFFTEST)), $(DIFF_REF_SO)) # use: make sim IMG=build/test.bin
 
 -include ../Makefile
