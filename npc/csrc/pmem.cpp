@@ -164,3 +164,7 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_i
 #endif
 
 }
+
+const uint8_t* get_pmem_ptr() {
+    return pmem;
+}

@@ -31,6 +31,14 @@ ifneq ($(filter 1 true yes on, $(FTRACE)),)
 VERILATOR_FLAGS += -CFLAGS "-DCONFIG_FTRACE"
 endif
 
+DIFFTEST ?= 0
+DIFF_REF_SO ?= /home/nan/Desktop/cpuDesign/ysyx-workbench/nemu/build/riscv32-nemu-interpreter-so
+ifneq ($(filter 1 true yes on, $(DIFFTEST)),)
+VERILATOR_FLAGS += -CFLAGS "-DCONFIG_DIFFTEST"
+VERILATOR_FLAGS += -CFLAGS "-DDIFF_SO_FILE=\\\"$(DIFF_REF_SO)""
+VERILATOR_FLAGS += -LDFLAGS "-ldl"
+endif
+
 
 test:
 	mill -i test

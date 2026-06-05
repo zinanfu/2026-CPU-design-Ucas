@@ -3,6 +3,7 @@
 
 #include "pmem.h"
 #include "ftrace.h"
+#include "difftest.h"
 
 #include <iostream>
 #include <sstream>
@@ -31,6 +32,13 @@ int main(int argc, char** argv) {
             printf("Error: load is wrong\n");
         }
     }
+
+#ifdef CONFIG_DIFFTEST
+    extern const char* diff_so_file;
+    size_t img_size = 128 * 1024 * 1024;
+
+    init_difftest(diff_so_file, get_pmem_ptr, img_size);
+#endif
 
 #ifdef CONFIG_FTRACE
     printf("The argc is %d\n", argc);
@@ -86,6 +94,14 @@ void step_once(VCpuTop *top) {
     top->clock = 0;
     top->eval();
 
+
+#ifdef CONFIG_DIFFTEST
+    if (top->io_debug_valid) {
+        difftest_step(top->io_pc, top->io_debug_regs_flat);
+    }
+    
+#endif
+
     // data memory read
     top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
 
@@ -116,6 +132,9 @@ void step_once(VCpuTop *top) {
         ftrace_check(top->io_debug_inst, top->io_debug_pc, top->io_debug_regs_flat);
     }
 #endif
+
+
+
 }
 
 void print_regs(VCpuTop* top) {
