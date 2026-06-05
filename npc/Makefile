@@ -6,7 +6,7 @@ TOPNAME = CpuTop
 VSRCS = $(wildcard build/*.sv)
 
 
-SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp csrc/trace.cpp csrc/ftrace.cpp
+SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp csrc/trace.cpp csrc/ftrace.cpp csrc/difftest.cpp
 
 VERILATOR = verilator
 CAPSTONE_LIBS ?= -lcapstone
