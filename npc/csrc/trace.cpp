@@ -1,4 +1,3 @@
-#include "trace.h"
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
