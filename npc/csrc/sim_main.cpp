@@ -111,7 +111,7 @@ void step_once(VCpuTop *top) {
     if (top->io_debug_valid) {
         // printf("pc = 0x%08x inst = 0x%08x\n", top->io_debug_pc, top->io_debug_inst);
         // [top](int_reg_index) { return top->io_debug_regs_flat[reg_index]; }: lambda 表达式, 其中 top 为捕获的外部变量, {} 内为要调用的函数, reg_index 是传入参数
-        ftrace_check(top->io_debug_inst, top->io_debug_pc, [top](int reg_index) {return top->io_debug_regs_flat[reg_index]; });
+        ftrace_check(top->io_debug_inst, top->io_debug_pc, top->io_debug_regs_flat);
     }
 #endif
 }

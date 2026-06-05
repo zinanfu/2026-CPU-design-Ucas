@@ -133,7 +133,7 @@ void ftrace_ret(uint32_t pc) {
 
 // 判断是否是 jal 或 jalr
 // uint32_t (*read_arg)(int reg_idx) 函数指针，(int reg_idx)为该函数传入的参数
-void ftrace_check(uint32_t inst, uint32_t pc, uint32_t (*read_arg)(int reg_idx)) {
+void ftrace_check(uint32_t inst, uint32_t pc, const uint32_t *regs) {
     uint32_t opcode = inst & 0x7f;
     uint32_t rd = (inst >> 7) & 0x1f;
     uint32_t rs1 = (inst >> 15) & 0x1f; 
@@ -158,7 +158,7 @@ void ftrace_check(uint32_t inst, uint32_t pc, uint32_t (*read_arg)(int reg_idx))
         if (imm & 0x800) {
             imm |= 0xfffff000;
         }
-        uint32_t target = (read_arg(rs1) + imm) & ~1;
+        uint32_t target = (regs[rs1] + imm) & ~1;
 
         if (rd == 1 && find_func(target) != NULL) {
             ftrace_call(target, pc);

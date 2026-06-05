@@ -20,6 +20,6 @@ void init_ftrace(const char* elf_file);
 char *find_func(uint32_t addr);
 void ftrace_call(uint32_t call_target, uint32_t pc);
 void ftrace_ret(uint32_t pc);
-void ftrace_check(uint32_t inst, uint32_t pc, uint32_t (*read_arg)(int reg_idx));
+void ftrace_check(uint32_t inst, uint32_t pc, const uint32_t *regs);
 
 #endif
