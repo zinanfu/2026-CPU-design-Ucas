@@ -19,7 +19,7 @@ void init_ftrace(char* elf_file) {
     // 读取 ELF 文件的节头表
     Elf32_Shdr shdrs[ehdr.e_shnum];
     fseek(fp, ehdr.e_shoff, SEEK_SET);
-    assert(fread(shdrs, ehdr.e_shnum, sizeof(Elf32_Shdr), fp) == sizeof(ehdr));
+    assert(fread(shdrs, sizeof(Elf32_Shdr), ehdr.e_shnum, fp) == ehdr.e_shnum);
 
     Elf32_Shdr symtab = {0};
     Elf32_Shdr strtab = {0};
