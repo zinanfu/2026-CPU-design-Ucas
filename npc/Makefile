@@ -6,7 +6,7 @@ TOPNAME = CpuTop
 VSRCS = $(wildcard build/*.sv)
 
 
-SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp csrc/trace.cpp
+SIM_CSRCS = csrc/sim_main.cpp csrc/pmem.cpp csrc/trace.cpp csrc/ftrace.cpp
 
 VERILATOR = verilator
 CAPSTONE_LIBS ?= -lcapstone
@@ -24,6 +24,11 @@ endif
 MTRACE ?= 0
 ifneq ($(filter 1 true yes on, $(MTRACE)),)
 VERILATOR_FLAGS += -CFLAGS "-DCONFIG_MTRACE"
+endif
+
+FTRACE ?= 0
+ifneq ($(filter 1 true yes on, $(FTRACE)),)
+VERILATOR_FLAGS += -CFLAGS "-DCONFIG_FTRACE"
 endif
 
 

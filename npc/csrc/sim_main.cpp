@@ -2,6 +2,7 @@
 #include "VCpuTop.h"
 
 #include "pmem.h"
+#include "ftrace.h"
 
 #include <iostream>
 #include <sstream>
@@ -30,6 +31,10 @@ int main(int argc, char** argv) {
             printf("Error: load is wrong\n");
         }
     }
+
+#ifdef CONFIG_FTRACE
+    init_ftrace(argv[1]);
+#endif
 
     // reset
     top->reset = 1;
@@ -102,10 +107,13 @@ void step_once(VCpuTop *top) {
 
     
     // debug
-
+#ifdef CONFIG_FTRACE
     if (top->io_debug_valid) {
         // printf("pc = 0x%08x inst = 0x%08x\n", top->io_debug_pc, top->io_debug_inst);
+        // [top](int_reg_index) { return top->io_debug_regs_flat[reg_index]; }: lambda 表达式, 其中 top 为捕获的外部变量, {} 内为要调用的函数, reg_index 是传入参数
+        ftrace_check(top->io_debug_inst, top->io_debug_pc, [top](int reg_index) {return top->io_debug_regs_flat[reg_index]; });
     }
+#endif
 }
 
 void print_regs(VCpuTop* top) {
