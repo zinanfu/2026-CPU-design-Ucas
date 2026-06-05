@@ -33,6 +33,7 @@ int main(int argc, char** argv) {
     }
 
 #ifdef CONFIG_FTRACE
+    printf("The argc is %d\n", argc);
     const char* elf_path = (argc > 2) ? argv[2] : argv[1];
 
     init_ftrace(elf_path);
