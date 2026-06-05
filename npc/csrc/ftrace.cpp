@@ -24,7 +24,7 @@ void init_ftrace(const char* elf_file) {
     Elf32_Shdr shdrs[ehdr.e_shnum];
     fseek(fp, ehdr.e_shoff, SEEK_SET);
     printf("e_shoff=0x%x e_shnum=%d e_shentsize=%d\n", ehdr.e_shoff, ehdr.e_shnum, ehdr.e_shentsize);
-    assert(fread(shdrs, ehdr.e_shnum, sizeof(Elf32_Shdr), fp) == ehdr.e_shnum);
+    assert(fread(shdrs, sizeof(Elf32_Shdr), ehdr.e_shnum, fp) == ehdr.e_shnum);
 
     Elf32_Shdr symtab = {0};
     Elf32_Shdr strtab = {0};
