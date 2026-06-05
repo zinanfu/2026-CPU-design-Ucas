@@ -65,6 +65,6 @@ clean:
 sim:
 	$(call git_commit, "sim RTL") # DO NOT REMOVE THIS LINE!!!
 	$(VERILATOR) $(VERILATOR_FLAGS) $(VSRCS) $(SIM_CSRCS)
-	./obj_dir/V$(TOPNAME) $(IMG)  # use: make sim IMG=build/test.bin
+	./obj_dir/V$(TOPNAME) $(IMG) $(ELFPATH) # use: make sim IMG=build/test.bin
 
 -include ../Makefile
