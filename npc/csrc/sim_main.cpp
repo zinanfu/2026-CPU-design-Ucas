@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     }
 
 #ifdef CONFIG_DIFFTEST
-    extern const char* diff_so_file = (argc > 3) ? argv[3] : nullptr;
+    const char* diff_so_file = (argc > 3) ? argv[3] : nullptr;
     size_t img_size = 128 * 1024 * 1024;
 
     if (diff_so_file) {
