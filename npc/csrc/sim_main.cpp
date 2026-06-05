@@ -33,7 +33,9 @@ int main(int argc, char** argv) {
     }
 
 #ifdef CONFIG_FTRACE
-    init_ftrace(argv[1]);
+    const char* elf_path = (argc > 2) ? argv[2] : argv[1];
+
+    init_ftrace(elf_path);
 #endif
 
     // reset
