@@ -98,12 +98,7 @@ void step_once(VCpuTop *top) {
     top->eval();
 
 
-#ifdef CONFIG_DIFFTEST
-    if (top->io_debug_valid) {
-        difftest_step(top->io_pc, top->io_debug_regs_flat);
-    }
-    
-#endif
+
 
     // data memory read
     top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
@@ -136,7 +131,12 @@ void step_once(VCpuTop *top) {
     }
 #endif
 
-
+#ifdef CONFIG_DIFFTEST
+    if (top->io_debug_valid) {
+        difftest_step(top->io_pc, top->io_debug_regs_flat);
+    }
+    
+#endif
 
 }
 
