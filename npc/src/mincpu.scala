@@ -111,7 +111,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b000".U) { // addi
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data + immI
+        wb_data := rs1_data - immI
       }
       when(funct3 === "b111".U) { // andi
         illegal := false.B
