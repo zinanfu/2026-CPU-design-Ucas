@@ -82,7 +82,8 @@ static int decode_exec(Decode *s) {
   INSTPAT_START();
   INSTPAT("??????? ????? ????? ??? ????? 0010111", auipc   , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? 100 ????? 0000011", lbu     , I, R(rd) = Mr(src1 + imm, 1));
-  
+  // ecall
+  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall   , N, isa_raise_intr(0xb, s->pc));
 
   INSTPAT("0000000 00001 00000 000 00000 1110011", ebreak  , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   // ALU
