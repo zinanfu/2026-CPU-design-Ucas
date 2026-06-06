@@ -26,14 +26,13 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     val mem_wen         = Output(Bool())
     val mem_ren         = Output(Bool())
 
-    // debug 
+    // debug
     val debug_pc        = Output(UInt(32.W))
     val debug_inst      = Output(UInt(32.W))
     val debug_valid     = Output(Bool())
     val debug_regs_flat = Output(UInt(1024.W))
   })
 
-  
 
   // pc
   val pc = RegInit("h80000000".U(32.W))
@@ -86,6 +85,13 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     0.U(1.W)
   )
 
+  // === alu ===
+  val alu = Module(new Alu(32))
+  alu.io.a := 0.U
+  alu.io.b := 0.U
+  alu.io.op := 0.U
+
+
 
   io.mem_addr  := 0.U
   io.mem_wdata := 0.U
@@ -107,33 +113,38 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   switch(opcode) {
 
     // I_type
-    is("b0010011".U) { 
+    is("b0010011".U) {
+      alu.io.a := rs1_data
+      alu.io.b := immI
+
       when(funct3 === "b000".U) { // addi
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data + immI
+        alu.io.op := ALUOp.ADD
+        wb_data := alu.io.out
       }
       when(funct3 === "b111".U) { // andi
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data & immI
+        alu.io.op := ALUOp.AND
+        wb_data := alu.io.out
       }
       when(funct3 === "b110".U) { // ori
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data | immI
+        alu.io.op := ALUOp.OR
+        wb_data := alu.io.out
       }
       when(funct3 === "b100".U) { // xori
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data ^ immI
+        alu.io.op := ALUOp.XOR
+        wb_data := alu.io.out
       }
       when(funct3 === "b001".U) { // slli
         illegal := false.B
         wb_en := true.B
-
         val shamt = immI(4,0)
-
         wb_data := (rs1_data << shamt)(31,0)
       }
       when(funct3 === "b101".U) {
@@ -146,23 +157,20 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
         when(funct7 === "b0100000".U) { // srai
           wb_data := (rs1_data.asSInt >> shamt)(31,0).asUInt
         }
-        
+
       }
       when(funct3 === "b010".U) { // slti
         illegal := false.B
         wb_en := true.B
-
-        wb_data := Mux(rs1_data.asSInt < immI.asSInt, 1.U(32.W), 0.U(32.W))
+        alu.io.op := ALUOp.SLT
+        wb_data := alu.io.out
       }
       when(funct3 === "b011".U) { // sltiu
         illegal := false.B
         wb_en := true.B
-
-        val shamt = immI(4,0)
-
-        wb_data := Mux(rs1_data < immI, 1.U(32.W), 0.U(32.W)) 
+        wb_data := Mux(rs1_data < immI, 1.U(32.W), 0.U(32.W))
       }
-      
+
     }
 
     // LUI
@@ -176,7 +184,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     is("b0010111".U) {
       illegal := false.B;
       wb_en := true.B
-      wb_data := pc + immU
+      alu.io.a := pc
+      alu.io.b := immU
+      alu.io.op := ALUOp.ADD
+      wb_data := alu.io.out
     }
 
 
@@ -191,11 +202,15 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       illegal := false.B;
       wb_en := true.B
       wb_data := pc + 4.U
-      next_pc := (rs1_data + immI) & (~1.U(32.W))
+      alu.io.a := rs1_data
+      alu.io.b := immI
+      alu.io.op := ALUOp.ADD
+      next_pc := alu.io.out & (~1.U(32.W))
     }
 
     // B_type
     is("b1100011".U) {
+      // B 型比较直接用 Mux + 硬件比较器，不通过 ALU
       when(funct3 === "b000".U) { //beq
         illegal := false.B;
         when(rs1_data === rs2_data) {
@@ -241,7 +256,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
       io.mem_ren := true.B
       io.mem_addr := load_addr & "hfffffffc".U(32.W)
-      
+
       wb_en := true.B
 
       when(funct3 === "b010".U) { //lw
@@ -318,30 +333,30 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
     // R_type
     is("b0110011".U) {
+      alu.io.a := rs1_data
+      alu.io.b := rs2_data
+
       when(funct7 === "b0000000".U || funct7 === "b0100000".U) {
         when(funct3 === "b000".U) {
           illegal := false.B
-
           wb_en := true.B
-
           when(funct7 === "b0000000".U) { //add
-            wb_data := rs1_data + rs2_data
+            alu.io.op := ALUOp.ADD
+            wb_data := alu.io.out
           }
-
           when(funct7 === "b0100000".U) { //sub
-            wb_data := rs1_data - rs2_data
+            alu.io.op := ALUOp.SUB
+            wb_data := alu.io.out
           }
         }
         when(funct3 === "b001".U) { //sll
           illegal := false.B
-
           wb_en := true.B
           wb_data := rs1_data << rs2_data(4, 0)
         }
-        when(funct3 === "b101".U) { 
+        when(funct3 === "b101".U) {
           illegal := false.B
           wb_en := true.B
-
           when(funct7 === "b0000000".U) { //srl
             wb_data := rs1_data >> rs2_data(4, 0)
           }
@@ -352,95 +367,31 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
         when(funct3 === "b011".U) { //sltu
           illegal := false.B
           wb_en := true.B
-
-          wb_data :=  Mux(rs1_data < rs2_data, 1.U(32.W), 0.U(32.W))
+          wb_data := Mux(rs1_data < rs2_data, 1.U(32.W), 0.U(32.W))
         }
         when(funct3 === "b010".U) { //slt
           illegal := false.B
           wb_en := true.B
-
-          wb_data :=  Mux(rs1_data.asSInt < rs2_data.asSInt, 1.U(32.W), 0.U(32.W)) 
+          alu.io.op := ALUOp.SLT
+          wb_data := alu.io.out
         }
         when(funct3 === "b100".U) { //xor
           illegal := false.B
           wb_en := true.B
-
-          wb_data := rs1_data ^ rs2_data 
+          alu.io.op := ALUOp.XOR
+          wb_data := alu.io.out
         }
         when(funct3 === "b110".U) { //or
           illegal := false.B
           wb_en := true.B
-
-          wb_data := rs1_data | rs2_data 
+          alu.io.op := ALUOp.OR
+          wb_data := alu.io.out
         }
         when(funct3 === "b111".U) { //and
           illegal := false.B
           wb_en := true.B
-
-          wb_data := rs1_data & rs2_data 
-        }
-      }
-      
-      // mul and div(rem)
-      when(funct7 === "b0000001".U) {
-        illegal := false.B
-        wb_en := true.B
-
-        when(funct3 === "b000".U) { //mul
-          wb_data := (rs1_data * rs2_data)(31, 0) 
-        }
-        when(funct3 === "b001".U) { //mulh
-          val result = (rs1_data.asSInt * rs2_data.asSInt).asUInt
-          wb_data := result(63,32)
-        }
-        when(funct3 === "b010".U) { //mulhsu
-          val lhs = rs1_data.asSInt
-          val rhs = rs2_data.zext.asSInt
-
-          val result = (lhs * rhs).asUInt
-
-          wb_data := result(63,32)
-        }
-        when(funct3 === "b011".U) { //mulhu
-          wb_data := (rs1_data * rs2_data)(63, 32)
-        }
-        when(funct3 === "b100".U) { //div
-          when(rs2_data === 0.U) {
-            wb_data := "hffffffff".U
-          }.elsewhen(
-            rs1_data === "h80000000".U &&
-            rs2_data === "hffffffff".U
-          ) {
-            wb_data := "h80000000".U
-          }.otherwise {
-            wb_data := (rs1_data.asSInt / rs2_data.asSInt).asUInt
-          }
-        }
-        when(funct3 === "b101".U) { //divu
-          when(rs2_data === 0.U) {
-            wb_data := "hffffffff".U
-          }.otherwise {
-            wb_data := rs1_data / rs2_data
-          }
-        }
-        when(funct3 === "b110".U) { //rem
-          when(rs2_data === 0.U) {
-            wb_data := rs1_data
-          }.elsewhen(
-            rs1_data === "h80000000".U &&
-            rs2_data === "hffffffff".U
-          ) {
-            wb_data := 0.U
-          }.otherwise {
-            wb_data := (rs1_data.asSInt % rs2_data.asSInt).asUInt
-          }
-        }
-        when(funct3 === "b111".U) { //remu
-          when(rs2_data === 0.U) {
-            wb_data := "hffffffff".U
-          }.otherwise {
-            wb_data := rs1_data % rs2_data
-          }
+          alu.io.op := ALUOp.AND
+          wb_data := alu.io.out
         }
       }
     }
@@ -473,7 +424,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   }
 
   io.debug_regs_flat := Cat((0 until DEBUG_REGS).reverse.map(i => debugRegs(i)))
-  
+
   val illegal_seen = RegInit(false.B)
 
   when(illegal && !illegal_seen) {

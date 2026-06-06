@@ -27,13 +27,11 @@ class Alu(width: Int) extends Module {
 
     switch(io.op) {
         is(ALUOp.ADD) { io.out := io.a + io.b }
-        is(ALUOp.SUB) { io.out := io.a - io.b }
+        is(ALUOp.SUB) { io.out := io.a + (~io.b).asUInt + 1.U }
         is(ALUOp.AND) { io.out := io.a & io.b }
         is(ALUOp.OR)  { io.out := io.a | io.b }
         is(ALUOp.XOR) { io.out := io.a ^ io.b }
         is(ALUOp.SLT) { io.out := (io.a.asSInt < io.b.asSInt).asUInt }
     }
-
-
 
 }
