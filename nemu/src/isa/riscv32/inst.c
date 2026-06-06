@@ -62,7 +62,7 @@ static word_t csr_read(uint32_t addr) {
     case CSR_MSTATUS: return cpu.mstatus; break;
     case CSR_MEPC   : return cpu.mepc   ; break;
     case CSR_MCAUSE : return cpu.mcause ; break;
-    default: printf("Error: no csr:%d\n", addr); return 0;
+    default: printf("Error: no csr:0x%x\n", addr); return 0;
   }
 }
 
@@ -71,7 +71,7 @@ static void csr_write(uint32_t addr, word_t value) {
     case CSR_MSTATUS: cpu.mstatus = value; break;
     case CSR_MEPC   : cpu.mepc    = value; break;
     case CSR_MCAUSE : cpu.mcause  = value; break;
-    default: printf("Error: no csr:%d\n", addr);
+    default: printf("Error: no csr:0x%x\n", addr);
   }
   return;
 }
