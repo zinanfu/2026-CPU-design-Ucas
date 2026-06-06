@@ -5,17 +5,17 @@
 #define MSTATUS_MIE 0x8
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+// c 就是传入的 sp 也就是存入的上下文
 Context* __am_irq_handle(Context *c) {
 
   // debug
-  for (int i = 0; i < 32; i++) {
-    printf("r%02d = 0x%08x\n", i, c->gpr[i]);
-  }
-  printf("mcause: 0x%08x\n", c->mcause);
-  printf("mcause: 0x%08x\n", c->mstatus);
-  printf("mcause: 0x%08x\n", c->mepc);
+  // for (int i = 0; i < 32; i++) {
+  //   printf("r%02d = 0x%08x\n", i, c->gpr[i]);
+  // }
+  // printf("mcause: 0x%08x\n", c->mcause);
+  // printf("mcause: 0x%08x\n", c->mstatus);
+  // printf("mcause: 0x%08x\n", c->mepc);
 
-  asm volatile("ebreak");
 
   if (user_handler) {
     Event ev = {0};
