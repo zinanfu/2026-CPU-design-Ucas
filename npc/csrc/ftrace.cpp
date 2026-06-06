@@ -1,15 +1,19 @@
-#include <ftrace.h>
-
-int depth = 0;
-paddr_t call_stack[MAX_DEPTH];
-
-int func_cnt = 0;
-Func func_table[MAX_FUNC];
+#include "ftrace.h"
+#include <cassert>
+#include <cstdlib>
+#include <cstring>
 
 
 
+static int func_cnt = 0;
+static int depth = 0;
+static Func func_table[MAX_FUNC];
+static uint32_t call_stack[MAX_DEPTH];
 
-void init_ftrace(char* elf_file) {
+
+
+
+void init_ftrace(const char* elf_file) {
     FILE *fp = fopen(elf_file, "rb");
     assert(fp);
     // 读文件头
@@ -19,6 +23,7 @@ void init_ftrace(char* elf_file) {
     // 读取 ELF 文件的节头表
     Elf32_Shdr shdrs[ehdr.e_shnum];
     fseek(fp, ehdr.e_shoff, SEEK_SET);
+    printf("e_shoff=0x%x e_shnum=%d e_shentsize=%d\n", ehdr.e_shoff, ehdr.e_shnum, ehdr.e_shentsize);
     assert(fread(shdrs, sizeof(Elf32_Shdr), ehdr.e_shnum, fp) == ehdr.e_shnum);
 
     Elf32_Shdr symtab = {0};
@@ -38,12 +43,12 @@ void init_ftrace(char* elf_file) {
     assert(found);
 
     int num = symtab.sh_size / sizeof(Elf32_Sym);
-    Elf32_Sym* syms = malloc(symtab.sh_size);
+    Elf32_Sym* syms = (Elf32_Sym* )malloc(symtab.sh_size);
 
     fseek(fp, symtab.sh_offset, SEEK_SET);
     assert(fread(syms, symtab.sh_size, 1, fp));
 
-    char* str_data = malloc(strtab.sh_size);
+    char* str_data = (char* )malloc(strtab.sh_size);
 
     fseek(fp, strtab.sh_offset, SEEK_SET);
     assert(fread(str_data, strtab.sh_size, 1, fp));
@@ -69,7 +74,7 @@ void init_ftrace(char* elf_file) {
 
 }
 
-char* find_func(paddr_t addr) {
+char* find_func(uint32_t addr) {
     for (int i = 0; i < func_cnt; i++) {
         if (func_table[i].size == 0) {
             if (addr == func_table[i].addr) {
@@ -83,7 +88,7 @@ char* find_func(paddr_t addr) {
     return NULL;
 }
 
-void ftrace_call(paddr_t addr, paddr_t pc) {
+void ftrace_call(uint32_t addr, uint32_t pc) {
     char* func_name = find_func(addr);
 
     if (func_name == NULL) {
@@ -104,12 +109,12 @@ void ftrace_call(paddr_t addr, paddr_t pc) {
     }
     
 }
-void ftrace_ret(paddr_t pc) {
+void ftrace_ret(uint32_t pc) {
     if (depth <= 0) {
         return;
     }
 
-    paddr_t func_addr = call_stack[--depth];
+    uint32_t func_addr = call_stack[--depth];
 
     char* func_name = find_func(func_addr);
 
@@ -125,4 +130,43 @@ void ftrace_ret(paddr_t pc) {
     }
 
     printf("ret [%s]\n", func_name);
+}
+
+// 判断是否是 jal 或 jalr
+void ftrace_check(uint32_t inst, uint32_t pc, const uint32_t *regs) {
+    uint32_t opcode = inst & 0x7f;
+    uint32_t rd = (inst >> 7) & 0x1f;
+    uint32_t rs1 = (inst >> 15) & 0x1f; 
+    uint32_t funct3 = (inst >> 12) & 0x7;
+
+    if (opcode == 0x6f) { // jal
+        uint32_t imm = (((inst >> 31) & 1) << 20) | (((inst >> 12) & 0xff) << 12) | (((inst >> 20) & 1) << 11) | (((inst >> 21) & 0x3ff) << 1);
+
+        if (imm & 0x100000) {
+            imm |= 0xffe00000;
+        }
+
+        if (rd == 1) {
+            uint32_t target = pc + imm;
+            if (find_func(target) != NULL) {
+                ftrace_call(target, pc);
+            }
+        }
+    }
+    else if (opcode == 0x67) { // jalr
+        uint32_t imm = (inst >> 20) &0xfff;
+        if (imm & 0x800) {
+            imm |= 0xfffff000;
+        }
+        uint32_t target = (regs[rs1] + imm) & ~1;
+
+        if (rd == 1 && find_func(target) != NULL) {
+            ftrace_call(target, pc);
+        }
+
+        if (rd == 0 && rs1 == 1 && imm == 0) {
+            ftrace_ret(pc);
+        }
+    }
+
 }

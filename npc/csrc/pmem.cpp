@@ -8,11 +8,14 @@
 static uint8_t *pmem = nullptr;
 static size_t pmem_size = 0;
 static uint32_t pmem_base_addr = 0;
+static uint64_t rtc_boot_us = 0;
 
 void init_pmem(size_t size, uint32_t base) {
     if (pmem) {
         free_pmem();
     }
+
+    rtc_boot_us = 0;
 
     pmem = (uint8_t *)malloc(size);
     assert(pmem);
@@ -67,7 +70,7 @@ static inline bool in_pmem(uint32_t addr, int len) {
     return false;
 }
 
-uint32_t paddr_read(uint32_t addr, int len) {
+uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
 
@@ -76,11 +79,13 @@ uint32_t paddr_read(uint32_t addr, int len) {
 
         // MMIO: provide RTC value (microseconds since start)
         if (addr == RTC_ADDR || addr == RTC_ADDR + 4) {
-
-            // printf("paddr_read mmio called addr = 0x%08x len = %d\n", addr, len);
             struct timeval tv;
             gettimeofday(&tv, NULL);
             uint64_t us = (uint64_t)tv.tv_sec * 1000000 + tv.tv_usec;
+            if (rtc_boot_us == 0) {
+                rtc_boot_us = us;
+            }
+            us -= rtc_boot_us;
             uint32_t lo = (uint32_t)(us & 0xffffffff);
             uint32_t hi = (uint32_t)((us >> 32) & 0xffffffff);
             if (addr == RTC_ADDR) {
@@ -99,20 +104,25 @@ uint32_t paddr_read(uint32_t addr, int len) {
     for (int i = 0; i < len; i++) {
         ret |= (uint32_t)pmem[offset + i] << (8 * i);
     }
+    
+    // mtrace
 
+#ifdef CONFIG_MTRACE
+
+    if (!is_inst) {
+        printf("[mtrace(mem)] read addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, ret);
+    }
+#endif
     return ret;
 }
 
-void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
+void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     
     // Debug: print every physical write to help trace MMIO vs PMEM
     // printf("paddr_write called addr = 0x%08x len = %d data = 0x%08x wmask = 0x%x\n",
     //        addr, len, data, wmask);
     if (!in_pmem(addr, len)) {
-
-        // printf("MMIO write addr = 0x%08x data = 0x%08x wmask = 0x%x\n",
-        //    addr, data, wmask);
 
         if ((addr & ~0x3) == SERIAL_PORT) {
             uint8_t ch = 0;
@@ -145,4 +155,16 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask) {
         }
     }
 
+    // mtrace
+
+#ifdef CONFIG_MTRACE
+    if (!is_inst) {
+        printf("[mtrace(mem)] write addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, data);
+    }
+#endif
+
+}
+
+const uint8_t* get_pmem_ptr() {
+    return pmem;
 }

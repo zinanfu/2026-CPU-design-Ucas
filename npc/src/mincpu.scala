@@ -2,40 +2,43 @@ package logic
 
 import chisel3._
 import chisel3.util._
+import npc.ItraceDPI
 
 
-// TODO: 指令存储器 Data Memory Byte Load/Store RV32E
+// in chisel === 会创造一个硬件上的比较相等  == 是作为 scala 的函数语境下的相等
+// 同理 := 是硬件上的赋值，会连线  = 是 scala 的赋值
 
 
-class CpuTop extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   val io = IO(new Bundle {
 
     // instruction memory
-    val inst = Input(UInt(32.W))
+    val inst            = Input(UInt(32.W))
 
     // instruction address
-    val pc = Output(UInt(32.W))
+    val pc              = Output(UInt(32.W))
 
     // data memory
-    val mem_rdata = Input(UInt(32.W))
-    val mem_addr  = Output(UInt(32.W))
-    val mem_wdata = Output(UInt(32.W))
-    val mem_wmask = Output(UInt(4.W))
-    val mem_wen   = Output(Bool())
-    val mem_ren   = Output(Bool())
+    val mem_rdata       = Input(UInt(32.W))
+    val mem_addr        = Output(UInt(32.W))
+    val mem_wdata       = Output(UInt(32.W))
+    val mem_wmask       = Output(UInt(4.W))
+    val mem_wen         = Output(Bool())
+    val mem_ren         = Output(Bool())
+
+    // debug
+    val debug_pc        = Output(UInt(32.W))
+    val debug_inst      = Output(UInt(32.W))
+    val debug_valid     = Output(Bool())
+    val debug_regs_flat = Output(UInt(1024.W))
   })
 
-  // ============================================================
-  // PC
-  // ============================================================
 
+  // pc
   val pc = RegInit("h80000000".U(32.W))
   io.pc := pc
 
-  // ============================================================
-  // Instruction Fields
-  // ============================================================
-
+  // id
   val inst = io.inst
 
   val opcode = inst(6,0)
@@ -45,11 +48,13 @@ class CpuTop extends Module {
   val rs2    = inst(24,20)
   val funct7 = inst(31,25)
 
-  // ============================================================
-  // Register File
-  // ============================================================
+  // reg
+  val XLEN = 32
+  val ARCH_REGS = 16
+  val DEBUG_REGS = 32
+  val debugRegs = Wire(Vec(DEBUG_REGS, UInt(32.W)))
 
-  val regs = RegInit(VecInit(Seq.fill(16)(0.U(32.W))))
+  val regs = RegInit(VecInit(Seq.fill(ARCH_REGS)(0.U(XLEN.W))))
 
   val rs1_idx = rs1(3,0)
   val rs2_idx = rs2(3,0)
@@ -59,10 +64,7 @@ class CpuTop extends Module {
 
   regs(0) := 0.U
 
-  // ============================================================
-  // Immediate
-  // ============================================================
-
+  // imm
   val immI = Cat(Fill(20, inst(31)), inst(31,20))
   val immS = Cat(Fill(20, inst(31)), inst(31,25), inst(11,7))
   val immB = Cat(
@@ -83,9 +85,13 @@ class CpuTop extends Module {
     0.U(1.W)
   )
 
-  // ============================================================
-  // Default
-  // ============================================================
+  // === alu ===
+  val alu = Module(new Alu(32))
+  alu.io.a := 0.U
+  alu.io.b := 0.U
+  alu.io.op := 0.U
+
+
 
   io.mem_addr  := 0.U
   io.mem_wdata := 0.U
@@ -99,7 +105,7 @@ class CpuTop extends Module {
 
   val next_pc = WireDefault(pc + 4.U)
 
-  /*===========================dacode=================================*/
+  /*===========================id & exe=================================*/
 
 
   val illegal = WireDefault(true.B)
@@ -107,33 +113,38 @@ class CpuTop extends Module {
   switch(opcode) {
 
     // I_type
-    is("b0010011".U) { 
+    is("b0010011".U) {
+      alu.io.a := rs1_data
+      alu.io.b := immI
+
       when(funct3 === "b000".U) { // addi
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data + immI
+        alu.io.op := ALUOp.ADD
+        wb_data := alu.io.out
       }
       when(funct3 === "b111".U) { // andi
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data & immI
+        alu.io.op := ALUOp.AND
+        wb_data := alu.io.out
       }
       when(funct3 === "b110".U) { // ori
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data | immI
+        alu.io.op := ALUOp.OR
+        wb_data := alu.io.out
       }
       when(funct3 === "b100".U) { // xori
         illegal := false.B
         wb_en := true.B
-        wb_data := rs1_data ^ immI
+        alu.io.op := ALUOp.XOR
+        wb_data := alu.io.out
       }
       when(funct3 === "b001".U) { // slli
         illegal := false.B
         wb_en := true.B
-
         val shamt = immI(4,0)
-
         wb_data := (rs1_data << shamt)(31,0)
       }
       when(funct3 === "b101".U) {
@@ -146,23 +157,20 @@ class CpuTop extends Module {
         when(funct7 === "b0100000".U) { // srai
           wb_data := (rs1_data.asSInt >> shamt)(31,0).asUInt
         }
-        
+
       }
       when(funct3 === "b010".U) { // slti
         illegal := false.B
         wb_en := true.B
-
-        wb_data := Mux(rs1_data.asSInt < immI.asSInt, 1.U(32.W), 0.U(32.W))
+        alu.io.op := ALUOp.SLT
+        wb_data := alu.io.out
       }
       when(funct3 === "b011".U) { // sltiu
         illegal := false.B
         wb_en := true.B
-
-        val shamt = immI(4,0)
-
-        wb_data := Mux(rs1_data < immI, 1.U(32.W), 0.U(32.W)) 
+        wb_data := Mux(rs1_data < immI, 1.U(32.W), 0.U(32.W))
       }
-      
+
     }
 
     // LUI
@@ -176,7 +184,10 @@ class CpuTop extends Module {
     is("b0010111".U) {
       illegal := false.B;
       wb_en := true.B
-      wb_data := pc + immU
+      alu.io.a := pc
+      alu.io.b := immU
+      alu.io.op := ALUOp.ADD
+      wb_data := alu.io.out
     }
 
 
@@ -191,11 +202,15 @@ class CpuTop extends Module {
       illegal := false.B;
       wb_en := true.B
       wb_data := pc + 4.U
-      next_pc := (rs1_data + immI) & (~1.U(32.W))
+      alu.io.a := rs1_data
+      alu.io.b := immI
+      alu.io.op := ALUOp.ADD
+      next_pc := alu.io.out & (~1.U(32.W))
     }
 
     // B_type
     is("b1100011".U) {
+      // B 型比较直接用 Mux + 硬件比较器，不通过 ALU
       when(funct3 === "b000".U) { //beq
         illegal := false.B;
         when(rs1_data === rs2_data) {
@@ -241,7 +256,6 @@ class CpuTop extends Module {
 
       io.mem_ren := true.B
       io.mem_addr := load_addr & "hfffffffc".U(32.W)
-      
 
       wb_en := true.B
 
@@ -301,9 +315,6 @@ class CpuTop extends Module {
       io.mem_wen := true.B
       io.mem_addr := store_addr & "hfffffffc".U(32.W)
 
-      // printf(p"store_addr = 0x${Hexadecimal(store_addr)}\n")
-      // printf(p"io.mem_addr = 0x${Hexadecimal(io.mem_addr)}\n")
-
       when(funct3 === "b000".U) { // sb
         io.mem_wmask := (1.U(4.W) << store_addr(1,0))
         io.mem_wdata := rs2_data << (store_addr(1,0) << 3)
@@ -322,30 +333,30 @@ class CpuTop extends Module {
 
     // R_type
     is("b0110011".U) {
+      alu.io.a := rs1_data
+      alu.io.b := rs2_data
+
       when(funct7 === "b0000000".U || funct7 === "b0100000".U) {
         when(funct3 === "b000".U) {
           illegal := false.B
-
           wb_en := true.B
-
           when(funct7 === "b0000000".U) { //add
-            wb_data := rs1_data + rs2_data
+            alu.io.op := ALUOp.ADD
+            wb_data := alu.io.out
           }
-
           when(funct7 === "b0100000".U) { //sub
-            wb_data := rs1_data - rs2_data
+            alu.io.op := ALUOp.SUB
+            wb_data := alu.io.out
           }
         }
         when(funct3 === "b001".U) { //sll
           illegal := false.B
-
           wb_en := true.B
           wb_data := rs1_data << rs2_data(4, 0)
         }
-        when(funct3 === "b101".U) { 
+        when(funct3 === "b101".U) {
           illegal := false.B
           wb_en := true.B
-
           when(funct7 === "b0000000".U) { //srl
             wb_data := rs1_data >> rs2_data(4, 0)
           }
@@ -356,95 +367,31 @@ class CpuTop extends Module {
         when(funct3 === "b011".U) { //sltu
           illegal := false.B
           wb_en := true.B
-
-          wb_data :=  Mux(rs1_data < rs2_data, 1.U(32.W), 0.U(32.W))
+          wb_data := Mux(rs1_data < rs2_data, 1.U(32.W), 0.U(32.W))
         }
         when(funct3 === "b010".U) { //slt
           illegal := false.B
           wb_en := true.B
-
-          wb_data :=  Mux(rs1_data.asSInt < rs2_data.asSInt, 1.U(32.W), 0.U(32.W)) 
+          alu.io.op := ALUOp.SLT
+          wb_data := alu.io.out
         }
         when(funct3 === "b100".U) { //xor
           illegal := false.B
           wb_en := true.B
-
-          wb_data := rs1_data ^ rs2_data 
+          alu.io.op := ALUOp.XOR
+          wb_data := alu.io.out
         }
         when(funct3 === "b110".U) { //or
           illegal := false.B
           wb_en := true.B
-
-          wb_data := rs1_data | rs2_data 
+          alu.io.op := ALUOp.OR
+          wb_data := alu.io.out
         }
         when(funct3 === "b111".U) { //and
           illegal := false.B
           wb_en := true.B
-
-          wb_data := rs1_data & rs2_data 
-        }
-      }
-      
-      // mul and div(rem)
-      when(funct7 === "b0000001".U) {
-        illegal := false.B
-        wb_en := true.B
-
-        when(funct3 === "b000".U) { //mul
-          wb_data := (rs1_data * rs2_data)(31, 0) 
-        }
-        when(funct3 === "b001".U) { //mulh
-          val result = (rs1_data.asSInt * rs2_data.asSInt).asUInt
-          wb_data := result(63,32)
-        }
-        when(funct3 === "b010".U) { //mulhsu
-          val lhs = rs1_data.asSInt
-          val rhs = rs2_data.zext.asSInt
-
-          val result = (lhs * rhs).asUInt
-
-          wb_data := result(63,32)
-        }
-        when(funct3 === "b011".U) { //mulhu
-          wb_data := (rs1_data * rs2_data)(63, 32)
-        }
-        when(funct3 === "b100".U) { //div
-          when(rs2_data === 0.U) {
-            wb_data := "hffffffff".U
-          }.elsewhen(
-            rs1_data === "h80000000".U &&
-            rs2_data === "hffffffff".U
-          ) {
-            wb_data := "h80000000".U
-          }.otherwise {
-            wb_data := (rs1_data.asSInt / rs2_data.asSInt).asUInt
-          }
-        }
-        when(funct3 === "b101".U) { //divu
-          when(rs2_data === 0.U) {
-            wb_data := "hffffffff".U
-          }.otherwise {
-            wb_data := rs1_data / rs2_data
-          }
-        }
-        when(funct3 === "b110".U) { //rem
-          when(rs2_data === 0.U) {
-            wb_data := rs1_data
-          }.elsewhen(
-            rs1_data === "h80000000".U &&
-            rs2_data === "hffffffff".U
-          ) {
-            wb_data := 0.U
-          }.otherwise {
-            wb_data := (rs1_data.asSInt % rs2_data.asSInt).asUInt
-          }
-        }
-        when(funct3 === "b111".U) { //remu
-          when(rs2_data === 0.U) {
-            wb_data := "hffffffff".U
-          }.otherwise {
-            wb_data := rs1_data % rs2_data
-          }
+          alu.io.op := ALUOp.AND
+          wb_data := alu.io.out
         }
       }
     }
@@ -456,12 +403,45 @@ class CpuTop extends Module {
     regs(wb_addr) := wb_data
   }
 
+  // debug
+  io.debug_pc := pc
+  io.debug_inst := inst
+  io.debug_valid := !illegal // only use in no pipe line
+
+  var i = 0
+
+  while(i < DEBUG_REGS) {
+    if (i == 0) {
+      debugRegs(i) := 0.U(32.W)
+    }
+    else if (i < ARCH_REGS) {
+      debugRegs(i) := regs(i)
+    }
+    else {
+      debugRegs(i) := 0.U(32.W)
+    }
+    i += 1
+  }
+
+  io.debug_regs_flat := Cat((0 until DEBUG_REGS).reverse.map(i => debugRegs(i)))
+
   val illegal_seen = RegInit(false.B)
 
   when(illegal && !illegal_seen) {
     printf(p"illegal inst = 0x${Hexadecimal(inst)} pc = 0x${Hexadecimal(pc)}\n")
     illegal_seen := true.B
   }
+
+  if (enableItrace) {
+    //itrace
+    val itrace = Module(new ItraceDPI())
+
+    itrace.io.clock := clock
+    itrace.io.valid := io.debug_valid
+    itrace.io.pc    := io.debug_pc
+    itrace.io.inst  := io.debug_inst
+  }
+
 
   pc := next_pc
 }
