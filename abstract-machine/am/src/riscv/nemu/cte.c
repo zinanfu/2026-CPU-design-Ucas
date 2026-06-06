@@ -15,6 +15,7 @@ Context* __am_irq_handle(Context *c) {
   printf("mcause: 0x%08x\n", c->mstatus);
   printf("mcause: 0x%08x\n", c->mepc);
 
+  asm volatile("ebreak");
 
   if (user_handler) {
     Event ev = {0};
