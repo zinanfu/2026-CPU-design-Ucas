@@ -2,6 +2,7 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+#define MSTATUS_MIE 0x8
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -45,8 +46,15 @@ void yield() {
 }
 
 bool ienabled() {
+  // return (cpu.mstatus & MSTATUS_MIE) != 0;
   return false;
 }
 
 void iset(bool enable) {
+  // if (enable) {
+  //   cpu.mstatus |= MSTATUS_MIE;
+  // }
+  // else {
+  //   cpu.mstatus &= ~MSTATUS_MIE;
+  // }
 }
