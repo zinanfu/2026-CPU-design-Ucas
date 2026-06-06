@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include <stdio.h>
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
@@ -23,7 +24,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.mepc = epc;
   cpu.mcause = NO;
 
-  Log("intr: NO=0x%x, epc=0x%x, jump to mtvec=0x%x", NO, epc, cpu.mtvec);
+  printf("intr: NO=0x%x, epc=0x%x, jump to mtvec=0x%x", NO, epc, cpu.mtvec);
 
   return cpu.mtvec;
 }
