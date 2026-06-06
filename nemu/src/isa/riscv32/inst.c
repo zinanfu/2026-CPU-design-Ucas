@@ -115,6 +115,8 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 100 ????? 0000011", lbu     , I, R(rd) = Mr(src1 + imm, 1));
   // ecall
   INSTPAT("0000000 00000 00000 000 00000 1110011", ecall   , N, s->dnpc = isa_raise_intr(0xb, s->pc));
+  // mret
+  INSTPAT("0011000 00010 00000 000 00000 1110011", mret    , N, cpu.mstatus = (cpu.mstatus & ~0x8) | ((cpu.mstatus & 0x80) >> 4); s->dnpc = cpu.mepc);
 
   INSTPAT("0000000 00001 00000 000 00000 1110011", ebreak  , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   // ALU
