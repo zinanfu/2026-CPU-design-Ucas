@@ -9,7 +9,7 @@ Context* __am_irq_handle(Context *c) {
 
   // debug
   for (int i = 0; i < 32; i++) {
-    printf("r%d = 0x%08x\n", i, c->gpr[i]);
+    printf("r%02d = 0x%08x\n", i, c->gpr[i]);
   }
   printf("mcause: 0x%08x\n", c->mcause);
   printf("mcause: 0x%08x\n", c->mstatus);
