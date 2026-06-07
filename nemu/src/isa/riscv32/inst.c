@@ -114,7 +114,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? ??? ????? 0010111", auipc   , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? 100 ????? 0000011", lbu     , I, R(rd) = Mr(src1 + imm, 1));
   // ecall
-  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall   , N, s->dnpc = isa_raise_intr(0xb, s->pc));
+  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall   , N, s->dnpc = isa_raise_intr(0xb, s->pc + 4));
   // mret
   INSTPAT("0011000 00010 00000 000 00000 1110011", mret    , N, cpu.mstatus = (cpu.mstatus & ~0x8) | ((cpu.mstatus & 0x80) >> 4); s->dnpc = cpu.mepc);
 
