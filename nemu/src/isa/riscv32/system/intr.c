@@ -15,6 +15,32 @@
 
 #include <isa.h>
 
+static const char* etrace_cause_name(word_t NO) {
+  if (NO & 0x80000000) {
+    switch (NO & 0x7fffffff) {
+      case 3:  return "Machine software interrupt";
+      case 7:  return "Machine timer interrupt";
+      case 11: return "Machine external interrupt";
+      default: return "Unknown interrupt";
+    }
+  }
+  // 异常
+  switch (NO) {
+    case 0x0: return "Instruction address misaligned";
+    case 0x1: return "Instruction access fault";
+    case 0x2: return "Illegal instruction";
+    case 0x3: return "Breakpoint";
+    case 0x5: return "Load access fault";
+    case 0x7: return "Store access fault";
+    case 0x8: return "ECALL from U-mode";
+    case 0x9: return "ECALL from S-mode";
+    case 0xb: return "ECALL from M-mode";
+    default:  return "Unknown exception";
+  }
+}
+
+
+
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
@@ -23,7 +49,9 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.mepc = epc;
   cpu.mcause = NO;
 
-  Log("intr: NO=0x%x, epc=0x%x, jump to mtvec=0x%x", NO, epc, cpu.mtvec);
+#ifdef CONFIG_ETRACE
+  Log("[etrace] intr: cause:%s(0x%x), epc=0x%x, jump to mtvec=0x%x", etrace_cause_name(NO), NO, epc, cpu.mtvec);
+#endif
 
   return cpu.mtvec;
 }
