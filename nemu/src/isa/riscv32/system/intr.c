@@ -15,6 +15,7 @@
 
 #include <isa.h>
 
+#ifdef CONFIG_ETRACE
 static const char* etrace_cause_name(word_t NO) {
   if (NO & 0x80000000) {
     switch (NO & 0x7fffffff) {
@@ -39,7 +40,7 @@ static const char* etrace_cause_name(word_t NO) {
   }
 }
 
-
+#endif
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
