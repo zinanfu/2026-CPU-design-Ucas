@@ -7,6 +7,11 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
+#ifdef CONFIG_STRACE
+  Log("[strace] syscall ID:%d, arg1:%d, arg2:%d, arg3:%d\\n", a[0], a[1], a[2], a[3]);
+#endif
+
+
   switch (a[0]) {
     case 0: halt(a[0]); break;
     case 1: yield(); c->GPR2 = 0; break;  // sys_yield
