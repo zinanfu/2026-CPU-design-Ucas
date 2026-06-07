@@ -2,12 +2,26 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+#define MSTATUS_MIE 0x8
 static Context* (*user_handler)(Event, Context*) = NULL;
 
+// c 就是传入的 sp 也就是存入的上下文
 Context* __am_irq_handle(Context *c) {
+
+  // debug
+  // for (int i = 0; i < 32; i++) {
+  //   printf("r%02d = 0x%08x\n", i, c->gpr[i]);
+  // }
+  // printf("mcause: 0x%08x\n", c->mcause);
+  // printf("mcause: 0x%08x\n", c->mstatus);
+  // printf("mcause: 0x%08x\n", c->mepc);
+
+
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
+      case 0xb: ev.event = (c->gpr[17] == -1) ? EVENT_YIELD : EVENT_SYSCALL; break;
+      case 0x80000007: ev.event = EVENT_IRQ_TIMER; break;
       default: ev.event = EVENT_ERROR; break;
     }
 
@@ -43,8 +57,15 @@ void yield() {
 }
 
 bool ienabled() {
+  // return (cpu.mstatus & MSTATUS_MIE) != 0;
   return false;
 }
 
 void iset(bool enable) {
+  // if (enable) {
+  //   cpu.mstatus |= MSTATUS_MIE;
+  // }
+  // else {
+  //   cpu.mstatus &= ~MSTATUS_MIE;
+  // }
 }

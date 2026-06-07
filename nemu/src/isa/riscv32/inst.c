@@ -24,7 +24,7 @@
 #define Mw vaddr_write
 
 enum {
-  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R, TYPE_B, 
+  TYPE_I, TYPE_U, TYPE_S, TYPE_J, TYPE_R, TYPE_B, TYPE_C,
   TYPE_N// none
 };
 
@@ -50,6 +50,36 @@ enum {
 } while(0)
 
 
+#define immCSR() do {*imm = BITS(i, 31, 20);} while(0)
+
+
+#define CSR_MSTATUS 0x300
+#define CSR_MTVEC   0x305
+#define CSR_MEPC    0x341
+#define CSR_MCAUSE  0x342
+
+static word_t csr_read(uint32_t addr) {
+  switch(addr) {
+    case CSR_MSTATUS: return cpu.mstatus; break;
+    case CSR_MEPC   : return cpu.mepc   ; break;
+    case CSR_MCAUSE : return cpu.mcause ; break;
+    case CSR_MTVEC  : return cpu.mtvec  ; break;
+    default: printf("Error: no csr:0x%x\n", addr); return 0;
+  }
+}
+
+static void csr_write(uint32_t addr, word_t value) {
+  switch(addr) {
+    case CSR_MSTATUS: cpu.mstatus = value; break;
+    case CSR_MEPC   : cpu.mepc    = value; break;
+    case CSR_MCAUSE : cpu.mcause  = value; break;
+    case CSR_MTVEC  : cpu.mtvec   = value; break;
+    default: printf("Error: no csr:0x%x\n", addr);
+  }
+  return;
+}
+
+
 static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_t *imm, int type) {
   uint32_t i = s->isa.inst;
   int rs1 = BITS(i, 19, 15);
@@ -62,6 +92,7 @@ static void decode_operand(Decode *s, int *rd, word_t *src1, word_t *src2, word_
     case TYPE_J:                   immJ(); break;
     case TYPE_R: src1R(); src2R();         break;
     case TYPE_B: src1R(); src2R(); immB(); break;
+    case TYPE_C: src1R(); immCSR();        break;
     case TYPE_N: break;
     
     default: panic("unsupported type = %d", type);
@@ -82,7 +113,10 @@ static int decode_exec(Decode *s) {
   INSTPAT_START();
   INSTPAT("??????? ????? ????? ??? ????? 0010111", auipc   , U, R(rd) = s->pc + imm);
   INSTPAT("??????? ????? ????? 100 ????? 0000011", lbu     , I, R(rd) = Mr(src1 + imm, 1));
-  
+  // ecall
+  INSTPAT("0000000 00000 00000 000 00000 1110011", ecall   , N, s->dnpc = isa_raise_intr(0xb, s->pc + 4));
+  // mret
+  INSTPAT("0011000 00010 00000 000 00000 1110011", mret    , N, cpu.mstatus = (cpu.mstatus & ~0x8) | ((cpu.mstatus & 0x80) >> 4); s->dnpc = cpu.mepc);
 
   INSTPAT("0000000 00001 00000 000 00000 1110011", ebreak  , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   // ALU
@@ -144,6 +178,14 @@ static int decode_exec(Decode *s) {
   // lui
   INSTPAT("??????? ????? ????? ??? ????? 0110111", lui     , U, R(rd) = imm);
   
+  // csr
+  INSTPAT("??????? ????? ????? 001 ????? 1110011", csrrw   , C, word_t old = csr_read(imm); csr_write(imm, src1); R(rd) = old;);
+  INSTPAT("??????? ????? ????? 010 ????? 1110011", csrrs   , C, word_t old = csr_read(imm); word_t new = old | src1; if (src1 != 0) {csr_write(imm, new);} R(rd) = old;);
+  INSTPAT("??????? ????? ????? 011 ????? 1110011", csrrc   , C, word_t old = csr_read(imm); word_t new = old & ~src1; if (src1 != 0) {csr_write(imm, new);} R(rd) = old;);
+  INSTPAT("??????? ????? ????? 101 ????? 1110011", csrrwi  , C, word_t old = csr_read(imm); word_t zimm = BITS(s->isa.inst, 19, 15); csr_write(imm, zimm); R(rd) = old;);
+  INSTPAT("??????? ????? ????? 110 ????? 1110011", csrrsi  , C, word_t old = csr_read(imm); word_t zimm = BITS(s->isa.inst, 19, 15); word_t new = old | zimm; if (zimm != 0) {csr_write(imm, new);} R(rd) = old;);
+  INSTPAT("??????? ????? ????? 111 ????? 1110011", csrrci  , C, word_t old = csr_read(imm); word_t zimm = BITS(s->isa.inst, 19, 15); word_t new = old & ~zimm; if (zimm != 0) {csr_write(imm, new);} R(rd) = old;);
+
   // INSTPAT("");
   // INSTPAT("");
 

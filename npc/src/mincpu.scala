@@ -403,7 +403,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     regs(wb_addr) := wb_data
   }
 
-  // debug
+  /**************************debug*********************************/
   io.debug_pc := pc
   io.debug_inst := inst
   io.debug_valid := !illegal // only use in no pipe line
