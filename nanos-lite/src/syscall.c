@@ -27,15 +27,15 @@ static void do_write(Context *c) {
 }
 
 static void do_brk(Context *c) {
-  uintptr_t a[4];
-  a[0] = c->GPR1;
-  a[1] = c->GPR2;
-  // a[2] = c->GPR3;
-  // a[3] = c->GPR4;
+  // uintptr_t a[4];
+  // a[0] = c->GPR1;
+  // a[1] = c->GPR2;
+  // // a[2] = c->GPR3;
+  // // a[3] = c->GPR4;
 
-  uintptr_t pg_brk = a[1];
+  // uintptr_t pg_brk = a[1];
 
-  current->max_brk = pg_brk;
+  // current->max_brk = pg_brk;
 
   c->GPR2 = 0;
 }
