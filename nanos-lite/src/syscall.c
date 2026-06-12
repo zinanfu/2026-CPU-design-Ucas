@@ -37,7 +37,7 @@ static void do_brk(Context *c) {
 
   // current->max_brk = pg_brk;
 
-  c->GPR2 = 0;
+  c->GPR2 = -1;
 }
 
 
