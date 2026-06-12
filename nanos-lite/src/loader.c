@@ -31,6 +31,8 @@ extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   // TODO();
   Elf_Ehdr ehdr;
+  uintptr_t max_vaddr = 0;
+
   ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
 
   // chack magic number and isa
@@ -49,8 +51,15 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         memset((void *)(phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
       }
     }
+    if (phdr.p_vaddr + phdr.p_memsz > max_vaddr) {
+      max_vaddr = phdr.p_vaddr + phdr.p_memsz;
+    }
+
   }
   
+  if (pcb) {
+    pcb->max_brk = max_vaddr;
+  }
 
   return ehdr.e_entry;
 }
