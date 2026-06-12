@@ -70,7 +70,29 @@ int _write(int fd, void *buf, size_t count) {
   return _syscall_(SYS_write, fd, (__intptr_t)buf, count);
 }
 
+extern char end;
+
 void *_sbrk(intptr_t increment) {
+  static uintptr_t program_break = 0;
+
+  program_break = (uintptr_t)&end;
+
+  program_break = (program_break + 0xfff) & ~0xfff; //页对齐(4K)
+
+  if (increment == 0) {
+    return (void *)program_break;
+  }
+
+  uintptr_t old_break = program_break;
+
+  program_break += increment;
+
+  if (_syscall_(SYS_brk, program_break, 0, 0) == 0) {
+    return (void *)old_break;
+  }
+
+  // 分配失败
+  program_break = old_break;
   return (void *)-1;
 }
 
