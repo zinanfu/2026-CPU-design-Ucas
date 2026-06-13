@@ -62,7 +62,7 @@ int fs_open(const char *pathname, int flags, int mode) {
     // printf("there is for pathname = %s\n", pathname);
     if (strcmp(pathname, file_table[i].name) == 0) {
       fs_d[i].open_offset = 0;
-      printf("fd == %d\n", i);
+      // printf("fd == %d\n", i);
       return i;
     }
   }
