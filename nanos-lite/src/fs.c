@@ -75,20 +75,21 @@ int fs_open(const char *pathname, int flags, int mode) {
 size_t fs_read(int fd, void *buf, size_t len) {
   size_t offset = file_table[fd].disk_offset;
   size_t inner_file_offset = fs_d[fd].open_offset;
-  size_t all_size = len;
-  int out_of_bond = 0;
+  // size_t all_size = len;
+  // int out_of_bond = 0;
 
   
-  if (len + inner_file_offset > file_table[fd].size) {
-    all_size = file_table[fd].size - inner_file_offset;
-    out_of_bond = 1;
-  }
+  // if (len + inner_file_offset > file_table[fd].size) {
+  //   all_size = file_table[fd].size - inner_file_offset;
+  //   out_of_bond = 1;
+  // }
   printf("read begin\n");
-  size_t ret = ramdisk_read(buf, offset + inner_file_offset, all_size);
+  size_t ret = ramdisk_read(buf, offset + inner_file_offset, len);
 
   printf("read done\n");
 
-  return (out_of_bond ==  1) ? 0 : ret;
+  // return (out_of_bond ==  1) ? 0 : ret;
+  return ret;
 }
 
 size_t fs_write(int fd, const void *buf, size_t len) {
@@ -120,8 +121,8 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
     break;
 
   case SEEK_END:
-    int i = 0;
-    assert(i != 0);
+    // int i = 0;
+    // assert(i != 0);
     fs_d[fd].open_offset = file_table[fd].size + offset;
     break;
 
