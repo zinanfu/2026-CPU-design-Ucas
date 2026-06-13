@@ -36,6 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   // ramdisk_read(&ehdr, 0, sizeof(Elf_Ehdr));
 
+  printf("fS_open beign\n");
   int fd = fs_open(filename, 0, 0);
   fs_lseek(fd, 0, SEEK_SET);
   fs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
