@@ -86,7 +86,7 @@ size_t fs_read(int fd, void *buf, size_t len) {
   // }
   printf("read begin\n");
   size_t ret = ramdisk_read(buf, offset + inner_file_offset, len);
-
+  fs_d[fd].open_offset += ret;
   printf("read done\n");
 
   // return (out_of_bond ==  1) ? 0 : ret;
@@ -106,6 +106,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   }
 
   size_t ret = ramdisk_write(buf, offset + inner_file_offset, all_size);
+  fs_d[fd].open_offset += ret;
 
   return (out_of_bond ==  1) ? 0 : ret;
 }
