@@ -3,7 +3,7 @@
 #include "proc.h"
 #include "fs.h"
 
-#define CONFIG_STRACE 1
+#define CONFIG_STRACE 0
 extern Finfo file_table[];
 
 static void do_write(Context *c) {

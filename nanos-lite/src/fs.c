@@ -5,10 +5,6 @@
 extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
 extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
-
-
-
-
 typedef struct {
   int fd;
   size_t open_offset;
@@ -30,7 +26,7 @@ size_t invalid_write(const void *buf, size_t offset, size_t len) {
 }
 
 /* This is the information about all files in disk. */
-Finfo file_table[] __attribute__((used)) = {
+Finfo file_table[] __attribute__((used)) = {          // 删去了 static 供 strace 使用，可能会出错
   [FD_STDIN]  = {"stdin", 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write},
@@ -39,13 +35,13 @@ Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  int range = sizeof(file_table) / sizeof(Finfo);
-  for (int i = 0; i < range; i++) {
-    if (file_table[i].read == NULL) {
-      file_table[i].read  = ramdisk_read;
-      file_table[i].write = ramdisk_write;
-    }
-  }
+  // int range = sizeof(file_table) / sizeof(Finfo);
+  // for (int i = 0; i < range; i++) {
+  //   if (file_table[i].read == NULL) {
+  //     file_table[i].read  = ramdisk_read;
+  //     file_table[i].write = ramdisk_write;
+  //   }
+  // }
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
