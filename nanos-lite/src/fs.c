@@ -50,8 +50,9 @@ void init_fs() {
 
 int fs_open(const char *pathname, int flags, int mode) {
   int range = sizeof(file_table) / sizeof(Finfo);
-  printf("range = %d", range);
+  printf("range = %d\n", range);
   for (int i = 0; i < range; i++) {
+    strcmp(pathname, "name");
     printf("there is for\n");
     if (strcmp(pathname, file_table[i].name) == 0) {
       printf("fd == %d\n", i);
