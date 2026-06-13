@@ -1,5 +1,10 @@
 #include <fs.h>
 
+#define MAX_FS_NUM 32
+// ramdisk
+extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
+extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
+
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
@@ -10,6 +15,14 @@ typedef struct {
   ReadFn read;
   WriteFn write;
 } Finfo;
+
+typedef struct {
+  int fd;
+  size_t open_offset;
+
+} File_description;
+
+File_description fs_d[MAX_FS_NUM];
 
 enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
 
@@ -33,4 +46,82 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+}
+
+int fs_open(const char *pathname, int flags, int mode) {
+  int range = sizeof(file_table) / sizeof(Finfo);
+  for (int i = 0; i < range; i++) {
+    if (strcmp(pathname, file_table[i].name) == 0) {
+
+      return i;
+    }
+  }
+  int i = -1;
+  // can't reach here
+  assert(i != -1);
+  return -1;
+
+}
+
+size_t fs_read(int fd, void *buf, size_t len) {
+  size_t offset = file_table[fd].disk_offset;
+  size_t inner_file_offset = fs_d[fd].open_offset;
+  size_t all_size = len;
+  int out_of_bond = 0;
+
+  
+  if (len + inner_file_offset > file_table[fd].size) {
+    all_size = file_table[fd].size - inner_file_offset;
+    out_of_bond = 1;
+  }
+
+  size_t ret = ramdisk_read(buf, offset + inner_file_offset, all_size);
+
+  return (out_of_bond ==  1) ? 0 : ret;
+}
+
+size_t fs_write(int fd, const void *buf, size_t len) {
+  size_t offset = file_table[fd].disk_offset;
+  size_t inner_file_offset = fs_d[fd].open_offset;
+  size_t all_size = len;
+  int out_of_bond = 0;
+
+  
+  if (len + inner_file_offset > file_table[fd].size) {
+    all_size = file_table[fd].size - inner_file_offset;
+    out_of_bond = 1;
+  }
+
+  size_t ret = ramdisk_write(buf, offset + inner_file_offset, all_size);
+
+  return (out_of_bond ==  1) ? 0 : ret;
+}
+
+size_t fs_lseek(int fd, size_t offset, int whence) {
+  switch (whence)
+  {
+  case SEEK_SET:
+    fs_d[fd].open_offset = offset;
+    break;
+
+  case SEEK_CUR:
+    fs_d[fd].open_offset += offset;
+    break;
+
+  case SEEK_END:
+    int i = 0;
+    assert(i != 0);
+    fs_d[fd].open_offset = file_table[fd].size + offset;
+    break;
+
+  default:
+    return -1;
+    break;
+  }
+
+  return fs_d[fd].open_offset;
+}
+
+int fs_close(int fd) {
+  return 0;
 }
