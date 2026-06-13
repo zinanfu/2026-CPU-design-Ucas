@@ -46,13 +46,19 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  int range = sizeof(file_table) / sizeof(Finfo);
+  for (int i = 0; i < range; i++) {
+    if (file_table[i].read == NULL) {
+      file_table[i].read  = ramdisk_read;
+      file_table[i].write = ramdisk_write;
+    }
+  }
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
   int range = sizeof(file_table) / sizeof(Finfo);
   printf("range = %d\n", range);
   for (int i = 0; i < range; i++) {
-    strcmp(pathname, "name");
     printf("there is for\n");
     if (strcmp(pathname, file_table[i].name) == 0) {
       printf("fd == %d\n", i);
