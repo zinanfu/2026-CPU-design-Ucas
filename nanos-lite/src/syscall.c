@@ -3,6 +3,9 @@
 #include "proc.h"
 #include "fs.h"
 
+#define CONFIG_STRACE 1
+extern Finfo file_table[];
+
 static void do_write(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -63,6 +66,10 @@ static void do_brk(Context *c) {
   c->GPR2 = 0;
 }
 
+// fd -> file_name
+// static inline char *fd_to_name(int fd) {
+//   return file_table[fd].name;
+// } 
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -72,7 +79,44 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
 #if CONFIG_STRACE
-  Log("[strace] syscall ID:%d, arg1:%d, arg2:%d, arg3:%d\\n", a[0], a[1], a[2], a[3]);
+  const char *syscall_name[] = {
+    [0] = "exit",
+    [1] = "yield",
+    [2] = "open",
+    [3] = "read",
+    [4] = "write",
+
+    [7] = "close",
+    [8] = "lseek",
+    [9] = "brk",      
+  };  
+
+  const char *name;
+  if (a[0] < 10 && syscall_name[a[0]]) {
+    name = syscall_name[a[0]];
+  }
+  else {
+    name = "???";
+  }
+
+  switch(a[0]) {
+    case 2:
+      Log("[strace] open: path: %s, flags = %d, mode = %d\n", a[1], a[2], a[3]);
+      break;
+    case 3:
+    case 4:
+      Log("[strace] %s: fd = %d, file_name: %s, buf: %p, len = %d\n", name, a[1], file_table[a[1]].name, (void *)a[2], a[3]);
+      break;
+    case 7:
+      Log("[strace] close: fd = %d, file_name: %s\n", a[1], file_table[a[1]].name);
+      break;
+    case 8:
+      Log("[strace] lseek: fd = %d, file_name: %s, offset = %d, whence = %d\n", a[1], file_table[a[1]].name, a[2], a[3]);
+      break;
+    default:
+      Log("[strace] %s (arg1=%d, arg2=%d, arg3=%d)", name, a[1], a[2], a[3]);
+  }
+  
 #endif
 
 
@@ -85,7 +129,7 @@ void do_syscall(Context *c) {
 
     case 7: c->GPR2 = fs_close(a[1]); break;
     case 8: c->GPR2 = fs_lseek(a[1], a[2], a[3]); break;
-    case 9: do_brk(c); break;
+    case 9: do_brk(c); break;           // 堆区管理
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
