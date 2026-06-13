@@ -86,7 +86,6 @@ void do_syscall(Context *c) {
     case 7: c->GPR2 = fs_close(a[1]); break;
     case 8: c->GPR2 = fs_lseek(a[1], a[2], a[3]); break;
     case 9: do_brk(c); break;
-    // case 10: c->GPR2 = fs_close(a[1]); break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
