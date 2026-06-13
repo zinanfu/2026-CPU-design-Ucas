@@ -21,7 +21,7 @@ static void do_write(Context *c) {
     c->GPR2 = len;
   }
   else {
-    fs_write(fd, (const void *)buf, len);
+    c->GPR2 = fs_write(fd, (const void *)buf, len);
   }
 
 
@@ -42,7 +42,7 @@ static void do_read(Context *c) {
     printf("stdin\n");
   }
   else {
-    fs_read(fd, (void *)buf, len);
+    c->GPR2 = fs_read(fd, (void *)buf, len);
   }
 
 }
