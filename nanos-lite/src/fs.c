@@ -56,7 +56,7 @@ int fs_open(const char *pathname, int flags, int mode) {
     // printf("there is for pathname = %s\n", pathname);
     if (strcmp(pathname, file_table[i].name) == 0) {
       fs_d[i].open_offset = 0;
-      printf("fd == %d\n", i);
+      // printf("fd == %d\n", i);
       return i;
     }
   }
@@ -78,10 +78,10 @@ size_t fs_read(int fd, void *buf, size_t len) {
   //   all_size = file_table[fd].size - inner_file_offset;
   //   out_of_bond = 1;
   // }
-  printf("read begin\n");
+  // printf("read begin\n");
   size_t ret = file_table[fd].read(buf, inner_file_offset + offset, len);
   fs_d[fd].open_offset += ret;
-  printf("read done\n");
+  // printf("read done\n");
 
   // return (out_of_bond ==  1) ? 0 : ret;
   return ret;
@@ -99,6 +99,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
     out_of_bond = 1;
   }
 
+  printf("fd = %d\n", fd);
   size_t ret = file_table[fd].write(buf, inner_file_offset + offset, all_size);
   fs_d[fd].open_offset += ret;
 
@@ -131,6 +132,6 @@ size_t fs_lseek(int fd, size_t offset, int whence) {
 }
 
 int fs_close(int fd) {
-  printf("close is here\n");
+  // printf("close is here\n");
   return 0;
 }
