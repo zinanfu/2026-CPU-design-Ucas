@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include <NDL.h>
 
 // int main() {
 //   struct timeval tv;
@@ -34,6 +33,9 @@
 
 
 // NDL
+extern void NDL_Quit();
+extern int NDL_Init(uint32_t flags);
+extern uint32_t NDL_GetTicks();
 int main() {
   NDL_Init(0);
   uint32_t start = NDL_GetTicks();

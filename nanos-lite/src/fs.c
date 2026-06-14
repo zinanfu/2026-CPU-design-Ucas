@@ -7,6 +7,7 @@ extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
 // serial
 extern size_t serial_write(const void *buf, size_t offset, size_t len);
+extern size_t events_read(void *buf, size_t offset, size_t len); 
 
 typedef struct {
   int fd;
@@ -44,9 +45,13 @@ void init_fs() {
       file_table[i].read  = ramdisk_read;
       file_table[i].write = ramdisk_write;
     }
+    if (strcmp(file_table[i].name, "/dev/events") == 0) {
+      file_table[i].read  = events_read;
+    }
   }
   file_table[1].write = serial_write;
   file_table[2].write = serial_write;
+
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
