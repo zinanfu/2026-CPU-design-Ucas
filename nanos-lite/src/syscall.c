@@ -65,11 +65,22 @@ static void do_brk(Context *c) {
 
   c->GPR2 = 0;
 }
+// get_time_of_day
+struct timeval {
+  long tv_sec;
+  long tv_usec;
+};
 
-// fd -> file_name
-// static inline char *fd_to_name(int fd) {
-//   return file_table[fd].name;
-// } 
+static void do_gettime(Context *c) {
+  struct timeval *tv = (struct timeval *)c->GPR2;
+
+  AM_TIMER_UPTIME_T uptime;
+  uptime = io_read(AM_TIMER_UPTIME);
+  tv->tv_sec  = uptime.us / 1000000;
+  tv->tv_usec = uptime.us % 1000000;
+  c->GPR2 = 0;
+
+}
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -88,11 +99,13 @@ void do_syscall(Context *c) {
 
     [7] = "close",
     [8] = "lseek",
-    [9] = "brk",      
+    [9] = "brk",     
+    
+    [19] = "gettimeofday",
   };  
 
   const char *name;
-  if (a[0] < 10 && syscall_name[a[0]]) {
+  if (a[0] < 20 && syscall_name[a[0]]) {
     name = syscall_name[a[0]];
   }
   else {
@@ -114,7 +127,7 @@ void do_syscall(Context *c) {
       Log("[strace] lseek: fd = %d, file_name: %s, offset = %d, whence = %d\n", a[1], file_table[a[1]].name, a[2], a[3]);
       break;
     default:
-      Log("[strace] %s (arg1=%d, arg2=%d, arg3=%d)", name, a[1], a[2], a[3]);
+      Log("[strace] %s (arg1=%d, arg2=%d, arg3=%d)", name, a[1], a[2], a[3]); 
   }
   
 #endif
@@ -130,6 +143,8 @@ void do_syscall(Context *c) {
     case 7: c->GPR2 = fs_close(a[1]); break;
     case 8: c->GPR2 = fs_lseek(a[1], a[2], a[3]); break;
     case 9: do_brk(c); break;           // 堆区管理
+
+    case 19: do_gettime(c); break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
