@@ -20,11 +20,14 @@ uint32_t NDL_GetTicks() {
 
 
 int NDL_PollEvent(char *buf, int len) {
+
+  printf("there is pollEvent\n");
+  
   if (evtdev == -1) {
     evtdev = open("/dev/events", 0, 0);
   }
 
-  printf("there is pollEvent\n");
+  
   return read(evtdev, buf, len);
 }
 
