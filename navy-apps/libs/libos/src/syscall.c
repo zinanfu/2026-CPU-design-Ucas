@@ -61,37 +61,60 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  _exit(SYS_open);
-  return 0;
+  // _exit(SYS_open);
+  return _syscall_(SYS_open, (__intptr_t)path, flags, mode);;
 }
 
 int _write(int fd, void *buf, size_t count) {
-  _exit(SYS_write);
-  return 0;
+  // _exit(SYS_write);
+  return _syscall_(SYS_write, fd, (__intptr_t)buf, count);
 }
 
+extern char end;
+
 void *_sbrk(intptr_t increment) {
+  static uintptr_t program_break = 0;  // static 只在程序启动时初始化一次
+
+  if (program_break == 0) {
+    program_break = (uintptr_t)&end;
+    program_break = (program_break + 0xfff) & ~0xfff; //页对齐(4K)
+  }
+
+  if (increment == 0) {
+    return (void *)program_break;
+  }
+
+  uintptr_t old_break = program_break;
+
+  program_break += increment;
+
+  if (_syscall_(SYS_brk, program_break, 0, 0) == 0) {
+    return (void *)old_break;
+  }
+
+  // 分配失败
+  program_break = old_break;
   return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
-  _exit(SYS_read);
-  return 0;
+  // _exit(SYS_read);
+  return _syscall_(SYS_read, fd, (__intptr_t)buf, count);
 }
 
 int _close(int fd) {
-  _exit(SYS_close);
-  return 0;
+  // _exit(SYS_close);
+  return _syscall_(SYS_close, fd, 0, 0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  _exit(SYS_lseek);
-  return 0;
+  // _exit(SYS_lseek);
+  return _syscall_(SYS_lseek, fd, (__intptr_t)offset, whence);
 }
 
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
-  _exit(SYS_gettimeofday);
-  return 0;
+  // _exit(SYS_gettimeofday);
+  return _syscall_(SYS_gettimeofday, (__intptr_t)tv, (__intptr_t)tz, 0);
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {

@@ -48,7 +48,7 @@ void init_ftrace(char* elf_file) {
     fseek(fp, strtab.sh_offset, SEEK_SET);
     assert(fread(str_data, strtab.sh_size, 1, fp));
 
-    func_cnt = 0;
+    // func_cnt = 0;
 
     for (int i = 0; i < num; i++) {
         if (ELF32_ST_TYPE(syms[i].st_info) == STT_FUNC) {

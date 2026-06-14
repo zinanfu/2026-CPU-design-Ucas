@@ -15,14 +15,31 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
-  return 0;
+  // printf("serial write: len = %d\n", len);
+  const char *p = (const char *)buf;
+  for (size_t i = 0; i < len; i++) {
+    putch(p[i]);
+  }
+
+  return len;
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  return 0;
+
+  AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
+  if (ev.keycode == AM_KEY_NONE) {
+    return 0;
+  }
+
+  return sprintf(buf, "k%c %s\n", ev.keydown ? 'd' : 'u', keyname[ev.keycode]);
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
+  // printf("vag read len = %d\n", len);
+  AM_GPU_CONFIG_T cfg = io_read(AM_GPU_CONFIG);
+
+  return sprintf(buf, "WIDTH : %d\nHEIGHT : %d\n", cfg.width, cfg.height);
+
   return 0;
 }
 

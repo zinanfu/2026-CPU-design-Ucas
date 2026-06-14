@@ -13,6 +13,8 @@ LDSCRIPTS += $(AM_HOME)/scripts/linker.ld
 LDFLAGS   += --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
+# NEMUFLAGS += -f $(IMAGE).elf                                        # 内核符号
+# NEMUFLAGS += -f $(NAVY_HOME)/tests/hello/build/hello-riscv32       # 用户程序符号
 # NEMUFLAGS += -b
 
 MAINARGS_MAX_LEN = 64
