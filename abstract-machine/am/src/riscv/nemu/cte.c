@@ -56,7 +56,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context *c = (Context *)((uint8_t *)kstack.end - sizeof(Context));
 
   c->mepc = (uintptr_t)__am_kcontext_start;
-  c->mstatus = MSTATUS_MIE;
+  c->mstatus = 0x1800;
   c->gpr[2] = (uintptr_t)kstack.end - CONTEXT_SIZE;
   c->GPR2 = (uintptr_t)arg;
   c->GPR3 = (uintptr_t)entry;
