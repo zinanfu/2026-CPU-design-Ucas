@@ -81,7 +81,8 @@ size_t fs_read(int fd, void *buf, size_t len) {
   //   all_size = file_table[fd].size - inner_file_offset;
   //   out_of_bond = 1;
   // }
-  // printf("read begin\n");
+  printf("read begin\n");
+  printf("fd == %d\n", fd);
   size_t ret = file_table[fd].read(buf, inner_file_offset + offset, len);
   fs_d[fd].open_offset += ret;
   // printf("read done\n");
