@@ -71,16 +71,16 @@ struct timeval {
   long tv_usec;
 };
 
-// static void do_gettime(Context *c) {
-//   struct timeval *tv = (struct timeval *)c->GPR2;
+static void do_gettime(Context *c) {
+  struct timeval *tv = (struct timeval *)c->GPR2;
 
-//   AM_TIMER_UPTIME_T uptime;
-//   uptime = io_read(AM_TIMER_UPTIME);
-//   tv->tv_sec  = uptime.us / 1000000;
-//   tv->tv_usec = uptime.us % 1000000;
-//   c->GPR2 = 0;
+  AM_TIMER_UPTIME_T uptime;
+  uptime = io_read(AM_TIMER_UPTIME);
+  tv->tv_sec  = uptime.us / 1000000;
+  tv->tv_usec = uptime.us % 1000000;
+  c->GPR2 = 0;
 
-// }
+}
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -144,7 +144,7 @@ void do_syscall(Context *c) {
     case 8: c->GPR2 = fs_lseek(a[1], a[2], a[3]); break;
     case 9: do_brk(c); break;           // 堆区管理
 
-    // case 19: do_gettime(c); break;
+    case 19: do_gettime(c); break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
