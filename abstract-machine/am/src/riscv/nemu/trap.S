@@ -76,7 +76,6 @@ __am_asm_trap:
 __am_kcontext_start:
   addi sp, sp, -16
   andi sp, sp, ~15
-  mv   a0, a1
-  jalr a2
+  jalr a1
   call __am_panic_on_return
 
