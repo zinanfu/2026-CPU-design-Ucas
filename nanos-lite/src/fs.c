@@ -35,6 +35,7 @@ Finfo file_table[] __attribute__((used)) = {          // 删去了 static 供 st
   [FD_STDOUT] = {"stdout", 0, 0, invalid_read, invalid_write},
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write},
 #include "files.h"
+#include "devices.h"
 };
 
 void init_fs() {
