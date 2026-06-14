@@ -48,6 +48,9 @@ void init_fs() {
       file_table[i].read  = ramdisk_read;
       file_table[i].write = ramdisk_write;
     }
+    if (strcmp(file_table[i].name, /dev/fb) == 0) {
+      file_table[i].size = 
+    }
   }
   file_table[1].write = serial_write;
   file_table[2].write = serial_write;

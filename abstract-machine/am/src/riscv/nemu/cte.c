@@ -1,8 +1,11 @@
 #include <am.h>
 #include <riscv/riscv.h>
 #include <klib.h>
+#include <klib-macros.h>
 
 #define MSTATUS_MIE 0x8
+#define XLEN sizeof(uintptr_t)
+#define CONTEXT_SIZE  ((NR_REGS + 3) * XLEN)
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 // c 就是传入的 sp 也就是存入的上下文
@@ -32,7 +35,12 @@ Context* __am_irq_handle(Context *c) {
   return c;
 }
 
+void __am_panic_on_return() {
+  panic("kernel context return");
+}
+
 extern void __am_asm_trap(void);
+extern void __am_kcontext_start(void);
 
 bool cte_init(Context*(*handler)(Event, Context*)) {
   // initialize exception entry
@@ -43,9 +51,18 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
   return true;
 }
-
+// 创建内核线程的上下文
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  Context *c = (Context *)((uint8_t *)kstack.end - sizeof(Context));
+
+  c->mepc = (uintptr_t)__am_kcontext_start;
+  c->mstatus = MSTATUS_MIE;
+  c->gpr[2] = (uintptr_t)kstack.end - CONTEXT_SIZE;
+  c->GPR2 = (uintptr_t)arg;
+  c->GPR3 = (uintptr_t)entry;
+  c->GPR4 = (uintptr_t)entry;
+
+  return c;
 }
 
 void yield() {
