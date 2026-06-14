@@ -104,7 +104,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
     out_of_bond = 0;
   }
 
-  printf("fd = %d\n", fd);
+  // printf("fd = %d\n", fd);
   size_t ret = file_table[fd].write(buf, inner_file_offset + offset, all_size);
   fs_d[fd].open_offset += ret;
 
