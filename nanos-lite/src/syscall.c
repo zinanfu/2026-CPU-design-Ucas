@@ -17,17 +17,17 @@ static void do_write(Context *c) {
   char *buf = (char *)a[2];
   size_t len = a[3];
 
-  if (fd == 1 || fd == 2) {
-    for (size_t i = 0; i < len; i++) {
-      putch(buf[i]);
-    }
-    c->GPR2 = len;
-  }
-  else {
-    c->GPR2 = fs_write(fd, (const void *)buf, len);
-  }
+  // if (fd == 1 || fd == 2) {
+  //   for (size_t i = 0; i < len; i++) {
+  //     putch(buf[i]);
+  //   }
+  //   c->GPR2 = len;
+  // }
+  // else {
+  //   c->GPR2 = fs_write(fd, (const void *)buf, len);
+  // }
 
-
+  c->GPR2 = fs_write(fd, (const void *)buf, len);
 }
 
 static void do_read(Context *c) {

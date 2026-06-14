@@ -5,6 +5,9 @@
 extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
 extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 
+// serial
+extern size_t serial_write(const void *buf, size_t offset, size_t len);
+
 typedef struct {
   int fd;
   size_t open_offset;
@@ -35,13 +38,15 @@ Finfo file_table[] __attribute__((used)) = {          // 删去了 static 供 st
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  // int range = sizeof(file_table) / sizeof(Finfo);
-  // for (int i = 0; i < range; i++) {
-  //   if (file_table[i].read == NULL) {
-  //     file_table[i].read  = ramdisk_read;
-  //     file_table[i].write = ramdisk_write;
-  //   }
-  // }
+  int range = sizeof(file_table) / sizeof(Finfo);
+  for (int i = 0; i < range; i++) {
+    if (file_table[i].read == NULL) {
+      file_table[i].read  = ramdisk_read;
+      file_table[i].write = ramdisk_write;
+    }
+  }
+  file_table[1].write = serial_write;
+  file_table[2].write = serial_write;
 }
 
 int fs_open(const char *pathname, int flags, int mode) {
@@ -74,7 +79,7 @@ size_t fs_read(int fd, void *buf, size_t len) {
   //   out_of_bond = 1;
   // }
   // printf("read begin\n");
-  size_t ret = ramdisk_read(buf, offset + inner_file_offset, len);
+  size_t ret = file_table[fd].read(buf, inner_file_offset + offset, len);
   fs_d[fd].open_offset += ret;
   // printf("read done\n");
 
@@ -94,7 +99,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
     out_of_bond = 1;
   }
 
-  size_t ret = ramdisk_write(buf, offset + inner_file_offset, all_size);
+  size_t ret = file_table[fd].write(buf, inner_file_offset + offset, all_size);
   fs_d[fd].open_offset += ret;
 
   return (out_of_bond ==  1) ? 0 : ret;
