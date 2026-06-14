@@ -8,6 +8,7 @@ extern size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 // serial
 extern size_t serial_write(const void *buf, size_t offset, size_t len);
 extern size_t events_read(void *buf, size_t offset, size_t len); 
+extern size_t dispinfo_read(void *buf, size_t offset, size_t len);
 
 typedef struct {
   int fd;
@@ -36,6 +37,7 @@ Finfo file_table[] __attribute__((used)) = {          // 删去了 static 供 st
   [FD_STDERR] = {"stderr", 0, 0, invalid_read, invalid_write},
 #include "files.h"
 #include "devices.h"
+#include "proc_file.h"
 };
 
 void init_fs() {

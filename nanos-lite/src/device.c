@@ -35,6 +35,10 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
+  AM_GPU_CONFIG_T cfg = io_read(AM_GPU_CONFIG);
+
+  return sprintf(buf, "WIDTH : %d\nHEIGHT : %d\n", cfg.width, cfg.height);
+
   return 0;
 }
 
