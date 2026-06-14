@@ -73,11 +73,12 @@ int _write(int fd, void *buf, size_t count) {
 extern char end;
 
 void *_sbrk(intptr_t increment) {
-  static uintptr_t program_break = 0;
+  static uintptr_t program_break = 0;  // static 只在程序启动时初始化一次
 
-  program_break = (uintptr_t)&end;
-
-  program_break = (program_break + 0xfff) & ~0xfff; //页对齐(4K)
+  if (program_break == 0) {
+    program_break = (uintptr_t)&end;
+    program_break = (program_break + 0xfff) & ~0xfff; //页对齐(4K)
+  }
 
   if (increment == 0) {
     return (void *)program_break;
