@@ -1,5 +1,4 @@
 #include <common.h>
-#include "syscall.h"
 
 extern void do_syscall(Context *c);
 
