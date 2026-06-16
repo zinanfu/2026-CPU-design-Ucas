@@ -85,13 +85,23 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     0.U(1.W)
   )
 
-  // === alu ===
+  // alu
   val alu = Module(new Alu(32))
-  alu.io.a := 0.U
-  alu.io.b := 0.U
+  alu.io.a  := 0.U
+  alu.io.b  := 0.U
   alu.io.op := 0.U
 
-
+  // csr
+  val csr = Module(new Csr)
+  csr.io.csr_addr         := 0.U
+  csr.io.csr_op           := 0.U
+  csr.io.rs1_data         := 0.U
+  csr.io.zimm             := 0.U
+  csr.io.csr_wen          := false.B
+  csr.io.exception        := false.B
+  csr.io.exception_cause  := 0.U
+  csr.io.exception_pc     := 0.U
+  csr.io.mret             := false.B
 
   io.mem_addr  := 0.U
   io.mem_wdata := 0.U
@@ -394,6 +404,41 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
           wb_data := alu.io.out
         }
       }
+    }
+
+    // syscall 
+    is("b1110011".U) {
+      when(funct7 === "b0000000") {
+        when(rs2_idx === "b000") {  // ecall
+          illegal := false.B
+          csr.io.exception := true.B
+          csr.io.exception_cause := 11.U
+          csr.io.exception_pc    := pc
+        }
+        when(rs2_idx === "b001") {  // ebreak
+          illegal := false.B
+          csr.io.exception := true.B
+          csr.io.exception_cause := 3.U
+          csr.io.exception_pc    := pc
+        }
+      }
+      when(funct7 === "b0011000") {
+        illegal := false.B
+        csr.io.mret := true.B
+        next_pc := csr.io.mret_target
+      }
+    }
+    // csr
+    is("b1110011".U) {
+      illegal := false.B
+      csr.io.csr_wen := (funct3 =/= "b000")
+      csr.io.csr_op := funct3
+      csr.io.csr_addr := inst(31,20)
+      csr.io.rs1_data := rs1_data
+      csr.io.zimm := immU
+
+      wb_data := csr.io.csr_rdata
+      wb_en := true.B
     }
   }
 
