@@ -49,7 +49,7 @@ class Csr extends Module {
     val mcycleh     = RegInit("h00000000".U(32.W))
     val mepc        = RegInit("h00000000".U(32.W))
 
-    val old_value := MuxLookup(csr_addr, 0.U)(Seq(
+    val old_value = MuxLookup(csr_addr, 0.U)(Seq(
         CSRaddr.MSTAUTS.U   -> mstatus,
         CSRaddr.MSTAUTSH.U  -> mstatush,
         CSRaddr.MCYCLE.U    -> mcycle,
