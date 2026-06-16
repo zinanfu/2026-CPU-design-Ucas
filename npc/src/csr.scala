@@ -22,7 +22,7 @@ object CSRop {
     val RCI         = 6.U(3.W)
 }
 
-calss Csr extends Module {
+class Csr extends Module {
     val io = IO(new Bundle {
         // csr
         val csr_addr = Input(UInt(12.W))
