@@ -132,6 +132,8 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                             | (0x0000001eU 
                                                & (vlSelfRef.io_inst 
                                                   >> 7U)))));
+    vlSelfRef.CpuTop__DOT__csr__DOT___mcycle_64_T = 
+        (1ULL + vlSelfRef.CpuTop__DOT__csr__DOT__mcycle_64);
     vlSelfRef.CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_9 
         = (IData)(((0x00000073U == (0xfe00007fU & vlSelfRef.io_inst)) 
                    & ((~ (0U != (7U & (vlSelfRef.io_inst 
@@ -1269,6 +1271,7 @@ VL_ATTR_COLD void VCpuTop___024root___ctor_var_reset(VCpuTop___024root* vlSelf) 
     vlSelf->CpuTop__DOT__csr__DOT__mcycle_64 = VL_SCOPED_RAND_RESET_Q(64, __VscopeHash, 14707578374629214948ull);
     vlSelf->CpuTop__DOT__csr__DOT__mepc = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 4581478088731026857ull);
     vlSelf->CpuTop__DOT__csr__DOT__casez_tmp = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 16646657704204302141ull);
+    vlSelf->CpuTop__DOT__csr__DOT___mcycle_64_T = VL_SCOPED_RAND_RESET_Q(64, __VscopeHash, 6129286415385989190ull);
     vlSelf->__VdfgRegularize_h6e95ff9d_0_2 = 0;
     for (int __Vi0 = 0; __Vi0 < 1; ++__Vi0) {
         vlSelf->__VstlTriggered[__Vi0] = 0;

@@ -101,6 +101,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__csr__DOT__casez_tmp;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ CpuTop__DOT__csr__DOT__mcycle_64;
+        QData/*63:0*/ CpuTop__DOT__csr__DOT___mcycle_64_T;
         VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VicoTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
