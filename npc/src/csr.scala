@@ -45,15 +45,14 @@ class Csr extends Module {
 
     val mstatus     = RegInit("h00001800".U(32.W))
     val mstatush    = RegInit("h00000000".U(32.W))
-    val mcycle      = RegInit("h00000000".U(32.W))
-    val mcycleh     = RegInit("h00000000".U(32.W))
+    val mcycle_64   = RegInit("h00000000".U(64.W))
     val mepc        = RegInit("h00000000".U(32.W))
 
     val old_value = MuxLookup(io.csr_addr, 0.U)(Seq(
         CSRaddr.MSTAUTS.U   -> mstatus,
         CSRaddr.MSTAUTSH.U  -> mstatush,
-        CSRaddr.MCYCLE.U    -> mcycle,
-        CSRaddr.MCYCLEH.U   -> mcycleh
+        CSRaddr.MCYCLE.U    -> mcycle_64(31,0),
+        CSRaddr.MCYCLEH.U   -> mcycle_64(63,32)
     ))
     
     io.csr_rdata := old_value
@@ -77,14 +76,16 @@ class Csr extends Module {
             mstatush := wdata
         }
         when(io.csr_addr === CSRaddr.MCYCLE.U) {
-            mcycle := wdata
+            mcycle_64 := Cat(mcycle_64(63,32), wdata)
         }
         when(io.csr_addr === CSRaddr.MCYCLEH.U) {
-            mcycleh := wdata
+            mcycle_64 := Cat(wdata, mcycle_64(31,0))
         }
         when(io.csr_addr === CSRaddr.MEPC.U) {
             mepc := wdata
         }
+    }.otherwise {
+        mcycle_64 := mcycle_64 + 1.U
     }
 
     // exception
