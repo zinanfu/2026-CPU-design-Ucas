@@ -49,40 +49,40 @@ class Csr extends Module {
     val mcycleh     = RegInit("h00000000".U(32.W))
     val mepc        = RegInit("h00000000".U(32.W))
 
-    val old_value = MuxLookup(csr_addr, 0.U)(Seq(
-        CSRaddr.MSTAUTS.U   -> mstatus,
-        CSRaddr.MSTAUTSH.U  -> mstatush,
-        CSRaddr.MCYCLE.U    -> mcycle,
-        CSRaddr.MCYCLEH.U   -> mcycleh
+    val old_value = MuxLookup(io.csr_addr, 0.U)(Seq(
+        CSRaddr.MSTAUTS   -> mstatus,
+        CSRaddr.MSTAUTSH  -> mstatush,
+        CSRaddr.MCYCLE    -> mcycle,
+        CSRaddr.MCYCLEH   -> mcycleh
     ))
     
     io.csr_rdata := old_value
     
     val wdata = WireDefault(0.U(32.W))
 
-    wdata := MuxLookup(csr_op, 0.U)(Seq(
-        CSRop.RW.U -> io.rs1_data,
-        CSRop.RS.U -> io.rs1_data | old_value,
-        CSRop.RC.U -> ~io.rs1_data & old_value,
-        CSRop.RWI.U -> io.zimm,
-        CSRop.RSI.U -> io.zimm | old_value,
-        CSRop.RCI.U -> ~io.zimm & old_value
+    wdata := MuxLookup(io.csr_op, 0.U)(Seq(
+        CSRop.RW -> io.rs1_data,
+        CSRop.RS -> io.rs1_data | old_value,
+        CSRop.RC -> ~io.rs1_data & old_value,
+        CSRop.RWI -> io.zimm,
+        CSRop.RSI -> io.zimm | old_value,
+        CSRop.RCI -> ~io.zimm & old_value
     ))
 
     when(io.csr_wen) {
-        when(io.csr_addr === CSRaddr.MSTAUTS) {
+        when(io.csr_addr === CSRaddr.MSTAUTS.U) {
             mstatus := wdata
         }
-        when(io.csr_addr === CSRaddr.MSTAUTSH) {
+        when(io.csr_addr === CSRaddr.MSTAUTSH.U) {
             mstatush := wdata
         }
-        when(io.csr_addr === CSRaddr.MCYCLE) {
+        when(io.csr_addr === CSRaddr.MCYCLE.U) {
             mcycle := wdata
         }
-        when(io.csr_addr === CSRaddr.MCYCLEH) {
+        when(io.csr_addr === CSRaddr.MCYCLEH.U) {
             mcycleh := wdata
         }
-        when(io.csr_addr === CSRaddr.MEPC) {
+        when(io.csr_addr === CSRaddr.MEPC.U) {
             mwpc := wdata
         }
     }
