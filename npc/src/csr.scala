@@ -10,6 +10,9 @@ object CSRaddr {
     val MEPC        = 0x341
     val MCYCLE      = 0xB00
     val MCYCLEH     = 0xB80
+
+    val MVENDORID   = 0xf11
+    val MARCHID     = 0xf12
 }
 
 object CSRop {
@@ -47,6 +50,8 @@ class Csr extends Module {
     val mstatush    = RegInit("h00000000".U(32.W))
     val mcycle_64   = RegInit("h00000000".U(64.W))
     val mepc        = RegInit("h00000000".U(32.W))
+    val mvendorid   = RegInit("h79737978".U(32.W))
+    val marchid     = RegInit("h000e2cf9".U(32.W))
 
     val old_value = MuxLookup(io.csr_addr, 0.U)(Seq(
         CSRaddr.MSTAUTS.U   -> mstatus,
@@ -67,6 +72,8 @@ class Csr extends Module {
         CSRop.RSI -> (io.zimm | old_value),
         CSRop.RCI -> (~io.zimm & old_value)
     ))
+    // 自增
+    mcycle_64 := mcycle_64 + 1.U
 
     when(io.csr_wen) {
         when(io.csr_addr === CSRaddr.MSTAUTS.U) {
@@ -84,8 +91,6 @@ class Csr extends Module {
         when(io.csr_addr === CSRaddr.MEPC.U) {
             mepc := wdata
         }
-    }.otherwise {
-        mcycle_64 := mcycle_64 + 1.U
     }
 
     // exception
