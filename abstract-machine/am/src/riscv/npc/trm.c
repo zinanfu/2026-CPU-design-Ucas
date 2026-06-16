@@ -25,8 +25,8 @@ void halt(int code) {
 
 void _trm_init() {
   uint32_t mvendorid, marchid;
-  asm volatile("csrrs %0, 0xf11, x0" : "=r"(mvendorid));
-  asm volatile("csrrs %0, 0xf12, x0" : "=r"(marchid));
+  asm volatile("csrr %0, 0xf11" : "=r"(mvendorid));
+  asm volatile("csrr %0, 0xf12" : "=r"(marchid));
 
   printf("ysyx: 0x%08x\n", mvendorid);
   printf("学号: %d\n", marchid);
