@@ -408,21 +408,21 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
     // syscall 
     is("b1110011".U) {
-      when(funct7 === "b0000000") {
-        when(rs2_idx === "b000") {  // ecall
+      when(funct7 === "b0000000".U) {
+        when(rs2_idx === "b000".U) {  // ecall
           illegal := false.B
           csr.io.exception := true.B
           csr.io.exception_cause := 11.U
           csr.io.exception_pc    := pc
         }
-        when(rs2_idx === "b001") {  // ebreak
+        when(rs2_idx === "b001".U) {  // ebreak
           illegal := false.B
           csr.io.exception := true.B
           csr.io.exception_cause := 3.U
           csr.io.exception_pc    := pc
         }
       }
-      when(funct7 === "b0011000") {
+      when(funct7 === "b0011000".U) {
         illegal := false.B
         csr.io.mret := true.B
         next_pc := csr.io.mret_target
@@ -431,7 +431,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     // csr
     is("b1110011".U) {
       illegal := false.B
-      csr.io.csr_wen := (funct3 =/= "b000")
+      csr.io.csr_wen := (funct3 =/= "b000".U)
       csr.io.csr_op := funct3
       csr.io.csr_addr := inst(31,20)
       csr.io.rs1_data := rs1_data

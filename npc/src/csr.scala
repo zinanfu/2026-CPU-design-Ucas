@@ -50,10 +50,10 @@ class Csr extends Module {
     val mepc        = RegInit("h00000000".U(32.W))
 
     val old_value = MuxLookup(io.csr_addr, 0.U)(Seq(
-        CSRaddr.MSTAUTS   -> mstatus,
-        CSRaddr.MSTAUTSH  -> mstatush,
-        CSRaddr.MCYCLE    -> mcycle,
-        CSRaddr.MCYCLEH   -> mcycleh
+        CSRaddr.MSTAUTS.U   -> mstatus,
+        CSRaddr.MSTAUTSH.U  -> mstatush,
+        CSRaddr.MCYCLE.U    -> mcycle,
+        CSRaddr.MCYCLEH.U   -> mcycleh
     ))
     
     io.csr_rdata := old_value
@@ -61,12 +61,12 @@ class Csr extends Module {
     val wdata = WireDefault(0.U(32.W))
 
     wdata := MuxLookup(io.csr_op, 0.U)(Seq(
-        CSRop.RW -> io.rs1_data,
-        CSRop.RS -> io.rs1_data | old_value,
-        CSRop.RC -> ~io.rs1_data & old_value,
-        CSRop.RWI -> io.zimm,
-        CSRop.RSI -> io.zimm | old_value,
-        CSRop.RCI -> ~io.zimm & old_value
+        CSRop.RW.U -> io.rs1_data,
+        CSRop.RS.U -> io.rs1_data | old_value,
+        CSRop.RC.U -> ~io.rs1_data & old_value,
+        CSRop.RWI.U -> io.zimm,
+        CSRop.RSI.U -> io.zimm | old_value,
+        CSRop.RCI.U -> ~io.zimm & old_value
     ))
 
     when(io.csr_wen) {
