@@ -461,8 +461,8 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   var i = 0
 
   when(io.mret) {
-    printf("CSR mret: mepc=0x%x\n", mepc)
-  }
+    printf("mret: mepc=0x%x next_pc=0x%x\n", csr.io.mret_target, next_pc)
+  } 
 
   while(i < DEBUG_REGS) {
     if (i == 0) {
