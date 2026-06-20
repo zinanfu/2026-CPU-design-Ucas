@@ -12,7 +12,7 @@
 #include <cstdlib>
 
 
-void step_once(VCpuTop *top);
+bool step_once(VCpuTop *top);
 void print_regs(VCpuTop* top);
 void repl_loop(VCpuTop* top);
 
@@ -74,11 +74,11 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void step_once(VCpuTop *top) {
+bool step_once(VCpuTop *top) {
     uint32_t pc = top->io_pc;
     if (pc < 0x80000000 || pc > 0x80100000) {
-        // printf("BAD PC = 0x%08x\n", pc);
-        return;
+        printf("BAD PC = 0x%08x\n", pc);
+        return false;
     }
 
     uint32_t inst = paddr_read(pc, 4, true);
@@ -93,7 +93,7 @@ void step_once(VCpuTop *top) {
         }
         
         Verilated::gotFinish(true);
-        return;
+        return false; 
     }
 
     // instruction fetch
@@ -145,6 +145,7 @@ void step_once(VCpuTop *top) {
     
 #endif
 
+    return true;
 }
 
 void print_regs(VCpuTop* top) {
@@ -177,15 +178,18 @@ void repl_loop(VCpuTop* top) {
                 n = 1;
             }
             for (int i = 0; i < n; i++) {
-                step_once(top);
+                bool sign = step_once(top);
                 if (Verilated :: gotFinish()) {
+                    break;
+                }
+                if (sign == false) {
                     break;
                 }
             }
         }
         else if (cmd == "c") {
-            while (!Verilated :: gotFinish()) {
-                step_once(top);
+            while (!Verilated :: gotFinish() && sign) {
+                bool sign = step_once(top);
             }
         }
         else if (cmd == "info") {
