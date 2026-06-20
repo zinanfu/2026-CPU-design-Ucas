@@ -67,8 +67,8 @@ class Csr extends Module {
         CSRaddr.MCYCLE.U    -> mcycle_64(31,0),
         CSRaddr.MCYCLEH.U   -> mcycle_64(63,32),
         CSRaddr.MVENDORID.U -> mvendorid,
-        CSRaddr.MARCHID.U   -> marchid
-        CSRaddr.MCAUSE.U    -> mcause
+        CSRaddr.MARCHID.U   -> marchid,
+        CSRaddr.MCAUSE.U    -> mcause,
         CSRaddr.MTVEC.U     -> mtvec
     ))
     
@@ -77,9 +77,9 @@ class Csr extends Module {
     val wdata = WireDefault(0.U(32.W))
 
     wdata := MuxLookup(io.csr_op, 0.U)(Seq(
-        CSRop.RW -> io.rs1_data,
-        CSRop.RS -> (io.rs1_data | old_value),
-        CSRop.RC -> (~io.rs1_data & old_value),
+        CSRop.RW  -> io.rs1_data,
+        CSRop.RS  -> (io.rs1_data | old_value),
+        CSRop.RC  -> (~io.rs1_data & old_value),
         CSRop.RWI -> io.zimm,
         CSRop.RSI -> (io.zimm | old_value),
         CSRop.RCI -> (~io.zimm & old_value)
