@@ -6,8 +6,11 @@ import chisel3.util._
 // CSR addr
 object CSRaddr {
     val MSTAUTS     = 0x300
+    val MTVEC       = 0x305
     val MSTAUTSH    = 0x310
     val MEPC        = 0x341
+    val MCAUSE      = 0x342
+
     val MCYCLE      = 0xB00
     val MCYCLEH     = 0xB80
 
@@ -35,6 +38,9 @@ class Csr extends Module {
         val csr_wen  = Input(Bool())
         val csr_rdata= Output(UInt(32.W))
 
+        // mtvec
+        val mtvec_out= Output(UInt(32.W))
+
         // exception
         val exception       = Input(Bool())
         val exception_cause = Input(UInt(4.W))
@@ -51,7 +57,9 @@ class Csr extends Module {
     val mcycle_64   = RegInit("h00000000".U(64.W))
     val mepc        = RegInit("h00000000".U(32.W))
     val mvendorid   = RegInit("h79737978".U(32.W))
-    val marchid     = RegInit("h000e2cf9".U(32.W))
+    val marchid     = RegInit("h000e2cf9".U(32.W)) // 学号未知
+    val mcause      = RegInit("h00000000".U(32.W))
+    val mtvec       = RegInit("h00000000".U(32.W))
 
     val old_value = MuxLookup(io.csr_addr, 0.U)(Seq(
         CSRaddr.MSTAUTS.U   -> mstatus,
@@ -60,6 +68,8 @@ class Csr extends Module {
         CSRaddr.MCYCLEH.U   -> mcycle_64(63,32),
         CSRaddr.MVENDORID.U -> mvendorid,
         CSRaddr.MARCHID.U   -> marchid
+        CSRaddr.MCAUSE.U    -> mcause
+        CSRaddr.MTVEC.U     -> mtvec
     ))
     
     io.csr_rdata := old_value
@@ -93,20 +103,28 @@ class Csr extends Module {
         when(io.csr_addr === CSRaddr.MEPC.U) {
             mepc := wdata
         }
+        when(io.csr_addr === CSRaddr.MTVEC.U) {
+            mtvec := wdata
+        }
+        when(io.csr_addr === CSRaddr.MCAUSE.U) {
+            mcause := wdata
+        }
     }
 
     // exception
     when(io.exception) {
-        mepc := io.exception_pc
-        // mcause
-
+        mepc    := io.exception_pc
+        mcause  := io.exception_cause
         mstatus := mstatus & (~"b1000".U(32.W))
     }
     
     // mret
     io.mret_target := mepc
+    when (io.mret) {{
+        mstatus := mstatus | "b1000".U(32.W)
+    }}
 
-
+    io.mtvec_out := mtvec
 
     io.global_intr_en := mstatus(3)
 }
