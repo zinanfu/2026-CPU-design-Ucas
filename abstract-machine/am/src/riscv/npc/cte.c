@@ -43,17 +43,6 @@ void __am_panic_on_return() {
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context *c = (Context *)((uint8_t *)kstack.end - sizeof(Context));
-  int i;
-
-  /* Zero the entire context first — uninitialized GPRs (ra, a3-a5, etc.)
-   * could otherwise contain stale stack values (e.g. 0x1800 = mstatus)
-   * and cause spurious jumps to invalid addresses. */
-  for (i = 0; i < NR_REGS; i++)
-    c->gpr[i] = 0;
-  c->mcause  = 0;
-  c->mstatus = 0;
-  c->mepc    = 0;
-  c->pdir    = NULL;
 
   c->mepc    = (uintptr_t)__am_kcontext_start;
   c->mstatus = 0x1800;
