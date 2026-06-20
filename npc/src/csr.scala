@@ -110,7 +110,7 @@ class Csr extends Module {
         when(io.csr_addr === CSRaddr.MCAUSE.U) {
             mcause := wdata
         }
-        printf("csrw: wdata=0x%x csr_addr=0x%x\n", wdata, io.csr_addr)
+        // printf("csrw: wdata=0x%x csr_addr=0x%x\n", wdata, io.csr_addr)
     }
 
     // exception

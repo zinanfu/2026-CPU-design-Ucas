@@ -498,5 +498,9 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   }
 
 
+
   pc := next_pc
+
+
+  printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x", pc, next_pc, inst)
 }
