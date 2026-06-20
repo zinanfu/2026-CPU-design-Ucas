@@ -120,9 +120,9 @@ class Csr extends Module {
     
     // mret
     io.mret_target := mepc
-    when (io.mret) {{
+    when (io.mret) {
         mstatus := mstatus | "b1000".U(32.W)
-    }}
+    }
 
     io.mtvec_out := mtvec
 
