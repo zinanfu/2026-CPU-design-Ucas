@@ -460,6 +460,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   var i = 0
 
+  when(io.mret) {
+    printf("CSR mret: mepc=0x%x\n", mepc)
+  }
+
   while(i < DEBUG_REGS) {
     if (i == 0) {
       debugRegs(i) := 0.U(32.W)
