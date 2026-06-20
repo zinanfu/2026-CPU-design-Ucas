@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 void step_once(VCpuTop *top) {
     uint32_t pc = top->io_pc;
     if (pc < 0x80000000 || pc > 0x80100000) {
-        // printf("BAD PC = 0x%08x\n", pc);
+        printf("BAD PC = 0x%08x\n", pc);
         return;
     }
 
