@@ -4,6 +4,7 @@
 #include <klib-macros.h>
 
 #define XLEN sizeof(uintptr_t)
+static bool _intr_enabled = true;
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
