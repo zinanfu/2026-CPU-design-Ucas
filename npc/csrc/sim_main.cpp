@@ -188,8 +188,9 @@ void repl_loop(VCpuTop* top) {
             }
         }
         else if (cmd == "c") {
+            bool sign = true;
             while (!Verilated :: gotFinish() && sign) {
-                bool sign = step_once(top);
+                sign = step_once(top);
             }
         }
         else if (cmd == "info") {
