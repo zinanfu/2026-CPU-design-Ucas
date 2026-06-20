@@ -509,7 +509,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   }
   when(pc === "h80019100".U) {
     printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
-    printf("sp=0x%8x\n", regs[2.U])
+    printf("sp=0x%8x\n", regs(2.U))
   }
 
   // printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
