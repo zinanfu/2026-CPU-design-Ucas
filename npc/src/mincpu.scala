@@ -339,6 +339,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b010".U) { // sw
         io.mem_wmask := "b1111".U
         io.mem_wdata := rs2_data
+        printf("S_wdata:0x%8x\n", rs2_data)
       }
     }
 
