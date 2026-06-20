@@ -435,7 +435,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
         csr.io.csr_op := funct3
         csr.io.csr_addr := inst(31,20)
         csr.io.rs1_data := rs1_data
-        csr.io.zimm := Cat(Fill(27, 0), rs1) 
+        csr.io.zimm := Cat(0.U(27.W), rs1) 
 
         wb_data := csr.io.csr_rdata
         wb_en := true.B
