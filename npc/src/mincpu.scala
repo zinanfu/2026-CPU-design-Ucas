@@ -272,7 +272,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b010".U) { //lw
         illegal := false.B
         wb_data := io.mem_rdata
-        printf("L_wdata:0x%8x\n", io.mem_rdata)
+        // printf("L_wdata:0x%8x\n", io.mem_rdata)
       }
       when(funct3 === "b000".U) { //lb
         illegal := false.B
@@ -339,7 +339,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b010".U) { // sw
         io.mem_wmask := "b1111".U
         io.mem_wdata := rs2_data
-        printf("S_wdata:0x%8x\n", rs2_data)
+        // printf("S_wdata:0x%8x\n", rs2_data)
       }
     }
 
@@ -503,6 +503,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   pc := next_pc
 
+  when(pc === 0x8001905c) {
+    printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+    printf("sp=0x%8x", rs1_data)
+  }
 
-  printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+  // printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
 }
