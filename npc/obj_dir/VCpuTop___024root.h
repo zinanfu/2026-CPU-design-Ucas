@@ -38,7 +38,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT___GEN_37;
         CData/*0:0*/ CpuTop__DOT__illegal_seen;
         CData/*0:0*/ CpuTop__DOT___GEN_38;
-        CData/*0:0*/ CpuTop__DOT___GEN_44;
+        CData/*0:0*/ CpuTop__DOT___GEN_45;
         CData/*0:0*/ CpuTop__DOT____Vcellinp__csr__io_exception;
         CData/*0:0*/ CpuTop__DOT____Vcellinp__csr__io_csr_wen;
         CData/*0:0*/ CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_11;
