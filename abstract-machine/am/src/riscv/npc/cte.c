@@ -44,6 +44,11 @@ void __am_panic_on_return() {
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context *c = (Context *)((uint8_t *)kstack.end - sizeof(Context));
 
+  for (int i = 0; i < 16; i++) {
+    c->gpr[i] = 0;
+  }
+
+
   c->mepc    = (uintptr_t)__am_kcontext_start;
   c->mstatus = 0x1800;
   c->gpr[2]  = (uintptr_t)kstack.end - sizeof(Context);   // sp
