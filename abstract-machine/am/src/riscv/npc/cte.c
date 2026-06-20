@@ -4,7 +4,6 @@
 #include <klib-macros.h>
 
 #define XLEN sizeof(uintptr_t)
-#define CONTEXT_SIZE  ((NR_REGS + 3) * XLEN)
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -47,7 +46,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   c->mepc    = (uintptr_t)__am_kcontext_start;
   c->mstatus = 0x1800;
-  c->gpr[2]  = (uintptr_t)kstack.end - CONTEXT_SIZE;   // sp
+  c->gpr[2]  = (uintptr_t)kstack.end - sizeof(Context);   // sp
   c->GPR2    = (uintptr_t)arg;          // a0
   c->GPR3    = (uintptr_t)entry;        // a1
   c->GPR4    = (uintptr_t)entry;        // a2
