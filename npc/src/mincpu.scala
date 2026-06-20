@@ -272,6 +272,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b010".U) { //lw
         illegal := false.B
         wb_data := io.mem_rdata
+        printf("L_wdata:0x%8x\n", io.mem_rdata)
       }
       when(funct3 === "b000".U) { //lb
         illegal := false.B

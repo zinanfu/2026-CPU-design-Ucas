@@ -1242,7 +1242,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                       32,vlSelfRef.io_inst,32,vlSelfRef.CpuTop__DOT__pc);
     }
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
-        VL_FWRITEF_NX(0x80000002U,"pc=0x%8x, next_pc=0x%8x, inst=0x%8x",0,
+        VL_FWRITEF_NX(0x80000002U,"pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n",0,
                       32,vlSelfRef.CpuTop__DOT__pc,
                       32,vlSelfRef.CpuTop__DOT__next_pc,
                       32,vlSelfRef.io_inst);
