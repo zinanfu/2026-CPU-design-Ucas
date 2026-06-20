@@ -11,6 +11,9 @@ Context* __am_irq_handle(Context *c) {
     Event ev = {0};
     switch (c->mcause) {
       case 11:              // Environment call from M-mode (yield)
+        if (!_intr_enabled) {
+          return c;
+        }
         ev.event = EVENT_YIELD; break;
       case 0x80000007:      // Machine timer interrupt (mcause bit 31 + code 7)
         ev.event = EVENT_IRQ_TIMER; break;
@@ -50,7 +53,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
 
   c->mepc    = (uintptr_t)__am_kcontext_start;
-  c->mstatus = 0x1800;
+  c->mstatus = 0x1880;
   c->gpr[2]  = (uintptr_t)kstack.end - sizeof(Context);   // sp
   c->GPR2    = (uintptr_t)arg;          // a0
   c->GPR3    = (uintptr_t)entry;        // a1
@@ -68,8 +71,16 @@ void yield() {
 }
 
 bool ienabled() {
-  return false;
+  return _intr_enabled;
 }
 
 void iset(bool enable) {
+  _intr_enabled = enable;
+  if (enable) {
+    asm volatile("csrsi mstatus, 8");
+
+  }
+  else {
+    asm volatile("csrci mstatus, 8");
+  }
 }
