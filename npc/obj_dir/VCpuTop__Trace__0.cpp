@@ -26,7 +26,7 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgIData(oldp+0,(vlSelfRef.CpuTop__DOT__immI),32);
         bufp->chgBit(oldp+1,(vlSelfRef.CpuTop__DOT__illegal));
         bufp->chgCData(oldp+2,(vlSelfRef.CpuTop__DOT__alu__DOT__io_op),4);
-        bufp->chgSData(oldp+3,(vlSelfRef.CpuTop__DOT____Vcellinp__csr__io_csr_addr),12);
+        bufp->chgSData(oldp+3,(vlSelfRef.CpuTop__DOT__csr__DOT__io_csr_addr),12);
         bufp->chgCData(oldp+4,(vlSelfRef.CpuTop__DOT__csr__DOT__io_csr_op),3);
         bufp->chgIData(oldp+5,(vlSelfRef.CpuTop__DOT__csr__DOT__io_zimm),32);
         bufp->chgBit(oldp+6,(vlSelfRef.CpuTop__DOT____Vcellinp__csr__io_csr_wen));

@@ -54,7 +54,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ __VactPhaseResult;
         CData/*0:0*/ __VnbaPhaseResult;
         SData/*15:0*/ CpuTop__DOT__byte_1;
-        SData/*11:0*/ CpuTop__DOT____Vcellinp__csr__io_csr_addr;
+        SData/*11:0*/ CpuTop__DOT__csr__DOT__io_csr_addr;
         VL_IN(io_inst,31,0);
         VL_OUT(io_pc,31,0);
         VL_IN(io_mem_rdata,31,0);
