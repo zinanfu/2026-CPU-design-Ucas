@@ -69,7 +69,8 @@ class Csr extends Module {
         CSRaddr.MVENDORID.U -> mvendorid,
         CSRaddr.MARCHID.U   -> marchid,
         CSRaddr.MCAUSE.U    -> mcause,
-        CSRaddr.MTVEC.U     -> mtvec
+        CSRaddr.MTVEC.U     -> mtvec,
+        CSRaddr.MEPC.U      -> mepc
     ))
     
     io.csr_rdata := old_value
