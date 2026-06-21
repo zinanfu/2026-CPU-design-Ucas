@@ -159,6 +159,7 @@ void print_regs(VCpuTop* top) {
 void repl_loop(VCpuTop* top) {
     std :: string line; // 命名空间 std 中的类 string
     std :: set<uint32_t> breakpoints; // 断点集合
+    std :: set<uint32_t> checkpoints;
 
     while(!Verilated::gotFinish()) {
         std :: cout << "sdb:\n" ; // 输出 sdb 到终端
@@ -194,6 +195,10 @@ void repl_loop(VCpuTop* top) {
                     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
                     break;
                 }
+                if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                    printf("BAD RA at pc:0x%8x", top->io_debug_pc);
+                    break;
+                }
             }
         }
         else if (cmd == "c") {
@@ -202,6 +207,10 @@ void repl_loop(VCpuTop* top) {
                 sign = step_once(top);
                 if (breakpoints.count(top->io_pc)) {
                     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                    break;
+                }
+                if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                    printf("BAD RA at pc:0x%8x", top->io_debug_pc);
                     break;
                 }
             }
@@ -270,6 +279,9 @@ void repl_loop(VCpuTop* top) {
                     printf("No breakpoint at 0x%08x\n", addr);
                 }
             }
+        }
+        else if (cmd == "w") {
+            checkpoints.insert(0x1880);
         }
         else if (cmd == "q") {
             Verilated :: gotFinish(true);
