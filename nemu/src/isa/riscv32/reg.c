@@ -37,7 +37,7 @@ void isa_reg_display() {
 
   printf("pc:\t0x%08x\n", cpu.pc);
   printf("mepc:\t0x%08x\n", cpu.mepc);
-  printf("mstatus:\t0x%08x\n", cpu.mstatus);
+  printf("mstatus:0x%08x\n", cpu.mstatus);
   printf("mcause:\t0x%08x\n", cpu.mcause);
 }
 
