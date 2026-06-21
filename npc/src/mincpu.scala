@@ -419,12 +419,12 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
             csr.io.exception_pc    := pc
             next_pc                := csr.io.mtvec_out
           }
-          when(rs2_idx === "b001".U) {  // ebreak
-            illegal := false.B
-            csr.io.exception := true.B
-            csr.io.exception_cause := 3.U
-            csr.io.exception_pc    := pc
-          }
+          // when(rs2_idx === "b001".U) {  // ebreak
+          //   illegal := false.B
+          //   csr.io.exception := true.B
+          //   csr.io.exception_cause := 3.U
+          //   csr.io.exception_pc    := pc
+          // }
         }
         when(funct7 === "b0011000".U) {  // mret
           illegal := false.B
