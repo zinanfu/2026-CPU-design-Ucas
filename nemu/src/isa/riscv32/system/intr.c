@@ -48,6 +48,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    */ 
 
   cpu.mepc = epc;
+  cpu.mstatus = (cpu.mstatus & ~(3 << 11)) | (3 << 11);
   cpu.mcause = NO;
 
 #ifdef CONFIG_ETRACE
