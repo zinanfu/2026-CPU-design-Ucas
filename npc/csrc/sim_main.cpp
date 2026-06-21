@@ -181,6 +181,8 @@ void repl_loop(VCpuTop* top) {
             }
             for (int i = 0; i < n; i++) {
                 bool sign = step_once(top);
+                printf("pc=0x%8x\n", top->io_debug_pc);
+                printf("inst=0x%8x\n", top->io_debug_inst);
                 if (Verilated :: gotFinish()) {
                     break;
                 }
