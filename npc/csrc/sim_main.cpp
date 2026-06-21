@@ -10,6 +10,7 @@
 #include <string>
 #include <iomanip>
 #include <cstdlib>
+#include <set>
 
 
 bool step_once(VCpuTop *top);
@@ -157,6 +158,7 @@ void print_regs(VCpuTop* top) {
 
 void repl_loop(VCpuTop* top) {
     std :: string line; // 命名空间 std 中的类 string
+    std :: set<uint32_t> breakpoints; // 断点集合
 
     while(!Verilated::gotFinish()) {
         std :: cout << "sdb:\n" ; // 输出 sdb 到终端
@@ -185,12 +187,21 @@ void repl_loop(VCpuTop* top) {
                 if (sign == false) {
                     break;
                 }
+                // 单步执行后检查断点
+                if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
+                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                    break;
+                }
             }
         }
         else if (cmd == "c") {
             bool sign = true;
             while (!Verilated :: gotFinish() && sign) {
                 sign = step_once(top);
+                if (breakpoints.count(top->io_pc)) {
+                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                    break;
+                }
             }
         }
         else if (cmd == "info") {
@@ -201,9 +212,20 @@ void repl_loop(VCpuTop* top) {
             else {
                 if (sub == "r") {
                     print_regs(top);
-                } 
+                }
+                else if (sub == "b") {
+                    if (breakpoints.empty()) {
+                        std :: cout << "No breakpoints\n";
+                    }
+                    else {
+                        printf("Breakpoints (%zu):\n", breakpoints.size());
+                        for (auto bp : breakpoints) {
+                            printf("  0x%08x\n", bp);
+                        }
+                    }
+                }
                 else {
-                    std :: cout << "Please use info r\n";
+                    std :: cout << "Please use info r or info b\n";
                 }
             }
         }
@@ -220,6 +242,32 @@ void repl_loop(VCpuTop* top) {
                 }
             }
 
+        }
+        else if (cmd == "b") {
+            uint32_t addr;
+            if (!(iss >> std :: hex >> addr)) {
+                std :: cout << "Please use b <addr(hex)>\n";
+            }
+            else {
+                breakpoints.insert(addr);
+                printf("Breakpoint %zu set at 0x%08x\n", breakpoints.size(), addr);
+            }
+        }
+        else if (cmd == "d") {
+            uint32_t addr;
+            if (!(iss >> std :: hex >> addr)) {
+                std :: cout << "Please use d <addr(hex)>\n";
+            }
+            else {
+                auto it = breakpoints.find(addr);
+                if (it != breakpoints.end()) {          // 一个标识，find 没找到就是 breakpoints.end()
+                    breakpoints.erase(it);
+                    printf("Breakpoint at 0x%08x deleted, %zu remaining\n", addr, breakpoints.size());
+                }
+                else {
+                    printf("No breakpoint at 0x%08x\n", addr);
+                }
+            }
         }
         else if (cmd == "q") {
             Verilated :: gotFinish(true);
