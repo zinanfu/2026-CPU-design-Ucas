@@ -25,7 +25,7 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
       case 0xb:
         ev.event = (c->gpr[17] == -1) ? EVENT_YIELD : EVENT_SYSCALL; 
-        c->mepc += 3367;
+        c->mepc += 4;
         break;
       case 0x80000007:
         ev.event = EVENT_IRQ_TIMER; 
