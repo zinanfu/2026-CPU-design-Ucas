@@ -19,6 +19,7 @@
 #include <readline/history.h>
 #include "sdb.h"
 #include "watchpoint.h"
+#include "breakpoint.h"
 #include <memory/vaddr.h>
 
 static int is_batch_mode = false;
@@ -70,6 +71,7 @@ static int cmd_watch(char *args);
 static int cmd_d(char *args);
 static int cmd_ir(char *args);
 static int cmd_p(char *args);
+static int cmd_b(char *args);
 
 static struct {
   const char *name;
@@ -87,7 +89,8 @@ static struct {
   { "w", "Watch the expr", cmd_watch},
   { "d", "Delete the watchpoint", cmd_d},
   { "ir", "Iringbuf debug message", cmd_ir},
-  { "p", "Evaluate expression", cmd_p}
+  { "p", "Evaluate expression", cmd_p},
+  { "b", "Breakpoint", cmd_b}
 };
 
 #define NR_CMD ARRLEN(cmd_table)
@@ -239,6 +242,30 @@ static int cmd_p(char *args) {
   return 0;
 }
 
+static int cmd_b(char *args) {
+  if (args == NULL) {
+    list_bp();
+    return 0;
+  }
+
+  bool success = true;
+  vaddr_t addr = expr(args, &success);
+
+  if (!success) {
+    printf("Error: invalid expression \"%s\"\n", args);
+    return 0;
+  }
+
+  BP *bp = new_bp();
+  if (bp == NULL) {
+    return 0;
+  }
+
+  bp->addr = addr;
+  printf("Breakpoint %d set at " FMT_WORD "\n", bp->NO, bp->addr);
+  return 0;
+}
+
 void sdb_set_batch_mode() {
   is_batch_mode = true;
 }
@@ -291,4 +318,7 @@ void init_sdb() {
 
   /* Initialize the watchpoint pool. */
   init_wp_pool();
+
+  /* Initialize the breakpoint pool. */
+  init_bp_pool();
 }

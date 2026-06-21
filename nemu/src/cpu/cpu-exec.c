@@ -18,6 +18,7 @@
 #include <cpu/difftest.h>
 #include <locale.h>
 #include "../monitor/sdb/watchpoint.h"
+#include "../monitor/sdb/breakpoint.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -96,6 +97,11 @@ static void execute(uint64_t n) {
     else {
       same_pc_count = 0;
       last_pc = cpu.pc;
+    }
+    // check breakpoint before executing the instruction
+    if (check_bp(cpu.pc) && nemu_state.state == NEMU_RUNNING) {
+      nemu_state.state = NEMU_STOP;
+      break;
     }
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
