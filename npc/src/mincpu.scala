@@ -419,12 +419,12 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
             csr.io.exception_pc    := pc
             next_pc                := csr.io.mtvec_out
           }
-          // when(rs2_idx === "b001".U) {  // ebreak
-          //   illegal := false.B
-          //   csr.io.exception := true.B
-          //   csr.io.exception_cause := 3.U
-          //   csr.io.exception_pc    := pc
-          // }
+          when(rs2_idx === "b001".U) {  // ebreak
+            illegal := false.B
+            csr.io.exception := true.B
+            csr.io.exception_cause := 3.U
+            csr.io.exception_pc    := pc
+          }
         }
         when(funct7 === "b0011000".U) {  // mret
           illegal := false.B
@@ -462,9 +462,9 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   var i = 0
 
-  when(csr.io.mret) {
-    printf("mret: mepc=0x%x next_pc=0x%x\n", csr.io.mret_target, next_pc)
-  } 
+  // when(csr.io.mret) {
+  //   printf("mret: mepc=0x%x next_pc=0x%x\n", csr.io.mret_target, next_pc)
+  // } 
   
 
   while(i < DEBUG_REGS) {
@@ -503,14 +503,14 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   pc := next_pc
 
-  when(pc === "h8001905c".U) {
-    printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
-    printf("sp=0x%8x\n", rs1_data)
-  }
-  when(pc === "h80019100".U) {
-    printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
-    printf("sp=0x%8x\n", regs(2.U))
-  }
+  // when(pc === "h8001905c".U) {
+  //   printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+  //   printf("sp=0x%8x\n", rs1_data)
+  // }
+  // when(pc === "h80019100".U) {
+  //   printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+  //   printf("sp=0x%8x\n", regs(2.U))
+  // }
 
   // printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
 }

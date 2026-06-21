@@ -13,6 +13,7 @@ Context* __am_irq_handle(Context *c) {
     switch (c->mcause) {
       case 11:              // Environment call from M-mode (yield)
         if (!_intr_enabled) {
+          printf("here enable is not allowed\n");
           return c;
         }
         ev.event = EVENT_YIELD; break;

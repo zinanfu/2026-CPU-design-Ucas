@@ -29,7 +29,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT___GEN_25;
         CData/*0:0*/ CpuTop__DOT___GEN_26;
         CData/*0:0*/ CpuTop__DOT___GEN_27;
-        CData/*0:0*/ CpuTop__DOT___GEN_30;
+        CData/*0:0*/ CpuTop__DOT___GEN_29;
         CData/*0:0*/ CpuTop__DOT___GEN_31;
         CData/*0:0*/ CpuTop__DOT___GEN_32;
         CData/*0:0*/ CpuTop__DOT___GEN_34;
@@ -41,8 +41,8 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT___GEN_44;
         CData/*0:0*/ CpuTop__DOT____Vcellinp__csr__io_exception;
         CData/*0:0*/ CpuTop__DOT____Vcellinp__csr__io_csr_wen;
+        CData/*0:0*/ CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_8;
         CData/*0:0*/ CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_11;
-        CData/*0:0*/ CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_12;
         CData/*3:0*/ CpuTop__DOT__alu__DOT__io_op;
         CData/*2:0*/ CpuTop__DOT__csr__DOT__io_csr_op;
         CData/*0:0*/ __VdfgRegularize_h6e95ff9d_0_2;
