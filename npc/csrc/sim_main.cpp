@@ -196,7 +196,7 @@ void repl_loop(VCpuTop* top) {
                     break;
                 }
                 if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x", top->io_debug_pc);
+                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
                     break;
                 }
             }
@@ -210,7 +210,7 @@ void repl_loop(VCpuTop* top) {
                     break;
                 }
                 if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x", top->io_debug_pc);
+                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
                     break;
                 }
             }
