@@ -16,6 +16,7 @@ Context* __am_irq_handle(Context *c) {
           printf("here enable is not allowed\n");
           return c;
         }
+        printf("enable\n");
         ev.event = EVENT_YIELD; break;
       case 0x80000007:      // Machine timer interrupt (mcause bit 31 + code 7)
         ev.event = EVENT_IRQ_TIMER; break;
