@@ -31,10 +31,14 @@ void isa_reg_display() {
     else {
       printf("$%s:\t0x%08x\n", regs[i], cpu.gpr[i]);
     }
+
     
   }
 
   printf("pc:\t0x%08x\n", cpu.pc);
+  printf("mepc:\t0x%08x\n", cpu.mepc);
+  printf("mstatus:0x%08x\n", cpu.mstatus);
+  printf("mcause:\t0x%08x\n", cpu.mcause);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
@@ -49,6 +53,15 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   }
   if (strcmp(s, "0") == 0) {
     return cpu.gpr[0];
+  }
+  if (strcmp(s, "mstatus") == 0) {
+    return cpu.mstatus;
+  }
+  if (strcmp(s, "mepc") == 0) {
+    return cpu.mepc;
+  }
+  if (strcmp(s, "mcause") == 0) {
+    return cpu.mcause;
   }
   *success = false;
   return 0;

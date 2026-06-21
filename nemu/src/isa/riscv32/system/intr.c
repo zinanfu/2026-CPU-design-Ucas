@@ -48,7 +48,16 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
    */ 
 
   cpu.mepc = epc;
+
+  word_t old_mie = (cpu.mstatus >> 3) & 1;
+  cpu.mstatus = (cpu.mstatus & ~(1 << 7)) | (old_mie << 7);
+
+  cpu.mstatus = (cpu.mstatus & ~(3 << 11)) | (3 << 11);
+  
+  cpu.mstatus &= ~(1 << 3);
+  
   cpu.mcause = NO;
+  cpu.mepc = epc;
 
 #ifdef CONFIG_ETRACE
   Log("[etrace] intr: cause:%s(0x%x), epc=0x%x, jump to mtvec=0x%x", etrace_cause_name(NO), NO, epc, cpu.mtvec);

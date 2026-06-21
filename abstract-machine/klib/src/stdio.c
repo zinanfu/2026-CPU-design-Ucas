@@ -5,8 +5,8 @@
 
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
-
-int itoa(int val, char* buf) {
+//  pa4.1 fceux add static 
+static int itoa(int val, char* buf) {
   char temp[64];
   int i = 0;
   int j = 0;

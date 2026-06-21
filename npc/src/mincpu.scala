@@ -85,13 +85,23 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     0.U(1.W)
   )
 
-  // === alu ===
+  // alu
   val alu = Module(new Alu(32))
-  alu.io.a := 0.U
-  alu.io.b := 0.U
+  alu.io.a  := 0.U
+  alu.io.b  := 0.U
   alu.io.op := 0.U
 
-
+  // csr
+  val csr = Module(new Csr)
+  csr.io.csr_addr         := 0.U
+  csr.io.csr_op           := 0.U
+  csr.io.rs1_data         := 0.U
+  csr.io.zimm             := 0.U
+  csr.io.csr_wen          := false.B
+  csr.io.exception        := false.B
+  csr.io.exception_cause  := 0.U
+  csr.io.exception_pc     := 0.U
+  csr.io.mret             := false.B
 
   io.mem_addr  := 0.U
   io.mem_wdata := 0.U
@@ -262,6 +272,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b010".U) { //lw
         illegal := false.B
         wb_data := io.mem_rdata
+        // printf("L_wdata:0x%8x\n", io.mem_rdata)
       }
       when(funct3 === "b000".U) { //lb
         illegal := false.B
@@ -328,6 +339,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       when(funct3 === "b010".U) { // sw
         io.mem_wmask := "b1111".U
         io.mem_wdata := rs2_data
+        // printf("S_wdata:0x%8x\n", rs2_data)
       }
     }
 
@@ -395,6 +407,46 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
         }
       }
     }
+
+    // syscall 
+    is("b1110011".U) {
+      when(funct3 === "b000".U) {
+        when(funct7 === "b0000000".U) {
+          when(rs2_idx === "b000".U) {  // ecall
+            illegal := false.B
+            csr.io.exception := true.B
+            csr.io.exception_cause := 11.U
+            csr.io.exception_pc    := pc
+            next_pc                := csr.io.mtvec_out
+          }
+          when(rs2_idx === "b001".U) {  // ebreak
+            illegal := false.B
+            csr.io.exception := true.B
+            csr.io.exception_cause := 3.U
+            csr.io.exception_pc    := pc
+          }
+        }
+        when(funct7 === "b0011000".U) {  // mret
+          illegal := false.B
+          csr.io.mret := true.B
+          next_pc := csr.io.mret_target
+        }
+      }.otherwise {                     // csr
+        illegal := false.B
+        csr.io.csr_wen := true.B
+        csr.io.csr_op := funct3
+        csr.io.csr_addr := inst(31,20)
+        csr.io.rs1_data := rs1_data
+        csr.io.zimm := Cat(0.U(27.W), rs1) 
+
+        wb_data := csr.io.csr_rdata
+        wb_en := true.B
+      }
+      
+
+      
+
+    }
   }
 
   /*===========================wb=================================*/
@@ -409,6 +461,11 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   io.debug_valid := !illegal // only use in no pipe line
 
   var i = 0
+
+  // when(csr.io.mret) {
+  //   printf("mret: mepc=0x%x next_pc=0x%x\n", csr.io.mret_target, next_pc)
+  // } 
+  
 
   while(i < DEBUG_REGS) {
     if (i == 0) {
@@ -443,5 +500,21 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   }
 
 
+
   pc := next_pc
+
+  // when(pc === "h8001905c".U) {
+  //   printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+  //   printf("sp=0x%8x\n", rs1_data)
+  // }
+  // when(pc === "h80019100".U) {
+  //   printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+  //   printf("sp=0x%8x\n", regs(2.U))
+  // }
+  // when(pc === "h80019138".U) {
+  //   printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+  //   printf("sp=0x%8x\n", regs(2.U))
+  // }
+
+  // printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
 }
