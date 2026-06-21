@@ -59,7 +59,6 @@ enum {
 #define CSR_MCAUSE  0x342
 
 static word_t csr_read(uint32_t addr) {
-  printf("there is a csr_read\n");
   switch(addr) {
     case CSR_MSTATUS: return cpu.mstatus; break;
     case CSR_MEPC   : return cpu.mepc   ; break;
