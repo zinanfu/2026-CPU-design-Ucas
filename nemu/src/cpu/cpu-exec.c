@@ -98,13 +98,13 @@ static void execute(uint64_t n) {
       same_pc_count = 0;
       last_pc = cpu.pc;
     }
-    exec_once(&s, cpu.pc);
     // check breakpoint before executing the instruction
-    if (check_bp(cpu.pc) && nemu_state.state == NEMU_RUNNING) {
+    // skip breakpoint check when si(g_print_step)
+    if (!g_print_step && check_bp(cpu.pc) && nemu_state.state == NEMU_RUNNING) {
       nemu_state.state = NEMU_STOP;
       break;
     }
-    
+    exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
     trace_and_difftest(&s, cpu.pc);
     if (nemu_state.state != NEMU_RUNNING) break;
