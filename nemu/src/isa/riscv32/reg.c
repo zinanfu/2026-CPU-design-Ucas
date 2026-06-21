@@ -54,6 +54,15 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   if (strcmp(s, "0") == 0) {
     return cpu.gpr[0];
   }
+  if (strcmp(s, "mstatus") == 0) {
+    return cpu.mstatus;
+  }
+  if (strcmp(s, "mepc") == 0) {
+    return cpu.mepc;
+  }
+  if (strcmp(s, "mcause") == 0) {
+    return cpu.mcause;
+  }
   *success = false;
   return 0;
 }
