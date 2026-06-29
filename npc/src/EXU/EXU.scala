@@ -47,7 +47,7 @@ class EXU extends Module {
   val redirect_target = WireDefault(0.U(32.W))
   val redirect_valid  = WireDefault(false.B)
 
-  printf("exception: %d, mret: %d, jalr: %d\n", in.exception, in.mret, in.is_jalr)
+  // printf("exception: %d, mret: %d, jalr: %d\n", in.exception, in.mret, in.is_jalr)
   when (in.exception) { // exception
     redirect_valid  := true.B
     redirect_target := csr.io.mtvec_out
