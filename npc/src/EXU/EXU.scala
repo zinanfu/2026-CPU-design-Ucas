@@ -8,7 +8,7 @@ class EXU extends Module {
     val in  = Flipped(Decoupled(new IdToEXMessage))
     val out = Decoupled(new ExToMemMessage)
 
-    // 分支/跳转/异常
+    // 异常
     val redirect = Valid(new Bundle {
       val target = UInt(32.W)
     })
@@ -38,24 +38,10 @@ class EXU extends Module {
   csr.io.exception_pc    := in.pc
   csr.io.mret            := in.mret
 
-  // branch
-  val branch_taken = WireDefault(false.B)
-  when (in.is_branch) {
-    switch (in.branch_type) {
-      is("b000".U) { branch_taken := in.alu_a === in.alu_b              } // beq
-      is("b001".U) { branch_taken := in.alu_a =/= in.alu_b              } // bne
-      is("b100".U) { branch_taken := in.alu_a.asSInt < in.alu_b.asSInt  } // blt
-      is("b101".U) { branch_taken := in.alu_a.asSInt >= in.alu_b.asSInt } // bge
-      is("b110".U) { branch_taken := in.alu_a < in.alu_b                } // bltu
-      is("b111".U) { branch_taken := in.alu_a >= in.alu_b               } // bgeu
-    }
-  }
-
-
+  // ── redirect (exception / mret / jalr) ──
   val redirect_target = WireDefault(0.U(32.W))
   val redirect_valid  = WireDefault(false.B)
 
-  
   when (in.exception) { // exception
     redirect_valid  := true.B
     redirect_target := csr.io.mtvec_out
@@ -64,17 +50,9 @@ class EXU extends Module {
     redirect_valid  := true.B
     redirect_target := csr.io.mret_target
   }
-  .elsewhen (in.is_jal) { // jal
-    redirect_valid  := true.B
-    redirect_target := in.branch_target
-  }
   .elsewhen (in.is_jalr) { // jalr
     redirect_valid  := true.B
     redirect_target := alu_result & (~1.U(32.W))
-  }
-  .elsewhen (in.is_branch && branch_taken) { // branch
-    redirect_valid  := true.B
-    redirect_target := in.branch_target
   }
 
   io.redirect.valid       := redirect_valid

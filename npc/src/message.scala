@@ -36,7 +36,6 @@ class IdToEXMessage extends Bundle {
     val csr_zimm        = UInt(32.W)   // zimm(rs1) for CSR RWI/RSI/RCI ops
 
     // control
-    // val pc              = UInt(32.W)   // 当前 pc，EX 用来算 auipc 结果/pc+4
     val branch_target   = UInt(32.W)   // ID 已算好 pc+immB 或 pc+immJ
     val is_branch       = Bool()
     val branch_type     = UInt(3.W)    // funct3，EX 用它做比较

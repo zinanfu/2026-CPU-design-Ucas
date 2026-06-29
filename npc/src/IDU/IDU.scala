@@ -13,6 +13,11 @@ class IDU extends Module {
     val reg_waddr = Input(UInt(5.W))
     val reg_wdata = Input(UInt(32.W))
 
+    // redirect (B-type & JAL resolved in ID)
+    val redirect = Valid(new Bundle {
+      val target = UInt(32.W)
+    })
+
     // debug
     val debug_regs = Output(Vec(32, UInt(32.W)))
   })
@@ -50,6 +55,13 @@ class IDU extends Module {
   val immU = Cat(inst(31, 12), 0.U(12.W))
   val immJ = Cat(Fill(12, inst(31)), inst(19, 12), inst(20), inst(30, 21), 0.U(1.W))
 
+  // ── branch comparison in ID ──
+  val branch_taken = WireDefault(false.B)
+
+  // redirect defaults
+  io.redirect.valid       := false.B
+  io.redirect.bits.target := 0.U
+
   // alu
   io.out.bits.alu_op          := 0.U
   io.out.bits.alu_a           := rs1_data
@@ -76,7 +88,7 @@ class IDU extends Module {
 
   // pc & branch/j
   io.out.bits.pc              := pc
-  io.out.bits.branch_target   := pc + immB   // B-type 默认
+  io.out.bits.branch_target   := pc + immB   // B-type default
   io.out.bits.is_branch       := false.B
   io.out.bits.branch_type     := funct3
   io.out.bits.is_jal          := false.B
@@ -176,24 +188,26 @@ class IDU extends Module {
     }
 
     // J_type
-    is("b1101111".U) { // jal
-      io.out.bits.illegal      := false.B
-      io.out.bits.wb_en        := true.B
-      io.out.bits.wb_sel       := 2.U        // pc+4
-      io.out.bits.is_jal       := true.B
+    is("b1101111".U) { // jal — redirect in ID
+      io.out.bits.illegal       := false.B
+      io.out.bits.wb_en         := true.B
+      io.out.bits.wb_sel        := 2.U           // pc+4
+      io.out.bits.is_jal        := true.B
       io.out.bits.branch_target := pc + immJ
+      io.redirect.valid         := true.B
+      io.redirect.bits.target   := pc + immJ
     }
-    is("b1100111".U) { // jalr
+    is("b1100111".U) { // jalr — redirect in EXU (needs ALU)
       io.out.bits.illegal      := false.B
       io.out.bits.wb_en        := true.B
-      io.out.bits.wb_sel       := 2.U        // pc+4
+      io.out.bits.wb_sel       := 2.U           // pc+4
       io.out.bits.is_jalr      := true.B
       io.out.bits.alu_a        := rs1_data
       io.out.bits.alu_b        := immI
       io.out.bits.alu_op       := ALU_ADD
     }
 
-    // B_type
+    // B_type — redirect in ID
     is("b1100011".U) {
       io.out.bits.is_branch     := true.B
       io.out.bits.branch_type   := funct3
@@ -201,8 +215,36 @@ class IDU extends Module {
       io.out.bits.alu_a         := rs1_data
       io.out.bits.alu_b         := rs2_data
 
-      when(funct3 === "b000".U || funct3 === "b001".U || funct3 === "b100".U || funct3 === "b101".U || funct3 === "b110".U || funct3 === "b111".U) {
-        io.out.bits.illegal := false.B
+      switch (funct3) {
+        is("b000".U) { // beq
+          io.out.bits.illegal := false.B
+          branch_taken := rs1_data === rs2_data
+        }
+        is("b001".U) { // bne
+          io.out.bits.illegal := false.B
+          branch_taken := rs1_data =/= rs2_data
+        }
+        is("b100".U) { // blt
+          io.out.bits.illegal := false.B
+          branch_taken := rs1_data.asSInt < rs2_data.asSInt
+        }
+        is("b101".U) { // bge
+          io.out.bits.illegal := false.B
+          branch_taken := rs1_data.asSInt >= rs2_data.asSInt
+        }
+        is("b110".U) { // bltu
+          io.out.bits.illegal := false.B
+          branch_taken := rs1_data < rs2_data
+        }
+        is("b111".U) { // bgeu
+          io.out.bits.illegal := false.B
+          branch_taken := rs1_data >= rs2_data
+        }
+      }
+
+      when (branch_taken) {
+        io.redirect.valid       := true.B
+        io.redirect.bits.target := pc + immB
       }
     }
 

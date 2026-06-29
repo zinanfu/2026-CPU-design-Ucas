@@ -32,13 +32,28 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   val mem = Module(new MEM)
   val wbu = Module(new WBU)
 
-  // 分支地址跳转
-  ifu.io.redirect := exu.io.redirect
-  val pipeline_flush = exu.io.redirect.valid
+  // ── 分支地址跳转 ──
+  //   IDU: B-type (条件分支) + JAL (无条件跳转)
+  //   EXU: JALR (需要 ALU 算地址) + exception + mret
+  //   优先级: EXU > IDU（异常/mret 优先）
+  val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
+  val redirect_target = Mux(exu.io.redirect.valid,
+    exu.io.redirect.bits.target,
+    idu.io.redirect.bits.target
+  )
+
+  ifu.io.redirect.valid       := redirect_valid
+  ifu.io.redirect.bits.target := redirect_target
+
+  //   flush 策略:
+  //     IDU redirect（B/JAL）→ 只冲 IFU→IDU（跳转指令本身在 IDU，要继续走到 WBU 写回）
+  //     EXU redirect（JALR/exception/mret）→ 冲 IFU→IDU + IDU→EXU（后面取指和译码都错了）
+  val flush_ifu_idu = redirect_valid
+  val flush_idu_exu = exu.io.redirect.valid
 
   // 流水线连接
-  StageConnect(ifu.io.out, idu.io.in, arch = "pipeline", flush = pipeline_flush)
-  StageConnect(idu.io.out, exu.io.in, arch = "pipeline", flush = pipeline_flush)
+  StageConnect(ifu.io.out, idu.io.in, arch = "pipeline", flush = flush_ifu_idu)
+  StageConnect(idu.io.out, exu.io.in, arch = "pipeline", flush = flush_idu_exu)
   StageConnect(exu.io.out, mem.io.in, arch = "pipeline")
   StageConnect(mem.io.out, wbu.io.in, arch = "pipeline")
 
