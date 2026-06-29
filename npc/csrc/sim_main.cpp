@@ -110,7 +110,10 @@ bool step_once(VCpuTop *top) {
 
     // data memory read
     printf("mem_addr = %x\n", top->io_mem_addr);
-    top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
+    if (top->io_mem_ren) {
+        top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
+    }
+    
 
     // clock high
     top->clock = 1;

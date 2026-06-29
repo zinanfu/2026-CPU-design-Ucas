@@ -13,12 +13,10 @@ class EXU extends Module {
       val target = UInt(32.W)
     })
   })
-  // transfer
-  io.out.bits.pc   := io.in.bits.pc
-  io.out.bits.inst := io.in.bits.inst
-
-
   val in = io.in.bits
+  // transfer
+  io.out.bits.pc   := in.pc
+  io.out.bits.inst := in.inst
 
   // alu
   val alu = Module(new Alu(32))
