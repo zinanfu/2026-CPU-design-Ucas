@@ -19,7 +19,7 @@ class IFU extends Module {
   val pc = RegInit("h80000000".U(32.W))
   val inst = RegInit("h00000000".U(32.W))
 
-  printf("pc = 0x%08x, inst = 0x%08x"pc , inst)
+  printf("pc = 0x%08x, inst = 0x%08x", pc, inst)
   // PC 更新逻辑
   when (io.redirect.valid) {
     pc := io.redirect.bits.target 
