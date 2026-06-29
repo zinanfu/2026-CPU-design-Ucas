@@ -18,7 +18,7 @@ class IDU extends Module {
   })
   // transfer
   // val io.out.bits.pc   = io.in.bits.pc
-  val io.out.bits.inst = io.in.bits.inst
+  val io.out.bits.inst := io.in.bits.inst
 
   // decode
   val inst   = io.in.bits.inst
