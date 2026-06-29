@@ -68,8 +68,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_33;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_34;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_35;
-        CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9;
+        CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10;
         CData/*0:0*/ CpuTop__DOT__idu__DOT__regfile__DOT___GEN;
+        CData/*0:0*/ CpuTop__DOT__exu__DOT__io_fwd_wb_en;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN_0;
         CData/*7:0*/ CpuTop__DOT__mem__DOT__casez_tmp;
@@ -79,9 +80,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ __VicoFirstIteration;
         CData/*0:0*/ __VicoPhaseResult;
         CData/*0:0*/ __Vtrigprevexpr___TOP__clock__0;
-        CData/*0:0*/ __VactPhaseResult;
     };
     struct {
+        CData/*0:0*/ __VactPhaseResult;
         CData/*0:0*/ __VnbaPhaseResult;
         SData/*11:0*/ CpuTop__DOT__reg_1_csr_addr;
         SData/*15:0*/ CpuTop__DOT__mem__DOT__load_half;
@@ -145,15 +146,16 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_22;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_23;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_24;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_25;
     };
     struct {
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_25;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_26;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_27;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_28;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_29;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_30;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_31;
+        IData/*31:0*/ CpuTop__DOT__exu__DOT__io_fwd_wb_data;
         IData/*31:0*/ CpuTop__DOT__exu__DOT__alu__DOT__io_out;
         IData/*31:0*/ CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
         IData/*31:0*/ CpuTop__DOT__exu__DOT__csr__DOT__mstatush;
