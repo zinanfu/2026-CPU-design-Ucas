@@ -37,6 +37,8 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   //   EXU: JALR (需要 ALU 算地址) + exception + mret
   //   优先级: EXU > IDU（异常/mret 优先）
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
+  printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
+  printf("ID: redirect_valid = %d, target = %x\n", idu.io.redirect.valid, idu.io.redirect.bits.target)
   val redirect_target = Mux(exu.io.redirect.valid,
     exu.io.redirect.bits.target,
     idu.io.redirect.bits.target
