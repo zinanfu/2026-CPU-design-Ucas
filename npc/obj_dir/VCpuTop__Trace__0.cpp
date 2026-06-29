@@ -444,30 +444,6 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                        & ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp) 
                                                           >> 7U)))) 
                                            << 8U) | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp)))))),32);
-    bufp->chgIData(oldp+178,(((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren)
-                               ? ((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
-                                   ? ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
-                                       ? 0U : ((1U 
-                                                & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
-                                                ? (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half)
-                                                : (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp)))
-                                   : ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
-                                       ? ((1U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
-                                           ? 0U : vlSelfRef.io_mem_rdata)
-                                       : ((1U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
-                                           ? (((- (IData)(
-                                                          (1U 
-                                                           & ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half) 
-                                                              >> 0x0000000fU)))) 
-                                               << 0x00000010U) 
-                                              | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half))
-                                           : (((- (IData)(
-                                                          (1U 
-                                                           & ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp) 
-                                                              >> 7U)))) 
-                                               << 8U) 
-                                              | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp)))))
-                               : 0U)),32);
 }
 
 void VCpuTop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
