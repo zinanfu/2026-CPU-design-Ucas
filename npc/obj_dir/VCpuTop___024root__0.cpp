@@ -144,13 +144,25 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     IData/*31:0*/ __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0;
     // Body
-    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
-        VL_FWRITEF_NX(0x80000002U,"pc = 0x%x, if_inst = 0x%x\n",0,
-                      32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
-                      32,vlSelfRef.io_inst);
-    }
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
         = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"pc = 0x%x, if_inst = 0x%x, redirect_valid = %1#, redirect_target = %x\n",0,
+                      32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
+                      32,vlSelfRef.io_inst,1,(IData)(vlSelfRef.CpuTop__DOT___exu_io_redirect_valid),
+                      32,((IData)(vlSelfRef.CpuTop__DOT__reg_1_exception)
+                           ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec
+                           : ((IData)(vlSelfRef.CpuTop__DOT__reg_1_mret)
+                               ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc
+                               : ((IData)(vlSelfRef.CpuTop__DOT__reg_1_is_jal)
+                                   ? vlSelfRef.CpuTop__DOT__reg_1_branch_target
+                                   : ((IData)(vlSelfRef.CpuTop__DOT__reg_1_is_jalr)
+                                       ? (0xfffffffeU 
+                                          & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)
+                                       : ((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___GEN_0)
+                                           ? vlSelfRef.CpuTop__DOT__reg_1_branch_target
+                                           : 0U))))));
+    }
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
     if (vlSelfRef.reset) {
         vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcycle_64 = 0ULL;
@@ -510,8 +522,8 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         vlSelfRef.CpuTop__DOT__reg_2_inst = vlSelfRef.CpuTop__DOT__reg_1_inst;
         vlSelfRef.CpuTop__DOT__reg_2_wb_en = vlSelfRef.CpuTop__DOT__reg_1_wb_en;
         vlSelfRef.CpuTop__DOT__reg_2_wb_addr = vlSelfRef.CpuTop__DOT__reg_1_wb_addr;
-        vlSelfRef.CpuTop__DOT__reg_2_alu_result = vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out;
         vlSelfRef.CpuTop__DOT__reg_2_csr_rdata = vlSelfRef.CpuTop__DOT___exu_io_out_bits_csr_rdata;
+        vlSelfRef.CpuTop__DOT__reg_2_alu_result = vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out;
         vlSelfRef.CpuTop__DOT__reg_2_pc_plus4 = ((IData)(4U) 
                                                  + vlSelfRef.CpuTop__DOT__reg_1_pc);
         vlSelfRef.CpuTop__DOT__reg_2_mem_ren = vlSelfRef.CpuTop__DOT__reg_1_mem_ren;

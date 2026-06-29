@@ -82,7 +82,9 @@ bool step_once(VCpuTop *top) {
         return false;
     }
 
+    printf("hello\n");
     uint32_t inst = paddr_read(pc, 4, true);
+    printf("bye\n");
     
     if (inst == 0x00100073) {
         uint32_t code = top->io_debug_regs_flat[10];
