@@ -403,12 +403,13 @@ class IDU extends Module {
     }
   }
 
-  io.out.valid := io.in.valid && !stall
-  io.in.ready  := io.out.ready && !stall
-
+  // load-use stall: EXU 中是 load 指令且 IDU 读其目标寄存器时，停一拍
   val load_in_ex = io.fwd_exu_is_load
   val load_addr  = io.fwd_exu_waddr
-  val stall      = load_in_ex && (rs1 === load_addr || rs2 === load_addr)
+  val stall      = io.in.valid && load_in_ex && (rs1 === load_addr || rs2 === load_addr)
+
+  io.out.valid := io.in.valid && !stall
+  io.in.ready  := io.out.ready && !stall
 
   when (!io.in.valid) {
     io.redirect.valid := false.B
