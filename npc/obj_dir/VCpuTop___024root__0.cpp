@@ -1205,8 +1205,10 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
          & ((IData)(vlSelfRef.CpuTop__DOT__reg_1_exception) 
             | ((IData)(vlSelfRef.CpuTop__DOT__reg_1_is_jalr) 
                | (IData)(vlSelfRef.CpuTop__DOT__reg_1_mret))));
-    vlSelfRef.CpuTop__DOT___exu_io_fwd_wb_en = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
-                                                & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1));
+    vlSelfRef.CpuTop__DOT___exu_io_fwd_wb_en = ((IData)(vlSelfRef.CpuTop__DOT__reg_valid_1) 
+                                                & ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
+                                                   & (1U 
+                                                      != (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))));
     vlSelfRef.CpuTop__DOT__reg_valid = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                         && (1U & (~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid))));
     vlSelfRef.CpuTop__DOT__reg_inst = vlSelfRef.io_inst;

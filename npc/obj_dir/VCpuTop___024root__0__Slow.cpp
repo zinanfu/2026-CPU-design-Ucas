@@ -392,10 +392,12 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                         : ((0x00008000U & vlSelfRef.CpuTop__DOT__reg_inst)
                             ? vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1
                             : 0U)))));
-    vlSelfRef.CpuTop__DOT___exu_io_fwd_wb_en = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
-                                                & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1));
     vlSelfRef.CpuTop__DOT___mem_io_fwd_wb_en = ((IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_en) 
                                                 & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2));
+    vlSelfRef.CpuTop__DOT___exu_io_fwd_wb_en = ((IData)(vlSelfRef.CpuTop__DOT__reg_valid_1) 
+                                                & ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
+                                                   & (1U 
+                                                      != (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))));
     vlSelfRef.CpuTop__DOT___wbu_io_reg_wen = ((IData)(vlSelfRef.CpuTop__DOT__reg_3_wb_en) 
                                               & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_3));
     vlSelfRef.CpuTop__DOT__idu__DOT___regfile_io_rdata2 
