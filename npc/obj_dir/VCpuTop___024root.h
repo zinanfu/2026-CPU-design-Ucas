@@ -22,10 +22,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         VL_OUT8(io_mem_wen,0,0);
         VL_OUT8(io_mem_ren,0,0);
         VL_OUT8(io_debug_valid,0,0);
-        CData/*0:0*/ CpuTop__DOT___wbu_io_reg_wen;
-        CData/*0:0*/ CpuTop__DOT___mem_io_fwd_wb_en;
         CData/*0:0*/ CpuTop__DOT___exu_io_redirect_valid;
-        CData/*0:0*/ CpuTop__DOT___exu_io_fwd_wb_en;
         CData/*3:0*/ CpuTop__DOT___idu_io_out_bits_alu_op;
         CData/*0:0*/ CpuTop__DOT__redirect_valid;
         CData/*0:0*/ CpuTop__DOT__reg_valid;
@@ -55,6 +52,8 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*4:0*/ CpuTop__DOT__reg_3_wb_addr;
         CData/*0:0*/ CpuTop__DOT__reg_3_wb_en;
         CData/*0:0*/ CpuTop__DOT__reg_valid_3;
+        CData/*0:0*/ CpuTop__DOT__idu__DOT__io_reg_wen;
+        CData/*0:0*/ CpuTop__DOT__idu__DOT__io_fwd_mem_wen;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_9;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_16;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_17;
@@ -71,6 +70,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_35;
         CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10;
         CData/*0:0*/ CpuTop__DOT__idu__DOT__regfile__DOT___GEN;
+        CData/*0:0*/ CpuTop__DOT__exu__DOT__io_fwd_wb_en;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN_0;
         CData/*7:0*/ CpuTop__DOT__mem__DOT__casez_tmp;
@@ -119,9 +119,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__reg_3_inst;
         IData/*31:0*/ CpuTop__DOT__reg_3_wb_data;
         IData/*31:0*/ CpuTop__DOT__ifu__DOT__pc;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT___regfile_io_rdata1;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT___regfile_io_rdata2;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__immI;
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata1;
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata2;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_1;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_2;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_3;

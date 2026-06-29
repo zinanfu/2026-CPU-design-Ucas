@@ -35,15 +35,15 @@ class MEM extends Module {
   io.mem_wen   := io.in.valid && in.mem_wen
   io.mem_ren   := io.in.valid && in.mem_ren
 
-  // debug: trace memory stores
-  when (io.in.valid && in.mem_wen) {
-    printf("[MEM store] pc=%x addr=%x data=%x mask=%x\n", in.pc, in.mem_addr, in.mem_wdata, in.mem_wmask)
-  }
+  // // debug: trace memory stores
+  // when (io.in.valid && in.mem_wen) {
+  //   printf("[MEM store] pc=%x addr=%x data=%x mask=%x\n", in.pc, in.mem_addr, in.mem_wdata, in.mem_wmask)
+  // }
 
-  // debug: trace memory loads
-  when (io.in.valid && in.mem_ren) {
-    printf("[MEM load]  pc=%x addr=%x rdata=%x\n", in.pc, in.mem_addr, io.mem_rdata)
-  }
+  // // debug: trace memory loads
+  // when (io.in.valid && in.mem_ren) {
+  //   printf("[MEM load]  pc=%x addr=%x rdata=%x\n", in.pc, in.mem_addr, io.mem_rdata)
+  // }
 
   // load
   val load_addr_offset = in.mem_addr(1, 0)
