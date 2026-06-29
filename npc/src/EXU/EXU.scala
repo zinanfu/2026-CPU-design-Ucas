@@ -96,7 +96,7 @@ class EXU extends Module {
   io.fwd_wb_en      := io.in.valid && in.wb_en && in.wb_sel =/= 1.U  // load 不在 EXU 前递
   io.fwd_wb_addr    := in.wb_addr
   io.fwd_wb_data    := exu_wb_data
-  io.fwd_wb_is_Load := in.wb_sel === 1.U
+  io.fwd_wb_is_Load := io.in.valid && in.wb_en && in.wb_sel === 1.U
 
   // io_out
   io.out.bits.alu_result := alu_result
