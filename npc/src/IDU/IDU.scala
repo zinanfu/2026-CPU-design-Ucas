@@ -20,7 +20,7 @@ class IDU extends Module {
   // decode
   val inst   = io.in.bits.inst
   val pc     = io.in.bits.pc
-  printf("IDU:pc = %x, inst = %x", pc, inst)
+  printf("IDU:pc = %x, inst = %x\n", pc, inst)
 
   val opcode = inst(6, 0)
   val rd     = inst(11, 7)

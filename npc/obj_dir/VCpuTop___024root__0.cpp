@@ -150,6 +150,11 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                       32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
                       32,vlSelfRef.io_inst);
     }
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"IDU:pc = %x, inst = %x",0,
+                      32,vlSelfRef.CpuTop__DOT__reg_pc,
+                      32,vlSelfRef.CpuTop__DOT__reg_inst);
+    }
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
         = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
