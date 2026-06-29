@@ -890,6 +890,7 @@ VL_ATTR_COLD void VCpuTop___024root___ctor_var_reset(VCpuTop___024root* vlSelf) 
     vlSelf->CpuTop__DOT__reg_3_wb_en = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 3968388094877639718ull);
     vlSelf->CpuTop__DOT__reg_3_wb_data = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 4902591092582155094ull);
     vlSelf->CpuTop__DOT__ifu__DOT__pc = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 12954478272035512755ull);
+    vlSelf->CpuTop__DOT__ifu__DOT__inst = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 11604770773483154239ull);
     vlSelf->CpuTop__DOT__idu__DOT__immI = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 3293307470279830644ull);
     vlSelf->CpuTop__DOT__idu__DOT___GEN_9 = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 3019777457515358492ull);
     vlSelf->CpuTop__DOT__idu__DOT___GEN_14 = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 5938869579989693406ull);
