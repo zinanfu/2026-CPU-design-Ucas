@@ -16,7 +16,7 @@ class WBU extends Module {
     val wb_inst = Output(UInt(32.W))  
   })
 
-  io.reg_wen    := io.in.bits.wb_en
+  io.reg_wen    := io.in.valid && io.in.bits.wb_en
   io.reg_waddr  := io.in.bits.wb_addr
   io.reg_wdata  := io.in.bits.wb_data
 

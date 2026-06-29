@@ -76,6 +76,11 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   idu.io.reg_waddr    := wbu.io.reg_waddr
   idu.io.reg_wdata    := wbu.io.reg_wdata
 
+  // forwarding from MEM to IDU
+  idu.io.fwd_mem_wen   := mem.io.fwd_wb_en
+  idu.io.fwd_mem_waddr := mem.io.fwd_wb_addr
+  idu.io.fwd_mem_wdata := mem.io.fwd_wb_data
+
   // debug
   io.debug_pc         := wbu.io.wb_pc
   io.debug_inst       := wbu.io.wb_inst

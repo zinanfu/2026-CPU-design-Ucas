@@ -8,10 +8,15 @@ class IDU extends Module {
     val in  = Flipped(Decoupled(new IfToIdMessage))
     val out = Decoupled(new IdToEXMessage)
 
-    // reg
+    // reg (from WBU)
     val reg_wen   = Input(Bool())
     val reg_waddr = Input(UInt(5.W))
     val reg_wdata = Input(UInt(32.W))
+
+    // forwarding from MEM
+    val fwd_mem_wen   = Input(Bool())
+    val fwd_mem_waddr = Input(UInt(5.W))
+    val fwd_mem_wdata = Input(UInt(32.W))
 
     // redirect (B-type & JAL resolved in ID)
     val redirect = Valid(new Bundle {
@@ -45,8 +50,16 @@ class IDU extends Module {
   regfile.io.wdata  := io.reg_wdata
   io.debug_regs     := regfile.io.debug_regs
 
-  val rs1_data = Mux(rs1.orR, regfile.io.rdata1, 0.U)     // orR: 位或
-  val rs2_data = Mux(rs2.orR, regfile.io.rdata2, 0.U)
+  // forwarding: WBU（最新）> MEM > regfile，最后 x0 硬连线为 0
+  val rs1_reg    = regfile.io.rdata1
+  val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_reg)
+  val rs1_wbu    = Mux(io.reg_wen    && io.reg_waddr    === rs1 && io.reg_waddr    =/= 0.U, io.reg_wdata,    rs1_mem)
+  val rs1_data   = Mux(rs1.orR, rs1_wbu, 0.U)
+
+  val rs2_reg    = regfile.io.rdata2
+  val rs2_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs2 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs2_reg)
+  val rs2_wbu    = Mux(io.reg_wen    && io.reg_waddr    === rs2 && io.reg_waddr    =/= 0.U, io.reg_wdata,    rs2_mem)
+  val rs2_data   = Mux(rs2.orR, rs2_wbu, 0.U)
 
   // imm
   val immI = Cat(Fill(20, inst(31)), inst(31, 20))
@@ -61,6 +74,9 @@ class IDU extends Module {
   // redirect defaults
   io.redirect.valid       := false.B
   io.redirect.bits.target := 0.U
+
+  // 实际 redirect 必须与 valid 门控
+  // （branch_taken / is_jal 在各自 case 里设置，这里最终门控）
 
   // alu
   io.out.bits.alu_op          := 0.U
@@ -197,7 +213,7 @@ class IDU extends Module {
       io.redirect.valid         := true.B
       io.redirect.bits.target   := pc + immJ
     }
-    is("b1100111".U) { // jalr — redirect in EXU (needs ALU)
+    is("b1100111".U) { // jalr — redirect in EXU (need ALU)
       io.out.bits.illegal      := false.B
       io.out.bits.wb_en        := true.B
       io.out.bits.wb_sel       := 2.U           // pc+4
@@ -383,4 +399,9 @@ class IDU extends Module {
 
   io.out.valid := io.in.valid
   io.in.ready  := io.out.ready
+
+  // gate redirect with in.valid，防止气泡时残留旧指令触发错误跳转
+  when (!io.in.valid) {
+    io.redirect.valid := false.B
+  }
 }

@@ -15,6 +15,11 @@ class MEM extends Module {
     val mem_wen   = Output(Bool())
     val mem_ren   = Output(Bool())
     val mem_rdata = Input(UInt(32.W))
+
+    // forwarding
+    val fwd_wb_en   = Output(Bool())
+    val fwd_wb_addr = Output(UInt(5.W))
+    val fwd_wb_data = Output(UInt(32.W))
   })
   
 
@@ -27,8 +32,8 @@ class MEM extends Module {
   io.mem_addr  := in.mem_addr
   io.mem_wdata := in.mem_wdata
   io.mem_wmask := in.mem_wmask
-  io.mem_wen   := in.mem_wen
-  io.mem_ren   := in.mem_ren
+  io.mem_wen   := io.in.valid && in.mem_wen
+  io.mem_ren   := io.in.valid && in.mem_ren
 
   // load
   val load_addr_offset = in.mem_addr(1, 0)
@@ -81,6 +86,11 @@ class MEM extends Module {
   io.out.bits.wb_addr := in.wb_addr
   io.out.bits.wb_en   := in.wb_en
   io.out.bits.wb_data := wb_data
+
+  // forwarding
+  io.fwd_wb_en   := io.in.valid && in.wb_en
+  io.fwd_wb_addr := in.wb_addr
+  io.fwd_wb_data := wb_data
 
   io.out.valid := io.in.valid
   io.in.ready  := io.out.ready
