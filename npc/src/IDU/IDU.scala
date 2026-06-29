@@ -55,7 +55,7 @@ class IDU extends Module {
   regfile.io.wdata  := io.reg_wdata
   io.debug_regs     := regfile.io.debug_regs
 
-  // forwarding: EXU > MEM > WBU（离 IDU 越近的指令越新，优先取新值）
+  // forwarding: EXU > MEM > WBU
   val rs1_reg    = regfile.io.rdata1
   val rs1_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs1 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs1_reg)
   val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_wbu)
