@@ -81,10 +81,8 @@ bool step_once(VCpuTop *top) {
         printf("BAD PC = 0x%08x\n", pc);
         return false;
     }
-
-    printf("hello\n");
+    printf("hello1\n");
     uint32_t inst = paddr_read(pc, 4, true);
-    printf("bye\n");
     
     if (inst == 0x00100073) {
         uint32_t code = top->io_debug_regs_flat[10];
@@ -100,7 +98,7 @@ bool step_once(VCpuTop *top) {
     }
 
     // instruction fetch
-
+    printf("hello2\n");
     top->io_inst = inst;
 
     // clock low
@@ -108,7 +106,7 @@ bool step_once(VCpuTop *top) {
     top->eval();
 
 
-
+    printf("hello3\n");
 
     // data memory read
     top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
@@ -125,14 +123,14 @@ bool step_once(VCpuTop *top) {
         case 0x3: len = 2; break;
         case 0xf: len = 4; break;
     }
-
+    printf("hello4\n");
 
     if (top->io_mem_wen) {
 
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
     }
 
-    
+    printf("hello5\n");
     // debug
 #ifdef CONFIG_FTRACE
     if (top->io_debug_valid) {
