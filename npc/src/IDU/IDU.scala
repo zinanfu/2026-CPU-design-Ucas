@@ -16,7 +16,10 @@ class IDU extends Module {
     // debug
     val debug_regs = Output(Vec(32, UInt(32.W)))
   })
-
+  // transfer
+  val io.out.bits.pc := io.in.bits.pc
+  val io.out.bits.inst := io.in.bits.inst
+  
   // decode
   val inst   = io.in.bits.inst
   val pc     = io.in.bits.pc

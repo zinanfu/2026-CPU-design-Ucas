@@ -16,6 +16,9 @@ class MEM extends Module {
     val mem_ren   = Output(Bool())
     val mem_rdata = Input(UInt(32.W))
   })
+  // transfer
+  val io.out.bits.pc := io.in.bits.pc
+  val io.out.bits.inst := io.in.bits.inst
 
   val in = io.in.bits
 

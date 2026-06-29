@@ -146,12 +146,17 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0;
     // Body
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"debug: pc = %x, inst = %x\n",0,
+                      32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
+                      32,vlSelfRef.io_inst);
+    }
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
         VL_FWRITEF_NX(0x80000002U,"pc = 0x%x, if_inst = 0x%x\n",0,
                       32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
                       32,vlSelfRef.io_inst);
     }
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
-        VL_FWRITEF_NX(0x80000002U,"IDU:pc = %x, inst = %x",0,
+        VL_FWRITEF_NX(0x80000002U,"IDU:pc = %x, inst = %x\n",0,
                       32,vlSelfRef.CpuTop__DOT__reg_pc,
                       32,vlSelfRef.CpuTop__DOT__reg_inst);
     }
@@ -1438,7 +1443,7 @@ void VCpuTop___024root___eval(VCpuTop___024root* vlSelf) {
 #ifdef VL_DEBUG
             VCpuTop___024root___dump_triggers__ico(vlSelfRef.__VicoTriggered, "ico"s);
 #endif
-            VL_FATAL_MT("build/CpuTop.sv", 46, "", "DIDNOTCONVERGE: Input combinational region did not converge after '--converge-limit' of 100 tries");
+            VL_FATAL_MT("build/CpuTop.sv", 55, "", "DIDNOTCONVERGE: Input combinational region did not converge after '--converge-limit' of 100 tries");
         }
         __VicoIterCount = ((IData)(1U) + __VicoIterCount);
         vlSelfRef.__VicoPhaseResult = VCpuTop___024root___eval_phase__ico(vlSelf);
@@ -1450,7 +1455,7 @@ void VCpuTop___024root___eval(VCpuTop___024root* vlSelf) {
 #ifdef VL_DEBUG
             VCpuTop___024root___dump_triggers__act(vlSelfRef.__VnbaTriggered, "nba"s);
 #endif
-            VL_FATAL_MT("build/CpuTop.sv", 46, "", "DIDNOTCONVERGE: NBA region did not converge after '--converge-limit' of 100 tries");
+            VL_FATAL_MT("build/CpuTop.sv", 55, "", "DIDNOTCONVERGE: NBA region did not converge after '--converge-limit' of 100 tries");
         }
         __VnbaIterCount = ((IData)(1U) + __VnbaIterCount);
         vlSelfRef.__VactIterCount = 0U;
@@ -1459,7 +1464,7 @@ void VCpuTop___024root___eval(VCpuTop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 VCpuTop___024root___dump_triggers__act(vlSelfRef.__VactTriggered, "act"s);
 #endif
-                VL_FATAL_MT("build/CpuTop.sv", 46, "", "DIDNOTCONVERGE: Active region did not converge after '--converge-limit' of 100 tries");
+                VL_FATAL_MT("build/CpuTop.sv", 55, "", "DIDNOTCONVERGE: Active region did not converge after '--converge-limit' of 100 tries");
             }
             vlSelfRef.__VactIterCount = ((IData)(1U) 
                                          + vlSelfRef.__VactIterCount);

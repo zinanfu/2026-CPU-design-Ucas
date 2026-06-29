@@ -60,10 +60,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   idu.io.reg_wdata    := wbu.io.reg_wdata
 
   // debug
-  io.debug_pc         := ifu.io.if_pc
-  io.debug_inst       := ifu.io.if_inst
+  io.debug_pc         := wbu.io.wb_pc
+  io.debug_inst       := wbu.io.wb_inst
   printf("debug: pc = %x, inst = %x\n", io.debug_pc, io.debug_inst)
-  io.debug_valid      := ifu.io.out.valid
+  io.debug_valid      := wbu.io.out.valid
   io.debug_regs_flat  := Cat((0 until 32).reverse.map(i => idu.io.debug_regs(i)))
 
   // ── Itrace ──

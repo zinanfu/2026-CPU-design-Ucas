@@ -9,6 +9,8 @@ class IfToIdMessage extends Bundle {
 }
 
 class IdToEXMessage extends Bundle {
+    val pc              = UInt(32.W)
+    val inst            = UInt(32.W)
     // ALU
     val alu_op          = UInt(4.W)
     val alu_a           = UInt(32.W)
@@ -50,6 +52,8 @@ class IdToEXMessage extends Bundle {
 }
 
 class ExToMemMessage extends Bundle {
+    val pc              = UInt(32.W)
+    val inst            = UInt(32.W)
     // ALU
     val alu_result      = UInt(32.W)
 
@@ -73,6 +77,9 @@ class ExToMemMessage extends Bundle {
 
 
 class MemToWbMessage extends Bundle {
+    val pc              = UInt(32.W)
+    val inst            = UInt(32.W)
+    
     val wb_addr         = UInt(5.W)
     val wb_en           = Bool()
     val wb_data         = UInt(32.W)      // 最终写回数据，由 MEM 选好（或 WBU 自选）
