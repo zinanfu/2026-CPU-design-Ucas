@@ -20,8 +20,8 @@ class WBU extends Module {
   io.reg_waddr  := io.in.bits.wb_addr
   io.reg_wdata  := io.in.bits.wb_data
 
-  wb_pc         := io.in.bits.pc
-  wb_inst       := io.in.bits.inst
+  io.wb_pc         := io.in.bits.pc
+  io.wb_inst       := io.in.bits.inst
 
 
   io.in.ready   := true.B
