@@ -62,6 +62,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   // debug
   io.debug_pc         := ifu.io.if_pc
   io.debug_inst       := ifu.io.if_inst
+  printf("debug: pc = %x, inst = %x", io.debug_pc, io.debug_inst)
   io.debug_valid      := ifu.io.out.valid
   io.debug_regs_flat  := Cat((0 until 32).reverse.map(i => idu.io.debug_regs(i)))
 
