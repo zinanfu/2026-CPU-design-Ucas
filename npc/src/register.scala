@@ -5,19 +5,19 @@ import chisel3.util._
 
 class register(width:Int) extends Module {
     val io = IO(new Bundle{
-        // read port 1
+        // read
         val raddr1 = Input(UInt(5.W))
         val rdata1 = Output(UInt(32.W))
-
-        // read port 2
         val raddr2 = Input(UInt(5.W))
         val rdata2 = Output(UInt(32.W))
 
-        // write port
+        // write 
         val wen = Input(Bool())
         val waddr = Input(UInt(5.W))
         val wdata = Input(UInt(32.W))
 
+        // debug
+        val debug_regs = Output(Vec(32, UInt(32.W)))
     })
 
     val regs = RegInit(VecInit(Seq.fill(32)(0.U(32.W))))
@@ -32,4 +32,7 @@ class register(width:Int) extends Module {
     }
         
     regs(0) := 0.U
+
+    // debug
+    io.debug_regs := regs
 }
