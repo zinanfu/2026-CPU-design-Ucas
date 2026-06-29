@@ -18,7 +18,7 @@ class IFU extends Module {
 
   val pc = RegInit("h80000000".U(32.W))
 
-  // printf("pc = 0x%x, if_inst = 0x%x, redirect_valid = %d, redirect_target = %x\n", pc, io.if_inst, io.redirect.valid, io.redirect.bits.target)
+  printf("pc = 0x%x, if_inst = 0x%x, redirect_valid = %d, redirect_target = %x\n", pc, io.if_inst, io.redirect.valid, io.redirect.bits.target)
   // PC 更新逻辑
   when (io.redirect.valid) {
     pc := io.redirect.bits.target 
