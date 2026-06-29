@@ -353,7 +353,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                            : 0U));
     }
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
-        VL_FWRITEF_NX(0x80000002U,"wb_sel = %1#",0,
+        VL_FWRITEF_NX(0x80000002U,"wb_sel = %1#\n",0,
                       2,vlSelfRef.CpuTop__DOT__reg_2_wb_sel);
     }
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {

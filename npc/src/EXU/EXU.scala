@@ -8,10 +8,15 @@ class EXU extends Module {
     val in  = Flipped(Decoupled(new IdToEXMessage))
     val out = Decoupled(new ExToMemMessage)
 
-    // 异常
+    // 异常/跳转
     val redirect = Valid(new Bundle {
       val target = UInt(32.W)
     })
+
+    // forwarding to IDU
+    val fwd_wb_en   = Output(Bool())
+    val fwd_wb_addr = Output(UInt(5.W))
+    val fwd_wb_data = Output(UInt(32.W))
   })
   val in = io.in.bits
   // transfer
@@ -78,6 +83,18 @@ class EXU extends Module {
 
   // ── pc+4 ──
   val pc_plus4 = in.pc + 4.U
+
+  // ── EXU→IDU forwarding ──
+  val exu_wb_data = WireDefault(0.U(32.W))
+  switch (in.wb_sel) {
+    is(0.U) { exu_wb_data := alu_result }
+    is(1.U) { exu_wb_data := 0.U }               // mem_rdata 在 MEM 才有
+    is(2.U) { exu_wb_data := pc_plus4 }
+    is(3.U) { exu_wb_data := csr.io.csr_rdata }
+  }
+  io.fwd_wb_en   := io.in.valid && in.wb_en
+  io.fwd_wb_addr := in.wb_addr
+  io.fwd_wb_data := exu_wb_data
 
   // io_out
   io.out.bits.alu_result := alu_result

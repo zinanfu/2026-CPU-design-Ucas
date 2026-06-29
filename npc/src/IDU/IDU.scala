@@ -13,6 +13,11 @@ class IDU extends Module {
     val reg_waddr = Input(UInt(5.W))
     val reg_wdata = Input(UInt(32.W))
 
+    // forwarding from EXU
+    val fwd_exu_wen   = Input(Bool())
+    val fwd_exu_waddr = Input(UInt(5.W))
+    val fwd_exu_wdata = Input(UInt(32.W))
+
     // forwarding from MEM
     val fwd_mem_wen   = Input(Bool())
     val fwd_mem_waddr = Input(UInt(5.W))
@@ -50,15 +55,17 @@ class IDU extends Module {
   regfile.io.wdata  := io.reg_wdata
   io.debug_regs     := regfile.io.debug_regs
 
-  // forwarding: WBU（最新）> MEM > regfile，最后 x0 硬连线为 0
+  // forwarding: WBU > MEM > EXU > regfile，最后 x0 硬连线为 0
   val rs1_reg    = regfile.io.rdata1
-  val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_reg)
-  val rs1_wbu    = Mux(io.reg_wen    && io.reg_waddr    === rs1 && io.reg_waddr    =/= 0.U, io.reg_wdata,    rs1_mem)
+  val rs1_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs1 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs1_reg)
+  val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_exu)
+  val rs1_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs1 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs1_mem)
   val rs1_data   = Mux(rs1.orR, rs1_wbu, 0.U)
 
   val rs2_reg    = regfile.io.rdata2
-  val rs2_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs2 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs2_reg)
-  val rs2_wbu    = Mux(io.reg_wen    && io.reg_waddr    === rs2 && io.reg_waddr    =/= 0.U, io.reg_wdata,    rs2_mem)
+  val rs2_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs2 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs2_reg)
+  val rs2_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs2 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs2_exu)
+  val rs2_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs2 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs2_mem)
   val rs2_data   = Mux(rs2.orR, rs2_wbu, 0.U)
 
   // imm
