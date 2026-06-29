@@ -77,9 +77,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   idu.io.reg_wdata    := wbu.io.reg_wdata
 
   // forwarding from EXU / MEM to IDU
-  idu.io.fwd_exu_wen   := exu.io.fwd_wb_en
-  idu.io.fwd_exu_waddr := exu.io.fwd_wb_addr
-  idu.io.fwd_exu_wdata := exu.io.fwd_wb_data
+  idu.io.fwd_exu_wen      := exu.io.fwd_wb_en
+  idu.io.fwd_exu_waddr    := exu.io.fwd_wb_addr
+  idu.io.fwd_exu_wdata    := exu.io.fwd_wb_data
+  idu.io.fwd_exu_is_load  := exu.io.fwd_wb_is_Load
 
   idu.io.fwd_mem_wen   := mem.io.fwd_wb_en
   idu.io.fwd_mem_waddr := mem.io.fwd_wb_addr

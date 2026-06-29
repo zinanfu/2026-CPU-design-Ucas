@@ -14,9 +14,10 @@ class EXU extends Module {
     })
 
     // forwarding to IDU
-    val fwd_wb_en   = Output(Bool())
-    val fwd_wb_addr = Output(UInt(5.W))
-    val fwd_wb_data = Output(UInt(32.W))
+    val fwd_wb_en      = Output(Bool())
+    val fwd_wb_addr    = Output(UInt(5.W))
+    val fwd_wb_data    = Output(UInt(32.W))
+    val fwd_wb_is_Load = Output(Bool())
   })
   val in = io.in.bits
   // transfer
@@ -84,18 +85,18 @@ class EXU extends Module {
   // ── pc+4 ──
   val pc_plus4 = in.pc + 4.U
 
-  // ── EXU→IDU forwarding ──
-  //   注意：wb_sel=1 (load) 不能前递，因为 mem_rdata 还没拿到，数据必须等到 MEM
+  // forwarding
   val exu_wb_data = WireDefault(0.U(32.W))
   switch (in.wb_sel) {
     is(0.U) { exu_wb_data := alu_result }
-    is(1.U) { exu_wb_data := 0.U }               // 不参与前递
+    is(1.U) { exu_wb_data := 0.U }               
     is(2.U) { exu_wb_data := pc_plus4 }
     is(3.U) { exu_wb_data := csr.io.csr_rdata }
   }
-  io.fwd_wb_en   := io.in.valid && in.wb_en && in.wb_sel =/= 1.U  // load 不在 EXU 前递
-  io.fwd_wb_addr := in.wb_addr
-  io.fwd_wb_data := exu_wb_data
+  io.fwd_wb_en      := io.in.valid && in.wb_en && in.wb_sel =/= 1.U  // load 不在 EXU 前递
+  io.fwd_wb_addr    := in.wb_addr
+  io.fwd_wb_data    := exu_wb_data
+  io.fwd_wb_is_Load := in.wb_sel === 1.U
 
   // io_out
   io.out.bits.alu_result := alu_result

@@ -14,14 +14,15 @@ class IDU extends Module {
     val reg_wdata = Input(UInt(32.W))
 
     // forwarding from EXU
-    val fwd_exu_wen   = Input(Bool())
-    val fwd_exu_waddr = Input(UInt(5.W))
-    val fwd_exu_wdata = Input(UInt(32.W))
+    val fwd_exu_wen     = Input(Bool())
+    val fwd_exu_waddr   = Input(UInt(5.W))
+    val fwd_exu_wdata   = Input(UInt(32.W))
+    val fwd_exu_is_load = Input(Bool())
 
     // forwarding from MEM
-    val fwd_mem_wen   = Input(Bool())
-    val fwd_mem_waddr = Input(UInt(5.W))
-    val fwd_mem_wdata = Input(UInt(32.W))
+    val fwd_mem_wen     = Input(Bool())
+    val fwd_mem_waddr   = Input(UInt(5.W))
+    val fwd_mem_wdata   = Input(UInt(32.W))
 
     // redirect (B-type & JAL resolved in ID)
     val redirect = Valid(new Bundle {
@@ -37,7 +38,6 @@ class IDU extends Module {
   // decode
   val inst   = io.in.bits.inst
   val pc     = io.in.bits.pc
-  // printf("IDU:pc = %x, inst = %x\n", pc, inst)
 
   val opcode = inst(6, 0)
   val rd     = inst(11, 7)
@@ -45,7 +45,6 @@ class IDU extends Module {
   val rs1    = inst(19, 15)
   val rs2    = inst(24, 20)
   val funct7 = inst(31, 25)
-  // printf("IDU:opcode = %x\n", opcode)
   // reg
   val regfile = Module(new register(32))
   regfile.io.raddr1 := rs1
@@ -67,15 +66,6 @@ class IDU extends Module {
   val rs2_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs2 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs2_wbu)
   val rs2_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs2 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs2_mem)
   val rs2_data   = Mux(rs2.orR, rs2_exu, 0.U)
-
-  // debug: print when forwarding actually kicks in
-  // when (io.in.valid && (rs1_data =/= rs1_reg || rs2_data =/= rs2_reg)) {
-  //   printf("[IDU fwd] pc=%x rs1=%d(r%x->%x) rs2=%d(r%x->%x) exu_wr=%d mem_wr=%d wbu_wr=%d\n",
-  //          pc, rs1, rs1_reg, rs1_data, rs2, rs2_reg, rs2_data,
-  //          Mux(io.fwd_exu_wen, io.fwd_exu_waddr, 0.U),
-  //          Mux(io.fwd_mem_wen, io.fwd_mem_waddr, 0.U),
-  //          Mux(io.reg_wen,     io.reg_waddr,     0.U))
-  // }
 
   // imm
   val immI = Cat(Fill(20, inst(31)), inst(31, 20))
@@ -413,10 +403,13 @@ class IDU extends Module {
     }
   }
 
-  io.out.valid := io.in.valid
-  io.in.ready  := io.out.ready
+  io.out.valid := io.in.valid && !stall
+  io.in.ready  := io.out.ready && !stall
 
-  // gate redirect with in.valid，防止气泡时残留旧指令触发错误跳转
+  val load_in_ex = io.fwd_exu_is_load
+  val load_addr  = io.fwd_exu_waddr
+  val stall      = load_in_ex && (rs1 === load_addr || rs2 === load_addr)
+
   when (!io.in.valid) {
     io.redirect.valid := false.B
   }
