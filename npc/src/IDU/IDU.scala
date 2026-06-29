@@ -32,7 +32,7 @@ class IDU extends Module {
   // decode
   val inst   = io.in.bits.inst
   val pc     = io.in.bits.pc
-  printf("IDU:pc = %x, inst = %x\n", pc, inst)
+  // printf("IDU:pc = %x, inst = %x\n", pc, inst)
 
   val opcode = inst(6, 0)
   val rd     = inst(11, 7)
@@ -40,7 +40,7 @@ class IDU extends Module {
   val rs1    = inst(19, 15)
   val rs2    = inst(24, 20)
   val funct7 = inst(31, 25)
-  printf("IDU:opcode = %x\n", opcode)
+  // printf("IDU:opcode = %x\n", opcode)
   // reg
   val regfile = Module(new register(32))
   regfile.io.raddr1 := rs1
