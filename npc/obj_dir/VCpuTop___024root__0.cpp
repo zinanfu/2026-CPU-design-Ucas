@@ -149,16 +149,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                       32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
                       32,vlSelfRef.io_inst);
     }
-    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
-        VL_FWRITEF_NX(0x80000002U,"IDU:pc = %x, inst = %x\n",0,
-                      32,vlSelfRef.CpuTop__DOT__reg_pc,
-                      32,vlSelfRef.CpuTop__DOT__reg_inst);
-    }
-    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
-        VL_FWRITEF_NX(0x80000002U,"debug: pc = %x, inst = %x\n",0,
-                      32,vlSelfRef.CpuTop__DOT__reg_3_pc,
-                      32,vlSelfRef.CpuTop__DOT__reg_3_inst);
-    }
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
         = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
@@ -430,9 +420,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     vlSelfRef.CpuTop__DOT__reg_valid_3 = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                           && (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2));
     if (vlSelfRef.CpuTop__DOT__reg_valid_2) {
-        vlSelfRef.CpuTop__DOT__reg_3_wb_en = vlSelfRef.CpuTop__DOT__reg_2_wb_en;
         vlSelfRef.CpuTop__DOT__reg_3_pc = vlSelfRef.CpuTop__DOT__reg_2_pc;
-        vlSelfRef.CpuTop__DOT__reg_3_inst = vlSelfRef.CpuTop__DOT__reg_2_inst;
     }
     if (vlSelfRef.CpuTop__DOT__reg_valid_1) {
         vlSelfRef.CpuTop__DOT__reg_2_mem_addr = (0xfffffffcU 
@@ -460,9 +448,10 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                 = (0x0000000fU & (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wmask));
         }
         vlSelfRef.CpuTop__DOT__reg_2_mem_wen = vlSelfRef.CpuTop__DOT__reg_1_mem_wen;
-        vlSelfRef.CpuTop__DOT__reg_2_wb_en = vlSelfRef.CpuTop__DOT__reg_1_wb_en;
     }
     if (vlSelfRef.CpuTop__DOT__reg_valid_2) {
+        vlSelfRef.CpuTop__DOT__reg_3_inst = vlSelfRef.CpuTop__DOT__reg_2_inst;
+        vlSelfRef.CpuTop__DOT__reg_3_wb_en = vlSelfRef.CpuTop__DOT__reg_2_wb_en;
         vlSelfRef.CpuTop__DOT__reg_3_wb_addr = vlSelfRef.CpuTop__DOT__reg_2_wb_addr;
         vlSelfRef.CpuTop__DOT__reg_3_wb_data = ((0U 
                                                  == (IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_sel))
@@ -519,6 +508,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     if (vlSelfRef.CpuTop__DOT__reg_valid_1) {
         vlSelfRef.CpuTop__DOT__reg_2_pc = vlSelfRef.CpuTop__DOT__reg_1_pc;
         vlSelfRef.CpuTop__DOT__reg_2_inst = vlSelfRef.CpuTop__DOT__reg_1_inst;
+        vlSelfRef.CpuTop__DOT__reg_2_wb_en = vlSelfRef.CpuTop__DOT__reg_1_wb_en;
         vlSelfRef.CpuTop__DOT__reg_2_wb_addr = vlSelfRef.CpuTop__DOT__reg_1_wb_addr;
         vlSelfRef.CpuTop__DOT__reg_2_alu_result = vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out;
         vlSelfRef.CpuTop__DOT__reg_2_csr_rdata = vlSelfRef.CpuTop__DOT___exu_io_out_bits_csr_rdata;
@@ -731,6 +721,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     vlSelfRef.io_mem_addr = vlSelfRef.CpuTop__DOT__reg_2_mem_addr;
     vlSelfRef.io_debug_valid = vlSelfRef.CpuTop__DOT__reg_valid_3;
     vlSelfRef.io_mem_wdata = vlSelfRef.CpuTop__DOT__reg_2_mem_wdata;
+    vlSelfRef.io_debug_pc = vlSelfRef.CpuTop__DOT__reg_3_pc;
     vlSelfRef.CpuTop__DOT__exu__DOT___GEN = ((7U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_branch_type)) 
                                              & (vlSelfRef.CpuTop__DOT__reg_1_alu_a 
                                                 >= vlSelfRef.CpuTop__DOT__reg_1_alu_b));
@@ -739,6 +730,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     vlSelfRef.__VdfgRegularize_h6e95ff9d_0_1 = VL_LTS_III(32, vlSelfRef.CpuTop__DOT__reg_1_alu_a, vlSelfRef.CpuTop__DOT__reg_1_alu_b);
     vlSelfRef.io_mem_wen = vlSelfRef.CpuTop__DOT__reg_2_mem_wen;
     vlSelfRef.io_mem_wmask = vlSelfRef.CpuTop__DOT__reg_2_mem_wmask;
+    vlSelfRef.io_debug_inst = vlSelfRef.CpuTop__DOT__reg_3_inst;
     vlSelfRef.io_debug_regs_flat[0U] = 0U;
     vlSelfRef.io_debug_regs_flat[1U] = vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1;
     vlSelfRef.io_debug_regs_flat[2U] = (IData)((((QData)((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_3)) 
@@ -811,8 +803,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                    << 0x00000020U) 
                                                   | (QData)((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_30))) 
                                                  >> 0x00000020U));
-    vlSelfRef.io_debug_pc = vlSelfRef.CpuTop__DOT__reg_3_pc;
-    vlSelfRef.io_debug_inst = vlSelfRef.CpuTop__DOT__reg_3_inst;
     vlSelfRef.CpuTop__DOT__exu__DOT___GEN_0 = (((4U 
                                                  & (IData)(vlSelfRef.CpuTop__DOT__reg_1_branch_type))
                                                  ? 
@@ -1453,7 +1443,7 @@ void VCpuTop___024root___eval(VCpuTop___024root* vlSelf) {
 #ifdef VL_DEBUG
             VCpuTop___024root___dump_triggers__ico(vlSelfRef.__VicoTriggered, "ico"s);
 #endif
-            VL_FATAL_MT("build/CpuTop.sv", 55, "", "DIDNOTCONVERGE: Input combinational region did not converge after '--converge-limit' of 100 tries");
+            VL_FATAL_MT("build/CpuTop.sv", 46, "", "DIDNOTCONVERGE: Input combinational region did not converge after '--converge-limit' of 100 tries");
         }
         __VicoIterCount = ((IData)(1U) + __VicoIterCount);
         vlSelfRef.__VicoPhaseResult = VCpuTop___024root___eval_phase__ico(vlSelf);
@@ -1465,7 +1455,7 @@ void VCpuTop___024root___eval(VCpuTop___024root* vlSelf) {
 #ifdef VL_DEBUG
             VCpuTop___024root___dump_triggers__act(vlSelfRef.__VnbaTriggered, "nba"s);
 #endif
-            VL_FATAL_MT("build/CpuTop.sv", 55, "", "DIDNOTCONVERGE: NBA region did not converge after '--converge-limit' of 100 tries");
+            VL_FATAL_MT("build/CpuTop.sv", 46, "", "DIDNOTCONVERGE: NBA region did not converge after '--converge-limit' of 100 tries");
         }
         __VnbaIterCount = ((IData)(1U) + __VnbaIterCount);
         vlSelfRef.__VactIterCount = 0U;
@@ -1474,7 +1464,7 @@ void VCpuTop___024root___eval(VCpuTop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 VCpuTop___024root___dump_triggers__act(vlSelfRef.__VactTriggered, "act"s);
 #endif
-                VL_FATAL_MT("build/CpuTop.sv", 55, "", "DIDNOTCONVERGE: Active region did not converge after '--converge-limit' of 100 tries");
+                VL_FATAL_MT("build/CpuTop.sv", 46, "", "DIDNOTCONVERGE: Active region did not converge after '--converge-limit' of 100 tries");
             }
             vlSelfRef.__VactIterCount = ((IData)(1U) 
                                          + vlSelfRef.__VactIterCount);
