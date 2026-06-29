@@ -17,18 +17,23 @@ class IFU extends Module {
   })
 
   val pc = RegInit("h80000000".U(32.W))
+  val inst = RegInit("h00000000".U(32.W))
 
   // PC 更新逻辑
   when (io.redirect.valid) {
-    pc := io.redirect.bits.target
+    pc := io.redirect.bits.target 
   }.elsewhen (io.out.fire) {
     pc := pc + 4.U
+  }
+  
+  when (io.out.fire) {
+    inst := io.if_inst
   }
 
   io.if_pc := pc
 
   // IF to ID
   io.out.bits.pc    := pc
-  io.out.bits.inst  := io.if_inst
+  io.out.bits.inst  := inst
   io.out.valid      := true.B
 }
