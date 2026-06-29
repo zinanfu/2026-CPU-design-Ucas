@@ -71,8 +71,10 @@ class MEM extends Module {
         mem_rdata_processed := Cat(0.U(16.W), load_half)
       }
     }
+    printf("load data = %x\n", mem_rdata_processed)
   }
 
+  printf("wb_sel = %d", in.wb_sel)
   // wb
   val wb_data = WireDefault(0.U(32.W))
   switch (in.wb_sel) {
