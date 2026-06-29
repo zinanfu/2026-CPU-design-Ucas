@@ -55,7 +55,7 @@ class IDU extends Module {
   regfile.io.wdata  := io.reg_wdata
   io.debug_regs     := regfile.io.debug_regs
 
-  // forwarding: WBU > MEM > EXU > regfile，最后 x0 硬连线为 0
+  // forwarding
   val rs1_reg    = regfile.io.rdata1
   val rs1_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs1 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs1_reg)
   val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_exu)
