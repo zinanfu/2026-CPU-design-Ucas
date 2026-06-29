@@ -55,18 +55,18 @@ class IDU extends Module {
   regfile.io.wdata  := io.reg_wdata
   io.debug_regs     := regfile.io.debug_regs
 
-  // forwarding
+  // forwarding: EXU > MEM > WBU（离 IDU 越近的指令越新，优先取新值）
   val rs1_reg    = regfile.io.rdata1
-  val rs1_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs1 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs1_reg)
-  val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_exu)
-  val rs1_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs1 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs1_mem)
-  val rs1_data   = Mux(rs1.orR, rs1_wbu, 0.U)
+  val rs1_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs1 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs1_reg)
+  val rs1_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs1 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs1_wbu)
+  val rs1_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs1 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs1_mem)
+  val rs1_data   = Mux(rs1.orR, rs1_exu, 0.U)
 
   val rs2_reg    = regfile.io.rdata2
-  val rs2_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs2 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs2_reg)
-  val rs2_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs2 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs2_exu)
-  val rs2_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs2 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs2_mem)
-  val rs2_data   = Mux(rs2.orR, rs2_wbu, 0.U)
+  val rs2_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs2 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs2_reg)
+  val rs2_mem    = Mux(io.fwd_mem_wen && io.fwd_mem_waddr === rs2 && io.fwd_mem_waddr =/= 0.U, io.fwd_mem_wdata, rs2_wbu)
+  val rs2_exu    = Mux(io.fwd_exu_wen && io.fwd_exu_waddr === rs2 && io.fwd_exu_waddr =/= 0.U, io.fwd_exu_wdata, rs2_mem)
+  val rs2_data   = Mux(rs2.orR, rs2_exu, 0.U)
 
   // debug: print when forwarding actually kicks in
   when (io.in.valid && (rs1_data =/= rs1_reg || rs2_data =/= rs2_reg)) {
