@@ -144,6 +144,12 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     IData/*31:0*/ __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0;
     // Body
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"exception: %1#, mret: %1#, jalr: %1#\n",0,
+                      1,vlSelfRef.CpuTop__DOT__reg_1_exception,
+                      1,(IData)(vlSelfRef.CpuTop__DOT__reg_1_mret),
+                      1,vlSelfRef.CpuTop__DOT__reg_1_is_jalr);
+    }
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
         = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
