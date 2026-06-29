@@ -85,14 +85,15 @@ class EXU extends Module {
   val pc_plus4 = in.pc + 4.U
 
   // ── EXU→IDU forwarding ──
+  //   注意：wb_sel=1 (load) 不能前递，因为 mem_rdata 还没拿到，数据必须等到 MEM
   val exu_wb_data = WireDefault(0.U(32.W))
   switch (in.wb_sel) {
     is(0.U) { exu_wb_data := alu_result }
-    is(1.U) { exu_wb_data := 0.U }               // mem_rdata 在 MEM 才有
+    is(1.U) { exu_wb_data := 0.U }               // 不参与前递
     is(2.U) { exu_wb_data := pc_plus4 }
     is(3.U) { exu_wb_data := csr.io.csr_rdata }
   }
-  io.fwd_wb_en   := io.in.valid && in.wb_en
+  io.fwd_wb_en   := io.in.valid && in.wb_en && in.wb_sel =/= 1.U  // load 不在 EXU 前递
   io.fwd_wb_addr := in.wb_addr
   io.fwd_wb_data := exu_wb_data
 

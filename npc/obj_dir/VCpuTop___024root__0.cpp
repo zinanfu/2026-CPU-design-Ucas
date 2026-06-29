@@ -373,6 +373,67 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                       32,vlSelfRef.CpuTop__DOT__reg_2_mem_addr,
                       32,vlSelfRef.io_mem_rdata);
     }
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"pc = 0x%x, if_inst = 0x%x, redirect_valid = %1#, redirect_target = %x\n",0,
+                      32,vlSelfRef.CpuTop__DOT__ifu__DOT__pc,
+                      32,vlSelfRef.io_inst,1,(IData)(vlSelfRef.CpuTop__DOT__redirect_valid),
+                      32,((IData)(vlSelfRef.CpuTop__DOT___exu_io_redirect_valid)
+                           ? ((IData)(vlSelfRef.CpuTop__DOT__reg_1_exception)
+                               ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec
+                               : ((IData)(vlSelfRef.CpuTop__DOT__reg_1_mret)
+                                   ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc
+                                   : ((IData)(vlSelfRef.CpuTop__DOT__reg_1_is_jalr)
+                                       ? (0xfffffffeU 
+                                          & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)
+                                       : 0U))) : ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20)
+                                                   ? 0U
+                                                   : 
+                                                  ((0x6fU 
+                                                    == 
+                                                    (0x0000007fU 
+                                                     & vlSelfRef.CpuTop__DOT__reg_inst))
+                                                    ? 
+                                                   (vlSelfRef.CpuTop__DOT__reg_pc 
+                                                    + 
+                                                    (((- (IData)(
+                                                                 (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                                  >> 0x0000001fU))) 
+                                                      << 0x00000014U) 
+                                                     | ((((0x000001feU 
+                                                           & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                              >> 0x0000000bU)) 
+                                                          | (1U 
+                                                             & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                                >> 0x00000014U))) 
+                                                         << 0x0000000bU) 
+                                                        | (0x000007feU 
+                                                           & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                              >> 0x00000014U)))))
+                                                    : 
+                                                   ((1U 
+                                                     & ((~ (IData)(vlSelfRef.__VdfgRegularize_he50b618e_0_0)) 
+                                                        | (0x67U 
+                                                           == 
+                                                           (0x0000007fU 
+                                                            & vlSelfRef.CpuTop__DOT__reg_inst))))
+                                                     ? 0U
+                                                     : 
+                                                    (vlSelfRef.CpuTop__DOT__reg_pc 
+                                                     + 
+                                                     (((- (IData)(
+                                                                  (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                                   >> 0x0000001fU))) 
+                                                       << 0x0000000cU) 
+                                                      | ((0x00000800U 
+                                                          & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                             << 4U)) 
+                                                         | ((0x000007e0U 
+                                                             & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                                >> 0x00000014U)) 
+                                                            | (0x0000001eU 
+                                                               & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                                  >> 7U)))))))))));
+    }
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
     if (vlSelfRef.reset) {
         vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcycle_64 = 0ULL;
