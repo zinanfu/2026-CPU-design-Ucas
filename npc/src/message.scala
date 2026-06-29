@@ -36,7 +36,7 @@ class IdToEXMessage extends Bundle {
     val csr_zimm        = UInt(32.W)   // zimm(rs1) for CSR RWI/RSI/RCI ops
 
     // control
-    val pc              = UInt(32.W)   // 当前 pc，EX 用来算 auipc 结果/pc+4
+    // val pc              = UInt(32.W)   // 当前 pc，EX 用来算 auipc 结果/pc+4
     val branch_target   = UInt(32.W)   // ID 已算好 pc+immB 或 pc+immJ
     val is_branch       = Bool()
     val branch_type     = UInt(3.W)    // funct3，EX 用它做比较
@@ -79,7 +79,7 @@ class ExToMemMessage extends Bundle {
 class MemToWbMessage extends Bundle {
     val pc              = UInt(32.W)
     val inst            = UInt(32.W)
-    
+
     val wb_addr         = UInt(5.W)
     val wb_en           = Bool()
     val wb_data         = UInt(32.W)      // 最终写回数据，由 MEM 选好（或 WBU 自选）
