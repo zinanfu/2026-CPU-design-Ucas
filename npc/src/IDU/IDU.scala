@@ -68,6 +68,15 @@ class IDU extends Module {
   val rs2_wbu    = Mux(io.reg_wen     && io.reg_waddr     === rs2 && io.reg_waddr     =/= 0.U, io.reg_wdata,     rs2_mem)
   val rs2_data   = Mux(rs2.orR, rs2_wbu, 0.U)
 
+  // debug: print when forwarding actually kicks in
+  when (io.in.valid && (rs1_data =/= rs1_reg || rs2_data =/= rs2_reg)) {
+    printf("[IDU fwd] pc=%x rs1=%d(r%x->%x) rs2=%d(r%x->%x) exu_wr=%d mem_wr=%d wbu_wr=%d\n",
+           pc, rs1, rs1_reg, rs1_data, rs2, rs2_reg, rs2_data,
+           Mux(io.fwd_exu_wen, io.fwd_exu_waddr, 0.U),
+           Mux(io.fwd_mem_wen, io.fwd_mem_waddr, 0.U),
+           Mux(io.reg_wen,     io.reg_waddr,     0.U))
+  }
+
   // imm
   val immI = Cat(Fill(20, inst(31)), inst(31, 20))
   val immS = Cat(Fill(20, inst(31)), inst(31, 25), inst(11, 7))
