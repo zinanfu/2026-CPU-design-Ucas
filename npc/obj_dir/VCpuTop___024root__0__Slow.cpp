@@ -320,11 +320,6 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                    << 0x00000020U) 
                                                   | (QData)((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_30))) 
                                                  >> 0x00000020U));
-    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_1 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
-                                                   == 
-                                                   (0x0000001fU 
-                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                       >> 0x0000000fU)));
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_19 = ((0x37U 
                                                  == 
                                                  (0x0000007fU 
@@ -333,6 +328,11 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                    == 
                                                    (0x0000007fU 
                                                     & vlSelfRef.CpuTop__DOT__reg_inst)));
+    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_1 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
+                                                   == 
+                                                   (0x0000001fU 
+                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                       >> 0x0000000fU)));
     vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
                                                    == 
                                                    (0x0000001fU 
@@ -405,10 +405,6 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
     vlSelfRef.CpuTop__DOT__idu__DOT__io_fwd_mem_wen 
         = ((IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_en) 
            & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2));
-    vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_en = 
-        ((IData)(vlSelfRef.CpuTop__DOT__reg_valid_1) 
-         & ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
-            & (1U != (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))));
     vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata2 
         = ((0x01000000U & vlSelfRef.CpuTop__DOT__reg_inst)
             ? ((0x00800000U & vlSelfRef.CpuTop__DOT__reg_inst)
@@ -566,6 +562,9 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                     == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr))
                                                     ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus
                                                     : 0U)))))))));
+    vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T 
+        = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
+           & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1));
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22 = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10) 
                                                 | ((0x67U 
                                                     == 
@@ -587,11 +586,6 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                 | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_19));
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_17 = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_19) 
                                                 | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_16));
-    vlSelfRef.CpuTop__DOT__idu__DOT__stall = ((IData)(vlSelfRef.CpuTop__DOT__reg_valid) 
-                                              & ((1U 
-                                                  == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel)) 
-                                                 & ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_1) 
-                                                    | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2))));
     vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT___GEN 
         = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__io_reg_wen) 
            & (0U != (IData)(vlSelfRef.CpuTop__DOT__reg_3_wb_addr)));
@@ -647,6 +641,15 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                 ? 0U : ((2U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))
                          ? ((IData)(4U) + vlSelfRef.CpuTop__DOT__reg_1_pc)
                          : vlSelfRef.CpuTop__DOT___exu_io_out_bits_csr_rdata)));
+    vlSelfRef.CpuTop__DOT__idu__DOT__stall = ((IData)(vlSelfRef.CpuTop__DOT__reg_valid) 
+                                              & (((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T) 
+                                                  & (1U 
+                                                     == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))) 
+                                                 & ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_1) 
+                                                    | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2))));
+    vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_en = 
+        ((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T) 
+         & (1U != (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel)));
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_24 = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22) 
                                                 | (3U 
                                                    == 
@@ -1080,6 +1083,7 @@ VL_ATTR_COLD void VCpuTop___024root___ctor_var_reset(VCpuTop___024root* vlSelf) 
     vlSelf->CpuTop__DOT__exu__DOT__io_fwd_wb_data = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 12121214468137152415ull);
     vlSelf->CpuTop__DOT__exu__DOT___GEN = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 5044073901989636380ull);
     vlSelf->CpuTop__DOT__exu__DOT___GEN_0 = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 10075513979502171860ull);
+    vlSelf->CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 17419707755355275127ull);
     vlSelf->CpuTop__DOT__exu__DOT__alu__DOT__io_out = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 14591995166209167718ull);
     vlSelf->CpuTop__DOT__exu__DOT__csr__DOT__mstatus = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 14602001777366230709ull);
     vlSelf->CpuTop__DOT__exu__DOT__csr__DOT__mstatush = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 6737559055802651451ull);

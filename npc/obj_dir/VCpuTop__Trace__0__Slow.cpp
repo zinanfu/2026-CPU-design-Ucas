@@ -633,7 +633,8 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                        : 0U)))),32);
     bufp->fullBit(oldp+67,(vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_en));
     bufp->fullIData(oldp+68,(vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_data),32);
-    bufp->fullBit(oldp+69,((1U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))));
+    bufp->fullBit(oldp+69,(((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T) 
+                            & (1U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel)))));
     bufp->fullIData(oldp+70,(vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec),32);
     bufp->fullIData(oldp+71,(vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc),32);
     bufp->fullIData(oldp+72,(vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus),32);

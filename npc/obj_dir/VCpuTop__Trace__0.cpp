@@ -231,7 +231,8 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                           : 0U)))),32);
         bufp->chgBit(oldp+67,(vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_en));
         bufp->chgIData(oldp+68,(vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_data),32);
-        bufp->chgBit(oldp+69,((1U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))));
+        bufp->chgBit(oldp+69,(((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T) 
+                               & (1U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel)))));
         bufp->chgIData(oldp+70,(vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec),32);
         bufp->chgIData(oldp+71,(vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc),32);
         bufp->chgIData(oldp+72,(vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus),32);
