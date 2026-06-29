@@ -81,7 +81,7 @@ bool step_once(VCpuTop *top) {
         printf("BAD PC = 0x%08x\n", pc);
         return false;
     }
-    printf("hello1\n");
+    
     uint32_t inst = paddr_read(pc, 4, true);
     
     if (inst == 0x00100073) {
@@ -98,7 +98,7 @@ bool step_once(VCpuTop *top) {
     }
 
     // instruction fetch
-    printf("hello2\n");
+    
     top->io_inst = inst;
 
     // clock low
@@ -106,15 +106,15 @@ bool step_once(VCpuTop *top) {
     top->eval();
 
 
-    printf("hello3\n");
+    printf("hello1\n");
 
     // data memory read
     top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
-
+    printf("hello2\n");
     // clock high
     top->clock = 1;
     top->eval();
-
+    printf("hello3\n");
     // memory write
     int len = 4;
 
