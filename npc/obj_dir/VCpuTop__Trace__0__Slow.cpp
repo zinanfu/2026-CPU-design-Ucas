@@ -325,6 +325,8 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+129,0,"pc",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("mem", VerilatedTracePrefixType::SCOPE_MODULE);
+    tracep->declBit(c+130,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+131,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+51,0,"io_in_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+37,0,"io_in_bits_pc",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+38,0,"io_in_bits_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
@@ -358,6 +360,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+9,0,"casez_tmp",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 7,0);
     tracep->declBus(c+175,0,"casez_tmp_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+10,0,"load_half",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 15,0);
+    tracep->declBus(c+176,0,"mem_rdata_processed",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+5,0,"casez_tmp_1",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("wbu", VerilatedTracePrefixType::SCOPE_MODULE);
@@ -830,4 +833,28 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                            >> 7U)))) 
                                             << 8U) 
                                            | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp)))))),32);
+    bufp->fullIData(oldp+176,(((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren)
+                                ? ((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+                                    ? ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+                                        ? 0U : ((1U 
+                                                 & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+                                                 ? (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half)
+                                                 : (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp)))
+                                    : ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+                                        ? ((1U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+                                            ? 0U : vlSelfRef.io_mem_rdata)
+                                        : ((1U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+                                            ? (((- (IData)(
+                                                           (1U 
+                                                            & ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half) 
+                                                               >> 0x0000000fU)))) 
+                                                << 0x00000010U) 
+                                               | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half))
+                                            : (((- (IData)(
+                                                           (1U 
+                                                            & ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp) 
+                                                               >> 7U)))) 
+                                                << 8U) 
+                                               | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__casez_tmp)))))
+                                : 0U)),32);
 }
