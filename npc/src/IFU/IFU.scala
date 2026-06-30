@@ -25,13 +25,15 @@ class IFU extends Module {
   // printf("pc = 0x%x, if_inst = 0x%x, redirect_valid = %d, redirect_target = %x\n", pc, io.if_inst, io.redirect.valid, io.redirect.bits.target)
   // PC 更新逻辑
   when (io.redirect.valid) {
-    io.if_pc := io.redirect.bits.target 
+    pc := io.redirect.bits.target 
   }.elsewhen (io.out.fire) {
-    io.if_pc := pc + 4.U
+    pc := pc + 4.U
   }
 
-  io.si_pc := pc
-  io.si_inst := io.if_inst
+  io.if_pc := pc
+
+  si_pc := pc
+  si_inst := io.if_inst
   // IF to ID
 
   io.out.bits.pc    := pc

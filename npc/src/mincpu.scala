@@ -23,6 +23,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     val debug_inst      = Output(UInt(32.W))
     val debug_valid     = Output(Bool())
     val debug_regs_flat = Output(UInt(1024.W))
+
+    // si
+    val si_pc           = Output(UInt(32.W))
+    val si_inst         = Output(UInt(32.W))
   })
 
   // 流水级
@@ -83,6 +87,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   idu.io.fwd_mem_waddr := mem.io.fwd_wb_addr
   idu.io.fwd_mem_wdata := mem.io.fwd_wb_data
 
+  // si
+  io.si_pc            := ifu.io.si_pc
+  io.si_inst          := ifu.io.si_inst
+  
   // debug
   io.debug_pc         := wbu.io.wb_pc
   io.debug_inst       := wbu.io.wb_inst
