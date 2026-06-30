@@ -128,7 +128,16 @@ bool step_once(VCpuTop *top) {
   
 
     if (top->io_mem_wen) {
-
+        if ((top->io_mem_addr & ~0x3) == SERIAL_PORT) {
+            uint8_t uch = 0;
+            if (top->io_mem_wmask & 0x1) uch = top->io_mem_wdata & 0xff;
+            else if (top->io_mem_wmask & 0x2) uch = (top->io_mem_wdata >> 8) & 0xff;
+            else if (top->io_mem_wmask & 0x4) uch = (top->io_mem_wdata >> 16) & 0xff;
+            else if (top->io_mem_wmask & 0x8) uch = (top->io_mem_wdata >> 24) & 0xff;
+            fprintf(stderr, "[UART] pc=0x%08x ch=0x%02x '%c' wmask=0x%x data=0x%08x addr=0x%08x\n",
+                    top->io_debug_pc, uch, (uch >= 32 && uch < 127) ? uch : '.',
+                    top->io_mem_wmask, top->io_mem_wdata, top->io_mem_addr);
+        }
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
     }
     // debug
