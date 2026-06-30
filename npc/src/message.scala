@@ -59,8 +59,9 @@ class ExToMemMessage extends Bundle {
     // MEM
     val mem_ren         = Bool()
     val mem_wen         = Bool()
-    val mem_funct3      = UInt(3.W)    // load/store 类型穿透
+    val mem_funct3      = UInt(3.W)    
     val mem_addr        = UInt(32.W)
+    val load_addr       = UInt(32.W)
     val mem_wmask       = UInt(4.W)
     val mem_wdata       = UInt(32.W)
 

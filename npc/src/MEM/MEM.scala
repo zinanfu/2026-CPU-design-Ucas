@@ -10,6 +10,7 @@ class MEM extends Module {
 
     // mem
     val mem_addr  = Output(UInt(32.W))
+    val load_addr = Output(UInt(32.W))
     val mem_wdata = Output(UInt(32.W))
     val mem_wmask = Output(UInt(4.W))
     val mem_wen   = Output(Bool())
@@ -30,6 +31,7 @@ class MEM extends Module {
   io.out.bits.inst := in.inst
 
   io.mem_addr  := in.mem_addr
+  io.load_addr := in.load_addr
   io.mem_wdata := in.mem_wdata
   io.mem_wmask := in.mem_wmask
   io.mem_wen   := io.in.valid && in.mem_wen
@@ -38,7 +40,7 @@ class MEM extends Module {
   
 
   // load
-  val load_addr_offset = in.mem_addr(1, 0)
+  val load_addr_offset = in.load_addr(1, 0)
   val mem_rdata = io.mem_rdata
 
   val load_byte = MuxLookup(load_addr_offset, 0.U)(Seq(
