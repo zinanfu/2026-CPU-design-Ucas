@@ -326,6 +326,8 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     IData/*31:0*/ __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0;
     // Body
+    __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
+        = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     if (VL_UNLIKELY(((1U & ((((0x13U != (0x0000007fU 
                                          & vlSelfRef.CpuTop__DOT__reg_inst)) 
                               & (0x37U != (0x0000007fU 
@@ -339,8 +341,19 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                       32,(vlSelfRef.CpuTop__DOT__reg_pc 
                           + (0xfffff000U & vlSelfRef.CpuTop__DOT__reg_inst)));
     }
-    __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
-        = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"IDU: pc=%x inst=%x rs1=%2# rs2=%2# stall=%1# load_in_ex=%1# load_addr=%2#\n",0,
+                      32,vlSelfRef.CpuTop__DOT__reg_pc,
+                      32,vlSelfRef.CpuTop__DOT__reg_inst,
+                      5,(0x0000001fU & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                        >> 0x0fU)),
+                      5,(0x0000001fU & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                        >> 0x14U)),
+                      1,(IData)(vlSelfRef.CpuTop__DOT__idu__DOT__stall),
+                      1,((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T) 
+                         & (1U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel))),
+                      5,(IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr));
+    }
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
     vlSelfRef.CpuTop__DOT__reg_valid = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                         && ((~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid)) 

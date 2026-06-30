@@ -404,12 +404,17 @@ class IDU extends Module {
     }
   }
 
+  when (opcode === "b1100011".U && io.in.valid) {
+    printf("IDU branch: pc=%x rs1_data=%x rs2_data=%x taken=%d\n", 
+          pc, rs1_data, rs2_data, branch_taken)
+  }
+
   val load_in_ex = io.fwd_exu_is_load
   val load_addr  = io.fwd_exu_waddr
   val stall      = io.in.valid && load_in_ex && (rs1 === load_addr || rs2 === load_addr)
 
-  printf("IDU: pc=%x inst=%x rs1=%d rs2=%d stall=%d load_in_ex=%d load_addr=%d\n",
-       io.in.bits.pc, io.in.bits.inst, rs1, rs2, stall, load_in_ex, load_addr)
+  // printf("IDU: pc=%x inst=%x rs1=%d rs2=%d stall=%d load_in_ex=%d load_addr=%d\n",
+  //      io.in.bits.pc, io.in.bits.inst, rs1, rs2, stall, load_in_ex, load_addr)
 
   io.out.valid := io.in.valid && !stall
   io.in.ready  := io.out.ready && !stall

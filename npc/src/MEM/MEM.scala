@@ -100,4 +100,10 @@ class MEM extends Module {
 
   io.out.valid := io.in.valid
   io.in.ready  := io.out.ready
+
+
+  when (io.in.valid && io.in.bits.mem_ren) {
+    printf("MEM load: pc=%x addr=%x raw=%x processed=%x\n", 
+          io.in.bits.pc, io.in.bits.mem_addr, io.mem_rdata, mem_rdata_processed)
+  }
 }
