@@ -22,6 +22,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         VL_OUT8(io_mem_wen,0,0);
         VL_OUT8(io_mem_ren,0,0);
         VL_OUT8(io_debug_valid,0,0);
+        CData/*0:0*/ CpuTop__DOT___wbu_io_reg_wen;
         CData/*0:0*/ CpuTop__DOT___exu_io_redirect_valid;
         CData/*0:0*/ CpuTop__DOT___idu_io_out_valid;
         CData/*3:0*/ CpuTop__DOT___idu_io_out_bits_alu_op;
@@ -54,7 +55,6 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*4:0*/ CpuTop__DOT__reg_3_wb_addr;
         CData/*0:0*/ CpuTop__DOT__reg_3_wb_en;
         CData/*0:0*/ CpuTop__DOT__reg_valid_3;
-        CData/*0:0*/ CpuTop__DOT__idu__DOT__io_reg_wen;
         CData/*0:0*/ CpuTop__DOT__idu__DOT__io_fwd_mem_wen;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___stall_T_1;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___stall_T_2;
@@ -72,10 +72,10 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_32;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___GEN_33;
         CData/*0:0*/ CpuTop__DOT__idu__DOT__stall;
+        CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_8;
         CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9;
-        CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10;
-        CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_12;
-        CData/*0:0*/ CpuTop__DOT__idu__DOT__regfile__DOT___GEN;
+        CData/*0:0*/ CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_11;
+        CData/*0:0*/ CpuTop__DOT__idu__DOT__regfile__DOT___GEN_0;
         CData/*0:0*/ CpuTop__DOT__exu__DOT__io_fwd_wb_en;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN_0;
