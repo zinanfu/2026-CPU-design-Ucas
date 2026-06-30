@@ -408,6 +408,9 @@ class IDU extends Module {
   val load_addr  = io.fwd_exu_waddr
   val stall      = io.in.valid && load_in_ex && (rs1 === load_addr || rs2 === load_addr)
 
+  printf("IDU: pc=%x inst=%x rs1=%d rs2=%d stall=%d load_in_ex=%d load_addr=%d\n",
+       io.in.bits.pc, io.in.bits.inst, rs1, rs2, stall, load_in_ex, load_addr)
+
   io.out.valid := io.in.valid && !stall
   io.in.ready  := io.out.ready && !stall
 
