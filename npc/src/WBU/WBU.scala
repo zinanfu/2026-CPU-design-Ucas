@@ -25,8 +25,8 @@ class WBU extends Module {
 
   io.in.ready   := true.B
 
-  when (io.reg_wen && io.reg_waddr === 9.U) {
-    printf("WBU write s1: %x at pc=%x\n", io.reg_wdata, io.wb_pc)
-  }
+  // when (io.reg_wen && io.reg_waddr === 9.U) {
+  //   printf("WBU write s1: %x at pc=%x\n", io.reg_wdata, io.wb_pc)
+  // }
 
 }

@@ -326,11 +326,6 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                    (0x0000001fU 
                                                     & (vlSelfRef.CpuTop__DOT__reg_inst 
                                                        >> 0x0000000fU)));
-    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
-                                                   == 
-                                                   (0x0000001fU 
-                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                       >> 0x00000014U)));
     vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata1 
         = ((0x00080000U & vlSelfRef.CpuTop__DOT__reg_inst)
             ? ((0x00040000U & vlSelfRef.CpuTop__DOT__reg_inst)
@@ -395,6 +390,11 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                         : ((0x00008000U & vlSelfRef.CpuTop__DOT__reg_inst)
                             ? vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1
                             : 0U)))));
+    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
+                                                   == 
+                                                   (0x0000001fU 
+                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                       >> 0x00000014U)));
     vlSelfRef.CpuTop__DOT__idu__DOT__io_fwd_mem_wen 
         = ((IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_en) 
            & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2));
@@ -859,7 +859,8 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
     vlSelfRef.CpuTop__DOT__redirect_valid = ((IData)(vlSelfRef.CpuTop__DOT___exu_io_redirect_valid) 
                                              | ((~ 
                                                  ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_valid)) 
-                                                  | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20))) 
+                                                  | ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__stall) 
+                                                     | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20)))) 
                                                 & ((0x6fU 
                                                     == 
                                                     (0x0000007fU 

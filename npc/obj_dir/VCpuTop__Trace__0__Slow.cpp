@@ -466,7 +466,8 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+4,(vlSelfRef.CpuTop__DOT___idu_io_out_bits_csr_wdata),32);
     bufp->fullIData(oldp+5,(vlSelfRef.CpuTop__DOT___mem_io_out_bits_wb_data),32);
     bufp->fullBit(oldp+6,(((~ ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_valid)) 
-                               | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20))) 
+                               | ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__stall) 
+                                  | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20)))) 
                            & ((0x6fU == (0x0000007fU 
                                          & vlSelfRef.CpuTop__DOT__reg_inst)) 
                               | ((0x67U != (0x0000007fU 
