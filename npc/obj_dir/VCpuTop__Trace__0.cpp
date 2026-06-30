@@ -318,11 +318,11 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                        >> 0x0000000cU))),3);
         bufp->chgIData(oldp+91,((0x0000001fU & (vlSelfRef.CpuTop__DOT__reg_inst 
                                                 >> 0x0000000fU))),32);
-        bufp->chgBit(oldp+92,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_11)) 
+        bufp->chgBit(oldp+92,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_12)) 
                                & (0x67U == (0x0000007fU 
                                             & vlSelfRef.CpuTop__DOT__reg_inst)))));
-        bufp->chgBit(oldp+93,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9) 
-                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_8))));
+        bufp->chgBit(oldp+93,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10) 
+                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9))));
         bufp->chgCData(oldp+94,(((1U & ((~ ((~ (0U 
                                                 != 
                                                 (7U 
@@ -332,13 +332,13 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                 == 
                                                 (0x0000007fU 
                                                  & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_8)))) 
+                                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9)))) 
                                         | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)))
                                   ? 0U : 0x0bU)),4);
-        bufp->chgBit(oldp+95,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9) 
+        bufp->chgBit(oldp+95,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10) 
                                & (0x18U == (vlSelfRef.CpuTop__DOT__reg_inst 
                                             >> 0x00000019U)))));
-        bufp->chgBit(oldp+96,(vlSelfRef.CpuTop__DOT___wbu_io_reg_wen));
+        bufp->chgBit(oldp+96,(vlSelfRef.CpuTop__DOT__idu__DOT__io_reg_wen));
         bufp->chgBit(oldp+97,(vlSelfRef.CpuTop__DOT__idu__DOT__io_fwd_mem_wen));
         bufp->chgIData(oldp+98,(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1),32);
         bufp->chgIData(oldp+99,(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_2),32);
