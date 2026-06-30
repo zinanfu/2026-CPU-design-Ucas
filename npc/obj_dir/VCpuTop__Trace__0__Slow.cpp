@@ -674,7 +674,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                  & vlSelfRef.CpuTop__DOT__reg_inst))
                                              ? ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_27) 
                                                 & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9))
-                                             : (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_35)))))))));
+                                             : (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33)))))))));
     bufp->fullCData(oldp+83,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20)
                                ? 0U : ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_16)
                                         ? 2U : ((0x63U 
@@ -693,7 +693,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                     != 
                                                     (0x0000007fU 
                                                      & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                                                   | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33))
+                                                   | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_31))
                                                    ? 0U
                                                    : 
                                                   (3U 
@@ -719,42 +719,32 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                              == 
                                                              (0x0000707fU 
                                                               & vlSelfRef.CpuTop__DOT__reg_inst)))))))),4);
-    bufp->fullBit(oldp+88,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_34)) 
-                            & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_35))));
+    bufp->fullBit(oldp+88,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)) 
+                            & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33))));
     bufp->fullSData(oldp+89,((vlSelfRef.CpuTop__DOT__reg_inst 
                               >> 0x00000014U)),12);
     bufp->fullCData(oldp+90,((7U & (vlSelfRef.CpuTop__DOT__reg_inst 
                                     >> 0x0000000cU))),3);
     bufp->fullIData(oldp+91,((0x0000001fU & (vlSelfRef.CpuTop__DOT__reg_inst 
                                              >> 0x0000000fU))),32);
-    bufp->fullBit(oldp+92,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10)) 
+    bufp->fullBit(oldp+92,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_12)) 
                             & (0x67U == (0x0000007fU 
                                          & vlSelfRef.CpuTop__DOT__reg_inst)))));
-    bufp->fullBit(oldp+93,(((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_34)) 
-                            & ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32) 
-                               & ((1U == (0x0000001fU 
-                                          & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                             >> 0x00000014U))) 
-                                  | (0U == (0x0000001fU 
-                                            & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                               >> 0x00000014U))))))));
-    bufp->fullCData(oldp+94,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)) 
-                                     | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_34)))
-                               ? 0U : ((1U == (0x0000001fU 
-                                               & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                  >> 0x00000014U)))
-                                        ? 3U : ((0U 
-                                                 == 
-                                                 (0x0000001fU 
-                                                  & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                     >> 0x00000014U)))
-                                                 ? 0x0bU
-                                                 : 0U)))),4);
-    bufp->fullBit(oldp+95,((((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_34)) 
-                             & (0x30000073U == (0xfe00007fU 
-                                                & vlSelfRef.CpuTop__DOT__reg_inst))) 
-                            & (~ (0U != (7U & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                               >> 0x0000000cU)))))));
+    bufp->fullBit(oldp+93,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10) 
+                            & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9))));
+    bufp->fullCData(oldp+94,(((1U & ((~ ((~ (0U != 
+                                             (7U & 
+                                              (vlSelfRef.CpuTop__DOT__reg_inst 
+                                               >> 0x0000000cU)))) 
+                                         & ((0x73U 
+                                             == (0x0000007fU 
+                                                 & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                                            & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_9)))) 
+                                     | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)))
+                               ? 0U : 0x0bU)),4);
+    bufp->fullBit(oldp+95,(((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10) 
+                            & (0x18U == (vlSelfRef.CpuTop__DOT__reg_inst 
+                                         >> 0x00000019U)))));
     bufp->fullBit(oldp+96,(vlSelfRef.CpuTop__DOT__idu__DOT__io_reg_wen));
     bufp->fullBit(oldp+97,(vlSelfRef.CpuTop__DOT__idu__DOT__io_fwd_mem_wen));
     bufp->fullIData(oldp+98,(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1),32);
