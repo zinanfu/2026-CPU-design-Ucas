@@ -99,9 +99,7 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
     CData/*3:0*/ CpuTop__DOT__idu__DOT___GEN_3;
     CpuTop__DOT__idu__DOT___GEN_3 = 0;
     // Body
-    vlSelfRef.io_si_inst = vlSelfRef.io_inst;
     vlSelfRef.io_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
-    vlSelfRef.io_si_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
     vlSelfRef.io_debug_valid = vlSelfRef.CpuTop__DOT__reg_valid_3;
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9 = (1U & 
                                                ((3U 
@@ -172,6 +170,8 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
     vlSelfRef.io_mem_wmask = vlSelfRef.CpuTop__DOT__reg_2_mem_wmask;
     vlSelfRef.io_debug_pc = vlSelfRef.CpuTop__DOT__reg_3_pc;
     vlSelfRef.io_debug_inst = vlSelfRef.CpuTop__DOT__reg_3_inst;
+    vlSelfRef.io_si_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__io_si_pc_REG;
+    vlSelfRef.io_si_inst = vlSelfRef.CpuTop__DOT__ifu__DOT__io_si_inst_REG;
     vlSelfRef.io_mem_wen = ((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen) 
                             & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2));
     vlSelfRef.io_mem_ren = ((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren) 
@@ -1028,6 +1028,8 @@ VL_ATTR_COLD void VCpuTop___024root___ctor_var_reset(VCpuTop___024root* vlSelf) 
     vlSelf->CpuTop__DOT__reg_3_wb_data = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 4902591092582155094ull);
     vlSelf->CpuTop__DOT__reg_valid_3 = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 16019421496348727209ull);
     vlSelf->CpuTop__DOT__ifu__DOT__pc = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 12954478272035512755ull);
+    vlSelf->CpuTop__DOT__ifu__DOT__io_si_pc_REG = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 17379470403684241341ull);
+    vlSelf->CpuTop__DOT__ifu__DOT__io_si_inst_REG = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 196340603495811964ull);
     vlSelf->CpuTop__DOT__idu__DOT__io_reg_wen = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 2425385950184000407ull);
     vlSelf->CpuTop__DOT__idu__DOT__io_fwd_mem_wen = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 14724473461198382100ull);
     vlSelf->CpuTop__DOT__idu__DOT___stall_T_1 = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 4941427899529975513ull);
