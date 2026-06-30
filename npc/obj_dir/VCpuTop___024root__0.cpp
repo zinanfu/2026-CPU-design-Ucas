@@ -326,6 +326,19 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     IData/*31:0*/ __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0;
     // Body
+    if (VL_UNLIKELY(((1U & ((((0x13U != (0x0000007fU 
+                                         & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                              & (0x37U != (0x0000007fU 
+                                           & vlSelfRef.CpuTop__DOT__reg_inst))) 
+                             & (0x17U == (0x0000007fU 
+                                          & vlSelfRef.CpuTop__DOT__reg_inst))) 
+                            & (~ (IData)(vlSelfRef.reset))))))) {
+        VL_FWRITEF_NX(0x80000002U,"AUIPC: pc=%x, immU=%x, result=%x\n",0,
+                      32,vlSelfRef.CpuTop__DOT__reg_pc,
+                      32,(0xfffff000U & vlSelfRef.CpuTop__DOT__reg_inst),
+                      32,(vlSelfRef.CpuTop__DOT__reg_pc 
+                          + (0xfffff000U & vlSelfRef.CpuTop__DOT__reg_inst)));
+    }
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
         = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
