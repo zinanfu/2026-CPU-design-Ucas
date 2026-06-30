@@ -1,5 +1,3 @@
-// 原始单周期处理器 CpuTop，保留作为参考
-// 注意：类名改为 CpuTopSingle 避免与 mincpu.scala 中的 CpuTop 冲突
 package logic
 
 import chisel3._
@@ -11,7 +9,7 @@ import npc.ItraceDPI
 // 同理 := 是硬件上的赋值，会连线  = 是 scala 的赋值
 
 
-class CpuTopSingle(enableItrace: Boolean = true) extends Module {
+class CpuTop_single(enableItrace: Boolean = true) extends Module {
   val io = IO(new Bundle {
 
     // instruction memory
@@ -410,7 +408,7 @@ class CpuTopSingle(enableItrace: Boolean = true) extends Module {
       }
     }
 
-    // syscall
+    // syscall 
     is("b1110011".U) {
       when(funct3 === "b000".U) {
         when(funct7 === "b0000000".U) {
@@ -439,14 +437,14 @@ class CpuTopSingle(enableItrace: Boolean = true) extends Module {
         csr.io.csr_op := funct3
         csr.io.csr_addr := inst(31,20)
         csr.io.rs1_data := rs1_data
-        csr.io.zimm := Cat(0.U(27.W), rs1)
+        csr.io.zimm := Cat(0.U(27.W), rs1) 
 
         wb_data := csr.io.csr_rdata
         wb_en := true.B
       }
+      
 
-
-
+      
 
     }
   }
@@ -466,8 +464,8 @@ class CpuTopSingle(enableItrace: Boolean = true) extends Module {
 
   // when(csr.io.mret) {
   //   printf("mret: mepc=0x%x next_pc=0x%x\n", csr.io.mret_target, next_pc)
-  // }
-
+  // } 
+  
 
   while(i < DEBUG_REGS) {
     if (i == 0) {
