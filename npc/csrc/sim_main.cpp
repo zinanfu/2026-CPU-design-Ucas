@@ -84,7 +84,7 @@ bool step_once(VCpuTop *top) {
     
     uint32_t inst = paddr_read(pc, 4, true);
     
-    if (inst == 0x00100073) {
+    if (top->io_debug_inst == 0x00100073) {
         uint32_t code = top->io_debug_regs_flat[10];
         if (code == 0) {
             printf("Hit GOOD TRAP (code = %d)\n", code);
@@ -193,6 +193,8 @@ void repl_loop(VCpuTop* top) {
                 bool sign = step_once(top);
                 printf("pc  =0x%8x\n", top->io_debug_pc);
                 printf("inst=0x%08x\n", top->io_debug_inst);
+
+
                 if (Verilated :: gotFinish()) {
                     break;
                 }
@@ -222,6 +224,7 @@ void repl_loop(VCpuTop* top) {
                     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
                     break;
                 }
+                
             }
         }
         else if (cmd == "info") {
