@@ -28,15 +28,9 @@ class IFU extends Module {
 
   io.if_pc := pc
 
-  // IF to ID — valid 不能永远为 true，flush 后要有气泡
-  val if_valid = RegInit(true.B)
-  when (io.redirect.valid) {
-    if_valid := false.B
-  }.elsewhen (io.out.fire) {
-    if_valid := true.B
-  }
+  // IF to ID
 
   io.out.bits.pc    := pc
   io.out.bits.inst  := io.if_inst
-  io.out.valid      := if_valid
+  io.out.valid      := true.B
 }

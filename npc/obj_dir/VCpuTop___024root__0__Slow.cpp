@@ -100,7 +100,7 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
     CpuTop__DOT__idu__DOT___GEN_3 = 0;
     // Body
     vlSelfRef.io_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
-    vlSelfRef.io_mem_addr = vlSelfRef.CpuTop__DOT__reg_2_alu_result;
+    vlSelfRef.io_mem_addr = vlSelfRef.CpuTop__DOT__reg_2_mem_addr;
     vlSelfRef.io_debug_valid = vlSelfRef.CpuTop__DOT__reg_valid_3;
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9 = (1U & 
                                                ((3U 
@@ -507,13 +507,13 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                   & ((0U 
                                                       == 
                                                       (3U 
-                                                       & vlSelfRef.CpuTop__DOT__reg_2_alu_result))
+                                                       & vlSelfRef.CpuTop__DOT__reg_2_mem_addr))
                                                       ? vlSelfRef.io_mem_rdata
                                                       : 
                                                      ((1U 
                                                        == 
                                                        (3U 
-                                                        & vlSelfRef.CpuTop__DOT__reg_2_alu_result))
+                                                        & vlSelfRef.CpuTop__DOT__reg_2_mem_addr))
                                                        ? 
                                                       (vlSelfRef.io_mem_rdata 
                                                        >> 8U)
@@ -521,7 +521,7 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                       ((2U 
                                                         == 
                                                         (3U 
-                                                         & vlSelfRef.CpuTop__DOT__reg_2_alu_result))
+                                                         & vlSelfRef.CpuTop__DOT__reg_2_mem_addr))
                                                         ? 
                                                        (vlSelfRef.io_mem_rdata 
                                                         >> 0x00000010U)
@@ -530,7 +530,7 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
                                                         >> 0x00000018U)))));
     vlSelfRef.CpuTop__DOT__mem__DOT__load_half = (0x0000ffffU 
                                                   & ((2U 
-                                                      & vlSelfRef.CpuTop__DOT__reg_2_alu_result)
+                                                      & vlSelfRef.CpuTop__DOT__reg_2_mem_addr)
                                                       ? 
                                                      (vlSelfRef.io_mem_rdata 
                                                       >> 0x00000010U)
@@ -1012,6 +1012,7 @@ VL_ATTR_COLD void VCpuTop___024root___ctor_var_reset(VCpuTop___024root* vlSelf) 
     vlSelf->CpuTop__DOT__reg_2_mem_ren = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 4163402504624689694ull);
     vlSelf->CpuTop__DOT__reg_2_mem_wen = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 2046284879071609496ull);
     vlSelf->CpuTop__DOT__reg_2_mem_funct3 = VL_SCOPED_RAND_RESET_I(3, __VscopeHash, 13679297723976401773ull);
+    vlSelf->CpuTop__DOT__reg_2_mem_addr = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 12558705244405523672ull);
     vlSelf->CpuTop__DOT__reg_2_mem_wmask = VL_SCOPED_RAND_RESET_I(4, __VscopeHash, 6951305256987261797ull);
     vlSelf->CpuTop__DOT__reg_2_mem_wdata = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 7135628100084419767ull);
     vlSelf->CpuTop__DOT__reg_2_wb_addr = VL_SCOPED_RAND_RESET_I(5, __VscopeHash, 8908932909575684565ull);
