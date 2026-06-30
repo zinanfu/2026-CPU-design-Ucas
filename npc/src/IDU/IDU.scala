@@ -29,18 +29,12 @@ class IDU extends Module {
       val target = UInt(32.W)
     })
 
-    // 
-    val id_pc   = Output(UInt(32.W))   
-    val id_inst = Output(UInt(32.W)) 
-
     // debug
     val debug_regs = Output(Vec(32, UInt(32.W)))
   })
   // transfer
   io.out.bits.inst := io.in.bits.inst
 
-  io.id_inst := io.in.bits.inst
-  io.id_pc   := io.in.bits.pc
   // decode
   val inst   = io.in.bits.inst
   val pc     = io.in.bits.pc
