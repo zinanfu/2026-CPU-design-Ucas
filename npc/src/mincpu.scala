@@ -5,7 +5,7 @@ import chisel3.util._
 import npc.ItraceDPI
 
 
-class CpuTop(enableItrace: Boolean = true) extends Module {
+class CpuTop_pipeline(enableItrace: Boolean = true) extends Module {
   val io = IO(new Bundle {
     val inst            = Input(UInt(32.W))
     val pc              = Output(UInt(32.W))

@@ -1,6 +1,6 @@
 BUILD_DIR = ./build
 
-TOPNAME = CpuTop_single
+TOPNAME = CpuTop
 
 # VSRCS = $(wildcard vsrc/*.v)
 VSRCS = $(wildcard build/*.sv)

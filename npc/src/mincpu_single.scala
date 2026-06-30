@@ -9,7 +9,7 @@ import npc.ItraceDPI
 // 同理 := 是硬件上的赋值，会连线  = 是 scala 的赋值
 
 
-class CpuTop_single(enableItrace: Boolean = true) extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   val io = IO(new Bundle {
 
     // instruction memory
