@@ -382,8 +382,8 @@ class IDU extends Module {
           }
           when(rs2(4, 0) === "b00001".U) { // ebreak
             io.out.bits.illegal        := false.B
-            io.out.bits.exception      := true.B
-            io.out.bits.exception_cause := 3.U
+            // io.out.bits.exception      := true.B
+            // io.out.bits.exception_cause := 3.U
           }
         }
         when(funct7 === "b0011000".U) { // mret
