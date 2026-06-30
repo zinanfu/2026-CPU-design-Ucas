@@ -32,10 +32,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   val mem = Module(new MEM)
   val wbu = Module(new WBU)
 
-  // ── 分支地址跳转 ──
-  //   IDU: B-type (条件分支) + JAL (无条件跳转)
-  //   EXU: JALR (需要 ALU 算地址) + exception + mret
-  //   优先级: EXU > IDU（异常/mret 优先）
+  
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
   // printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
   // printf("ID: redirect_valid = %d, target = %x\n", idu.io.redirect.valid, idu.io.redirect.bits.target)
