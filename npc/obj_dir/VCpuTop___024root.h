@@ -108,16 +108,21 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__reg_pc;
         IData/*31:0*/ CpuTop__DOT__reg_inst;
         IData/*31:0*/ CpuTop__DOT__reg_1_pc;
+        IData/*31:0*/ CpuTop__DOT__reg_1_inst;
         IData/*31:0*/ CpuTop__DOT__reg_1_alu_a;
         IData/*31:0*/ CpuTop__DOT__reg_1_alu_b;
         IData/*31:0*/ CpuTop__DOT__reg_1_mem_wdata;
         IData/*31:0*/ CpuTop__DOT__reg_1_csr_wdata;
         IData/*31:0*/ CpuTop__DOT__reg_1_csr_zimm;
+        IData/*31:0*/ CpuTop__DOT__reg_2_pc;
+        IData/*31:0*/ CpuTop__DOT__reg_2_inst;
         IData/*31:0*/ CpuTop__DOT__reg_2_alu_result;
         IData/*31:0*/ CpuTop__DOT__reg_2_mem_addr;
         IData/*31:0*/ CpuTop__DOT__reg_2_mem_wdata;
         IData/*31:0*/ CpuTop__DOT__reg_2_pc_plus4;
         IData/*31:0*/ CpuTop__DOT__reg_2_csr_rdata;
+        IData/*31:0*/ CpuTop__DOT__reg_3_pc;
+        IData/*31:0*/ CpuTop__DOT__reg_3_inst;
         IData/*31:0*/ CpuTop__DOT__reg_3_wb_data;
         IData/*31:0*/ CpuTop__DOT__ifu__DOT__pc;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__immI;
@@ -141,13 +146,13 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_16;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_17;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_18;
+    };
+    struct {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_19;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_20;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_21;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_22;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_23;
-    };
-    struct {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_24;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_25;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_26;
