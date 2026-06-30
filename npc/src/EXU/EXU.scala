@@ -103,7 +103,7 @@ class EXU extends Module {
   io.out.bits.mem_ren    := in.mem_ren
   io.out.bits.mem_wen    := in.mem_wen
   io.out.bits.mem_funct3 := in.mem_funct3
-  io.out.bits.mem_addr   := mem_addr
+  io.out.bits.mem_addr   := mem_addr_aligned
   io.out.bits.mem_wmask  := ex_mem_wmask
   io.out.bits.mem_wdata  := ex_mem_wdata
   io.out.bits.wb_addr    := in.wb_addr

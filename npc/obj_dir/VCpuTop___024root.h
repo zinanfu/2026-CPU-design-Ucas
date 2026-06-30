@@ -54,6 +54,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*4:0*/ CpuTop__DOT__reg_3_wb_addr;
         CData/*0:0*/ CpuTop__DOT__reg_3_wb_en;
         CData/*0:0*/ CpuTop__DOT__reg_valid_3;
+        CData/*0:0*/ CpuTop__DOT___reg_T;
+        CData/*0:0*/ CpuTop__DOT__ifu__DOT__if_valid;
+        CData/*0:0*/ CpuTop__DOT__ifu__DOT___GEN;
         CData/*0:0*/ CpuTop__DOT__idu__DOT__io_reg_wen;
         CData/*0:0*/ CpuTop__DOT__idu__DOT__io_fwd_mem_wen;
         CData/*0:0*/ CpuTop__DOT__idu__DOT___stall_T_1;
@@ -77,11 +80,11 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__idu__DOT__regfile__DOT___GEN;
         CData/*0:0*/ CpuTop__DOT__exu__DOT__io_fwd_wb_en;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN;
+    };
+    struct {
         CData/*0:0*/ CpuTop__DOT__exu__DOT___GEN_0;
         CData/*0:0*/ CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T;
         CData/*7:0*/ CpuTop__DOT__mem__DOT__casez_tmp;
-    };
-    struct {
         CData/*0:0*/ __VdfgRegularize_he50b618e_0_1;
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __VstlPhaseResult;
@@ -117,7 +120,6 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__reg_2_pc;
         IData/*31:0*/ CpuTop__DOT__reg_2_inst;
         IData/*31:0*/ CpuTop__DOT__reg_2_alu_result;
-        IData/*31:0*/ CpuTop__DOT__reg_2_mem_addr;
         IData/*31:0*/ CpuTop__DOT__reg_2_mem_wdata;
         IData/*31:0*/ CpuTop__DOT__reg_2_pc_plus4;
         IData/*31:0*/ CpuTop__DOT__reg_2_csr_rdata;
@@ -144,10 +146,10 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_14;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_15;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_16;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_17;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_18;
     };
     struct {
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_17;
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_18;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_19;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_20;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_21;
