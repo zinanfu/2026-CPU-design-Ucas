@@ -207,7 +207,7 @@ class IDU extends Module {
       io.out.bits.alu_a   := pc
       io.out.bits.alu_b   := immU
       io.out.bits.alu_op  := ALU_ADD
-      printf("AUIPC: pc=%x, immU=%x, result=%x\n", pc, immU, pc + immU)
+      // printf("AUIPC: pc=%x, immU=%x, result=%x\n", pc, immU, pc + immU)
     }
 
     // J_type
