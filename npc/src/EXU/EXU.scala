@@ -113,9 +113,9 @@ class EXU extends Module {
   io.out.bits.csr_rdata  := csr.io.csr_rdata
 
   // debug: trace stores leaving EXU
-  when (io.in.valid && io.out.bits.mem_wen) {
-    printf("[EXU store] pc=%x addr=%x data=%x mask=%x\n", in.pc, mem_addr_aligned, ex_mem_wdata, ex_mem_wmask)
-  }
+  // when (io.in.valid && io.out.bits.mem_wen) {
+  //   printf("[EXU store] pc=%x addr=%x data=%x mask=%x\n", in.pc, mem_addr_aligned, ex_mem_wdata, ex_mem_wmask)
+  // }
 
   when (!io.in.valid) {
     io.redirect.valid := false.B
