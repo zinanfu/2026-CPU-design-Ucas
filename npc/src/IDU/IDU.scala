@@ -404,10 +404,10 @@ class IDU extends Module {
     }
   }
 
-  when (opcode === "b1100011".U && io.in.valid) {
-    printf("IDU branch: pc=%x rs1_data=%x rs2_data=%x taken=%d\n", 
-          pc, rs1_data, rs2_data, branch_taken)
-  }
+  // when (opcode === "b1100011".U && io.in.valid) {
+  //   printf("IDU branch: pc=%x rs1_data=%x rs2_data=%x taken=%d\n", 
+  //         pc, rs1_data, rs2_data, branch_taken)
+  // }
 
   val load_in_ex = io.fwd_exu_is_load
   val load_addr  = io.fwd_exu_waddr
