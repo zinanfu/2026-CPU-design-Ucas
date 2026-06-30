@@ -415,22 +415,24 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                  >> 0x00000014U))),5);
         bufp->chgIData(oldp+135,(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata2),32);
         bufp->chgIData(oldp+136,(vlSelfRef.CpuTop__DOT__ifu__DOT__pc),32);
+        bufp->chgBit(oldp+137,(((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen) 
+                                & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2))));
     }
-    bufp->chgBit(oldp+137,(vlSelfRef.clock));
-    bufp->chgBit(oldp+138,(vlSelfRef.reset));
-    bufp->chgIData(oldp+139,(vlSelfRef.io_inst),32);
-    bufp->chgIData(oldp+140,(vlSelfRef.io_pc),32);
-    bufp->chgIData(oldp+141,(vlSelfRef.io_mem_rdata),32);
-    bufp->chgIData(oldp+142,(vlSelfRef.io_mem_addr),32);
-    bufp->chgIData(oldp+143,(vlSelfRef.io_mem_wdata),32);
-    bufp->chgCData(oldp+144,(vlSelfRef.io_mem_wmask),4);
-    bufp->chgBit(oldp+145,(vlSelfRef.io_mem_wen));
-    bufp->chgBit(oldp+146,(vlSelfRef.io_mem_ren));
-    bufp->chgIData(oldp+147,(vlSelfRef.io_debug_pc),32);
-    bufp->chgIData(oldp+148,(vlSelfRef.io_debug_inst),32);
-    bufp->chgBit(oldp+149,(vlSelfRef.io_debug_valid));
-    bufp->chgWData(oldp+150,(vlSelfRef.io_debug_regs_flat),1024);
-    bufp->chgIData(oldp+182,(((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+    bufp->chgBit(oldp+138,(vlSelfRef.clock));
+    bufp->chgBit(oldp+139,(vlSelfRef.reset));
+    bufp->chgIData(oldp+140,(vlSelfRef.io_inst),32);
+    bufp->chgIData(oldp+141,(vlSelfRef.io_pc),32);
+    bufp->chgIData(oldp+142,(vlSelfRef.io_mem_rdata),32);
+    bufp->chgIData(oldp+143,(vlSelfRef.io_mem_addr),32);
+    bufp->chgIData(oldp+144,(vlSelfRef.io_mem_wdata),32);
+    bufp->chgCData(oldp+145,(vlSelfRef.io_mem_wmask),4);
+    bufp->chgBit(oldp+146,(vlSelfRef.io_mem_wen));
+    bufp->chgBit(oldp+147,(vlSelfRef.io_mem_ren));
+    bufp->chgIData(oldp+148,(vlSelfRef.io_debug_pc),32);
+    bufp->chgIData(oldp+149,(vlSelfRef.io_debug_inst),32);
+    bufp->chgBit(oldp+150,(vlSelfRef.io_debug_valid));
+    bufp->chgWData(oldp+151,(vlSelfRef.io_debug_regs_flat),1024);
+    bufp->chgIData(oldp+183,(((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
                                ? ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
                                    ? 0U : ((1U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
                                             ? (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half)
