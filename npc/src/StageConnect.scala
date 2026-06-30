@@ -19,14 +19,17 @@ object StageConnect {
       val reg       = RegEnable(left.bits, left.fire)   // RegEnable 当 fire 为真时，将 bits 锁存到 reg 中（fire 由 chisel 为 DecoupledIO 提供）
       val reg_valid = RegInit(false.B)
 
-      when (flush) {              // flush 时清除寄存器有效位
+      when (flush && !left.fire) {              // flush 时清除寄存器有效位
         reg_valid := false.B 
       }
       .elsewhen (left.fire) {     // 前流水级成功传输，本层为 true
         reg_valid := true.B  
       }
       .elsewhen (right.fire) {    // 后级成功接收，本层为 false
-        reg_valid := false.B 
+        reg_valid := false.B  
+      }
+      .elsewhen (flush) {
+        reg_valid := false.B
       }
 
       right.valid := reg_valid
