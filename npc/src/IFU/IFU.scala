@@ -32,8 +32,8 @@ class IFU extends Module {
 
   io.if_pc := pc
 
-  io.si_pc := pc
-  io.si_inst := io.if_inst
+  io.si_pc := RegNext(pc, 0.U)
+  io.si_inst := RegNext(io.if_inst, 0.U)
   // IF to ID
 
   io.out.bits.pc    := pc
