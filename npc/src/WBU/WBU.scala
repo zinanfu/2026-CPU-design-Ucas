@@ -23,6 +23,10 @@ class WBU extends Module {
   io.wb_pc      := io.in.bits.pc
   io.wb_inst    := io.in.bits.inst
 
-
   io.in.ready   := true.B
+
+  when (io.reg_wen && io.reg_waddr === 9.U) {
+    printf("WBU write s1: %x at pc=%x\n", io.reg_wdata, io.wb_pc)
+  }
+
 }

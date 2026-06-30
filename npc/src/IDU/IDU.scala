@@ -146,6 +146,12 @@ class IDU extends Module {
         io.out.bits.illegal := false.B
         io.out.bits.wb_en   := true.B
         io.out.bits.alu_op  := ALU_ADD
+
+        when (opcode === "b0010011".U && funct3 === "b000".U && rd === 9.U) {
+          printf("ADDI s1 in IDU: rs1_data=%x imm=%x result=%x\n", 
+                rs1_data, immI, rs1_data + immI)
+        }
+
       }
       when(funct3 === "b111".U) { // andi
         io.out.bits.illegal := false.B

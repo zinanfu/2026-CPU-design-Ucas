@@ -35,4 +35,8 @@ class register(width:Int) extends Module {
 
     // debug
     io.debug_regs := regs
+
+    when (io.wen && io.waddr === 9.U) {
+        printf("REG write s1: %x\n", io.wdata)
+    }
 }
