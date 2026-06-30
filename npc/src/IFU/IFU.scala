@@ -14,6 +14,10 @@ class IFU extends Module {
 
     val if_pc   = Output(UInt(32.W))   
     val if_inst = Input(UInt(32.W))    
+
+    // si
+    val si_pc   = Output(UInt(32.W))
+    val si_inst = Output(UInt(32.W))
   })
 
   val pc = RegInit("h80000000".U(32.W))
@@ -21,13 +25,13 @@ class IFU extends Module {
   // printf("pc = 0x%x, if_inst = 0x%x, redirect_valid = %d, redirect_target = %x\n", pc, io.if_inst, io.redirect.valid, io.redirect.bits.target)
   // PC 更新逻辑
   when (io.redirect.valid) {
-    pc := io.redirect.bits.target 
+    io.if_pc := io.redirect.bits.target 
   }.elsewhen (io.out.fire) {
-    pc := pc + 4.U
+    io.if_pc := pc + 4.U
   }
 
-  io.if_pc := pc
-
+  si_pc := pc
+  si_inst := io.if_inst
   // IF to ID
 
   io.out.bits.pc    := pc
