@@ -99,7 +99,9 @@ VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlS
     CData/*3:0*/ CpuTop__DOT__idu__DOT___GEN_3;
     CpuTop__DOT__idu__DOT___GEN_3 = 0;
     // Body
+    vlSelfRef.io_si_inst = vlSelfRef.io_inst;
     vlSelfRef.io_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
+    vlSelfRef.io_si_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
     vlSelfRef.io_debug_valid = vlSelfRef.CpuTop__DOT__reg_valid_3;
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9 = (1U & 
                                                ((3U 
@@ -966,6 +968,8 @@ VL_ATTR_COLD void VCpuTop___024root___ctor_var_reset(VCpuTop___024root* vlSelf) 
     vlSelf->io_debug_inst = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 15041432708164082798ull);
     vlSelf->io_debug_valid = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 5400205057606432418ull);
     VL_SCOPED_RAND_RESET_W(1024, vlSelf->io_debug_regs_flat, __VscopeHash, 13513379243061101752ull);
+    vlSelf->io_si_pc = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 14987329663524963101ull);
+    vlSelf->io_si_inst = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 16217823695115645843ull);
     vlSelf->CpuTop__DOT___mem_io_out_bits_wb_data = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 10154520869137113901ull);
     vlSelf->CpuTop__DOT___exu_io_out_bits_csr_rdata = VL_SCOPED_RAND_RESET_I(32, __VscopeHash, 8261811996255755305ull);
     vlSelf->CpuTop__DOT___exu_io_redirect_valid = VL_SCOPED_RAND_RESET_I(1, __VscopeHash, 12501500960846164842ull);

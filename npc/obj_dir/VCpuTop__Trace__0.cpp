@@ -430,7 +430,9 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
     bufp->chgIData(oldp+148,(vlSelfRef.io_debug_inst),32);
     bufp->chgBit(oldp+149,(vlSelfRef.io_debug_valid));
     bufp->chgWData(oldp+150,(vlSelfRef.io_debug_regs_flat),1024);
-    bufp->chgIData(oldp+182,(((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
+    bufp->chgIData(oldp+182,(vlSelfRef.io_si_pc),32);
+    bufp->chgIData(oldp+183,(vlSelfRef.io_si_inst),32);
+    bufp->chgIData(oldp+184,(((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
                                ? ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
                                    ? 0U : ((1U & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_funct3))
                                             ? (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__load_half)
