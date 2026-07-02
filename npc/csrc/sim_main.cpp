@@ -221,29 +221,29 @@ void repl_loop(VCpuTop* top) {
                 if (sign == false) {
                     break;
                 }
-                // 单步执行后检查断点
-                if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
-                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
-                    break;
-                }
-                if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
-                    break;
-                }
+                // // 单步执行后检查断点
+                // if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
+                //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                //     break;
+                // }
+                // if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                //     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
+                //     break;
+                // }
             }
         }
         else if (cmd == "c") {
             bool sign = true;
             while (!Verilated :: gotFinish() && sign) {
                 sign = step_once(top);
-                if (breakpoints.count(top->io_pc)) {
-                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
-                    break;
-                }
-                if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
-                    break;
-                }
+                // if (breakpoints.count(top->io_pc)) {
+                //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                //     break;
+                // }
+                // if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                //     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
+                //     break;
+                // }
                 
             }
         }
