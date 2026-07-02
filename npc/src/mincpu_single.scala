@@ -35,17 +35,17 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   //IF
   val instMemory = Module(new singleMemory(32))
-  instMemory.raddr := pc
-  instMemory.wen := 0.U
-  instMemory.waddr := 0.U
-  instMemory.wdata := 0.U
+  instMemory.io.raddr := pc
+  instMemory.io.wen := 0.U
+  instMemory.io.waddr := 0.U
+  instMemory.io.wdata := 0.U
 
   // pc
   val pc = RegInit("h80000000".U(32.W))
   io.pc := pc
 
   // id
-  val inst = instMemory.rdata
+  val inst = instMemory.io.rdata
 
   val opcode = inst(6,0)
   val rd     = inst(11,7)
