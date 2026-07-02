@@ -102,33 +102,33 @@ int main(int argc, char** argv) {
 static uint64_t cycle_count = 0;
 
 bool step_once(VCpuTop *top) {
-    uint32_t pc = top->io_pc;
-    if (pc < 0x80000000 || pc > 0x80100000) {
-        printf("BAD PC = 0x%08x\n", pc);
-        return false;
-    }
+    // uint32_t pc = top->io_pc;
+    // if (pc < 0x80000000 || pc > 0x80100000) {
+    //     printf("BAD PC = 0x%08x\n", pc);
+    //     return false;
+    // }
 
-    uint32_t inst = paddr_read(pc, 4, true);
+    // uint32_t inst = paddr_read(pc, 4, true);
 
     cycle_count++;
 
-    if (top->io_debug_inst == 0x00100073) {
-        uint32_t code = top->io_debug_regs_flat[10];
-        if (code == 0) {
-            printf("Hit GOOD TRAP (code = %d)\n", code);
-        }
-        else {
-            printf("Hit BAD TRAP (code = %d)\n", code);
-        }
-        printf("Total cycles: %lu (including %d reset cycles)\n", cycle_count + 10, 10);
+    // if (top->io_debug_inst == 0x00100073) {
+    //     uint32_t code = top->io_debug_regs_flat[10];
+    //     if (code == 0) {
+    //         printf("Hit GOOD TRAP (code = %d)\n", code);
+    //     }
+    //     else {
+    //         printf("Hit BAD TRAP (code = %d)\n", code);
+    //     }
+    //     printf("Total cycles: %lu (including %d reset cycles)\n", cycle_count + 10, 10);
 
-        Verilated::gotFinish(true);
-        return false;
-    }
+    //     Verilated::gotFinish(true);
+    //     return false;
+    // }
 
     // instruction fetch
     
-    top->io_inst = inst;
+    // top->io_inst = inst;
 
     // clock low
     top->clock = 0;

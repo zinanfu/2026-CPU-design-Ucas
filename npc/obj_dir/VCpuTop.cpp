@@ -16,16 +16,12 @@ VCpuTop::VCpuTop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , io_mem_wen{vlSymsp->TOP.io_mem_wen}
     , io_mem_ren{vlSymsp->TOP.io_mem_ren}
     , io_debug_valid{vlSymsp->TOP.io_debug_valid}
-    , io_inst{vlSymsp->TOP.io_inst}
-    , io_pc{vlSymsp->TOP.io_pc}
     , io_mem_rdata{vlSymsp->TOP.io_mem_rdata}
     , io_mem_addr{vlSymsp->TOP.io_mem_addr}
     , io_mem_wdata{vlSymsp->TOP.io_mem_wdata}
     , io_debug_pc{vlSymsp->TOP.io_debug_pc}
     , io_debug_inst{vlSymsp->TOP.io_debug_inst}
     , io_debug_regs_flat{vlSymsp->TOP.io_debug_regs_flat}
-    , io_si_pc{vlSymsp->TOP.io_si_pc}
-    , io_si_inst{vlSymsp->TOP.io_si_inst}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context
@@ -149,6 +145,6 @@ VL_ATTR_COLD void VCpuTop::traceBaseModel(VerilatedTraceBaseC* tfp, int levels, 
             " use --trace-fst with VerilatedFst object, and --trace-vcd with VerilatedVcd object");
     }
     stfp->spTrace()->addModel(this);
-    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP), name(), false, 187);
+    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP), name(), false, 45);
     VCpuTop___024root__trace_register(&(vlSymsp->TOP), stfp->spTrace());
 }
