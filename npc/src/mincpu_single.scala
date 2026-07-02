@@ -9,14 +9,14 @@ import npc.ItraceDPI
 // 同理 := 是硬件上的赋值，会连线  = 是 scala 的赋值
 
 
-class CpuTop_s(enableItrace: Boolean = true) extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   val io = IO(new Bundle {
 
     // instruction memory
-    val inst            = Input(UInt(32.W))
+    // val inst            = Input(UInt(32.W))
 
     // instruction address
-    val pc              = Output(UInt(32.W))
+    // val pc              = Output(UInt(32.W))
 
     // data memory
     val mem_rdata       = Input(UInt(32.W))
@@ -33,13 +33,19 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
     val debug_regs_flat = Output(UInt(1024.W))
   })
 
+  //IF
+  val instMemory = Module(new singleMemory(32))
+  instMemory.raddr := pc
+  instMemory.wen := 0.U
+  instMemory.waddr := 0.U
+  instMemory.wdata := 0.U
 
   // pc
   val pc = RegInit("h80000000".U(32.W))
   io.pc := pc
 
   // id
-  val inst = io.inst
+  val inst = instMemory.rdata
 
   val opcode = inst(6,0)
   val rd     = inst(11,7)
