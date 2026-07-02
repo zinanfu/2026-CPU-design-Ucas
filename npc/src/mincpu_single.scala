@@ -32,6 +32,10 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
     val debug_valid     = Output(Bool())
     val debug_regs_flat = Output(UInt(1024.W))
   })
+  // pc
+  val pc = RegInit("h80000000".U(32.W))
+  // io.pc := pc
+
 
   //IF
   val instMemory = Module(new singleMemory(32))
@@ -40,9 +44,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   instMemory.io.waddr := 0.U
   instMemory.io.wdata := 0.U
 
-  // pc
-  val pc = RegInit("h80000000".U(32.W))
-  // io.pc := pc
+  
 
   // id
   val inst = instMemory.io.rdata
