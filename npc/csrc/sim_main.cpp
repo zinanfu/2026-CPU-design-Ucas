@@ -10,6 +10,7 @@
 #include <string>
 #include <iomanip>
 #include <cstdlib>
+#include <cstring>
 #include <set>
 
 
@@ -26,29 +27,45 @@ int main(int argc, char** argv) {
     // init memory
     init_pmem(128 * 1024 * 1024, 0x80000000);
 
+    // parse arguments: skip flags, extract positional args
+    bool batch_mode = false;
+    const char* img_path = nullptr;
+    const char* elf_path = nullptr;
+    const char* diff_so_path = nullptr;
+
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--batch") == 0) {
+            batch_mode = true;
+        } else if (img_path == nullptr) {
+            img_path = argv[i];
+        } else if (elf_path == nullptr) {
+            elf_path = argv[i];
+        } else if (diff_so_path == nullptr) {
+            diff_so_path = argv[i];
+        }
+    }
+
     // load image
-    if (argc > 1) {
-        bool success = load_image(argv[1], 0x80000000);
+    if (img_path) {
+        bool success = load_image(img_path, 0x80000000);
         if (!success) {
             printf("Error: load is wrong\n");
         }
     }
 
 #ifdef CONFIG_DIFFTEST
-    const char* diff_so_file = (argc > 3) ? argv[3] : nullptr;
     size_t img_size = 128 * 1024 * 1024;
 
-    if (diff_so_file) {
-        init_difftest(diff_so_file, get_pmem_ptr(), img_size);
+    if (diff_so_path) {
+        init_difftest(diff_so_path, get_pmem_ptr(), img_size);
     }
-    
+
 #endif
 
 #ifdef CONFIG_FTRACE
-    printf("The argc is %d\n", argc);
-    const char* elf_path = (argc > 2) ? argv[2] : argv[1];
+    const char* ftrace_elf = elf_path ? elf_path : img_path;
 
-    init_ftrace(elf_path);
+    init_ftrace(ftrace_elf);
 #endif
 
     // reset
@@ -64,9 +81,16 @@ int main(int argc, char** argv) {
     }
 
     top->reset = 0;
-    // int sign = 0;
 
-    repl_loop(top);
+    if (batch_mode) {
+        printf("Batch mode: running to completion...\n");
+        while (!Verilated::gotFinish()) {
+            if (!step_once(top)) break;
+        }
+        printf("Simulation finished.\n");
+    } else {
+        repl_loop(top);
+    }
 
     delete top;
 
@@ -75,15 +99,19 @@ int main(int argc, char** argv) {
     return 0;
 }
 
+static uint64_t cycle_count = 0;
+
 bool step_once(VCpuTop *top) {
     uint32_t pc = top->io_pc;
     if (pc < 0x80000000 || pc > 0x80100000) {
         printf("BAD PC = 0x%08x\n", pc);
         return false;
     }
-    
+
     uint32_t inst = paddr_read(pc, 4, true);
-    
+
+    cycle_count++;
+
     if (top->io_debug_inst == 0x00100073) {
         uint32_t code = top->io_debug_regs_flat[10];
         if (code == 0) {
@@ -92,9 +120,10 @@ bool step_once(VCpuTop *top) {
         else {
             printf("Hit BAD TRAP (code = %d)\n", code);
         }
-        
+        printf("Total cycles: %lu (including %d reset cycles)\n", cycle_count + 10, 10);
+
         Verilated::gotFinish(true);
-        return false; 
+        return false;
     }
 
     // instruction fetch
@@ -128,16 +157,6 @@ bool step_once(VCpuTop *top) {
   
 
     if (top->io_mem_wen) {
-        // if ((top->io_mem_addr & ~0x3) == SERIAL_PORT) {
-        //     uint8_t uch = 0;
-        //     if (top->io_mem_wmask & 0x1) uch = top->io_mem_wdata & 0xff;
-        //     else if (top->io_mem_wmask & 0x2) uch = (top->io_mem_wdata >> 8) & 0xff;
-        //     else if (top->io_mem_wmask & 0x4) uch = (top->io_mem_wdata >> 16) & 0xff;
-        //     else if (top->io_mem_wmask & 0x8) uch = (top->io_mem_wdata >> 24) & 0xff;
-        //     fprintf(stderr, "[UART] pc=0x%08x ch=0x%02x '%c' wmask=0x%x data=0x%08x addr=0x%08x\n",
-        //             top->io_debug_pc, uch, (uch >= 32 && uch < 127) ? uch : '.',
-        //             top->io_mem_wmask, top->io_mem_wdata, top->io_mem_addr);
-        // }
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
     }
     // debug
