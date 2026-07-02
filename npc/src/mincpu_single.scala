@@ -42,7 +42,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   // pc
   val pc = RegInit("h80000000".U(32.W))
-  io.pc := pc
+  // io.pc := pc
 
   // id
   val inst = instMemory.io.rdata
