@@ -20,11 +20,11 @@ class singleMemory(width:Int) extends Module {
     val regs = RegInit(VecInit(Seq.fill(32)(0.U(32.W))))
     val paddrRead = Module(new PaddrReadDPI)
 
-    paddrRead.io.addr = in.addr
-    paddrRead.io.len  = in.len
-    paddrRead.io.is_inst = im. is_inst
+    paddrRead.io.addr = io.addr
+    paddrRead.io.len  = io.len
+    paddrRead.io.is_inst = io.is_inst
     // read
-    rdata := paddrRead.io.data
+    io.rdata := paddrRead.io.data
 
     // write
     when(io.wen && io.waddr =/= 0.U) {
