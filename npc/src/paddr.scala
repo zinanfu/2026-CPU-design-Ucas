@@ -21,8 +21,8 @@ module PaddrReadDPI(
     output  [31:0]    data
 );
 
-import "DPI-C" function uint32_t paddr_read(   
-    input uint32_t addr,
+import "DPI-C" function int paddr_read(   
+    input int addr,
     input int len,
     input bit is_inst
 );
