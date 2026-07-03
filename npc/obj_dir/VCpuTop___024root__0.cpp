@@ -667,9 +667,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     vlSelfRef.io_debug_pc = vlSelfRef.CpuTop__DOT__pc;
     vlSelfRef.CpuTop__DOT___wb_data_T_11 = ((IData)(4U) 
                                             + vlSelfRef.CpuTop__DOT__pc);
-    VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__instMemory__DOT__paddrRead__DOT__paddr_read_TOP(
-                                                                                (0x0000001fU 
-                                                                                & vlSelfRef.CpuTop__DOT__pc), 4U, 1U, vlSelfRef.__Vfunc_CpuTop__DOT__instMemory__DOT__paddrRead__DOT__paddr_read__0__Vfuncout);
+    VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__instMemory__DOT__paddrRead__DOT__paddr_read_TOP(vlSelfRef.CpuTop__DOT__pc, 4U, 1U, vlSelfRef.__Vfunc_CpuTop__DOT__instMemory__DOT__paddrRead__DOT__paddr_read__0__Vfuncout);
     vlSelfRef.CpuTop__DOT___instMemory_io_rdata = vlSelfRef.__Vfunc_CpuTop__DOT__instMemory__DOT__paddrRead__DOT__paddr_read__0__Vfuncout;
     vlSelfRef.io_debug_inst = vlSelfRef.CpuTop__DOT___instMemory_io_rdata;
     vlSelfRef.CpuTop__DOT___GEN_42 = (((- (IData)((vlSelfRef.CpuTop__DOT___instMemory_io_rdata 

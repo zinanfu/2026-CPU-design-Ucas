@@ -86,25 +86,23 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgQData(oldp+43,(vlSelfRef.CpuTop__DOT__csr__DOT__mcycle_64),64);
         bufp->chgIData(oldp+45,(vlSelfRef.CpuTop__DOT__csr__DOT__mcause),32);
         bufp->chgIData(oldp+46,(vlSelfRef.CpuTop__DOT__csr__DOT__casez_tmp),32);
-        bufp->chgCData(oldp+47,((0x0000001fU & vlSelfRef.CpuTop__DOT__pc)),5);
-        bufp->chgIData(oldp+48,(vlSelfRef.CpuTop__DOT___instMemory_io_rdata),32);
-        bufp->chgIData(oldp+49,((0x0000001fU & vlSelfRef.CpuTop__DOT__pc)),32);
+        bufp->chgIData(oldp+47,(vlSelfRef.CpuTop__DOT___instMemory_io_rdata),32);
     }
-    bufp->chgBit(oldp+50,(vlSelfRef.clock));
-    bufp->chgBit(oldp+51,(vlSelfRef.reset));
-    bufp->chgIData(oldp+52,(vlSelfRef.io_mem_rdata),32);
-    bufp->chgIData(oldp+53,(vlSelfRef.io_mem_addr),32);
-    bufp->chgIData(oldp+54,(vlSelfRef.io_mem_wdata),32);
-    bufp->chgCData(oldp+55,(vlSelfRef.io_mem_wmask),4);
-    bufp->chgBit(oldp+56,(vlSelfRef.io_mem_wen));
-    bufp->chgBit(oldp+57,(vlSelfRef.io_mem_ren));
-    bufp->chgIData(oldp+58,(vlSelfRef.io_debug_pc),32);
-    bufp->chgIData(oldp+59,(vlSelfRef.io_debug_inst),32);
-    bufp->chgBit(oldp+60,(vlSelfRef.io_debug_valid));
-    bufp->chgWData(oldp+61,(vlSelfRef.io_debug_regs_flat),1024);
-    bufp->chgCData(oldp+93,(vlSelfRef.CpuTop__DOT__casez_tmp_1),8);
-    bufp->chgSData(oldp+94,(vlSelfRef.CpuTop__DOT__byte_1),16);
-    bufp->chgIData(oldp+95,(vlSelfRef.CpuTop__DOT__wb_data),32);
+    bufp->chgBit(oldp+48,(vlSelfRef.clock));
+    bufp->chgBit(oldp+49,(vlSelfRef.reset));
+    bufp->chgIData(oldp+50,(vlSelfRef.io_mem_rdata),32);
+    bufp->chgIData(oldp+51,(vlSelfRef.io_mem_addr),32);
+    bufp->chgIData(oldp+52,(vlSelfRef.io_mem_wdata),32);
+    bufp->chgCData(oldp+53,(vlSelfRef.io_mem_wmask),4);
+    bufp->chgBit(oldp+54,(vlSelfRef.io_mem_wen));
+    bufp->chgBit(oldp+55,(vlSelfRef.io_mem_ren));
+    bufp->chgIData(oldp+56,(vlSelfRef.io_debug_pc),32);
+    bufp->chgIData(oldp+57,(vlSelfRef.io_debug_inst),32);
+    bufp->chgBit(oldp+58,(vlSelfRef.io_debug_valid));
+    bufp->chgWData(oldp+59,(vlSelfRef.io_debug_regs_flat),1024);
+    bufp->chgCData(oldp+91,(vlSelfRef.CpuTop__DOT__casez_tmp_1),8);
+    bufp->chgSData(oldp+92,(vlSelfRef.CpuTop__DOT__byte_1),16);
+    bufp->chgIData(oldp+93,(vlSelfRef.CpuTop__DOT__wb_data),32);
 }
 
 void VCpuTop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
