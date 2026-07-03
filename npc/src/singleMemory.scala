@@ -2,6 +2,7 @@ package logic
 
 import chisel3._
 import chisel3.util._
+import npc.PaddrReadDPI
 
 class singleMemory(width:Int) extends Module {
     val io = IO(new Bundle{
