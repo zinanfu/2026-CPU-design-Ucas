@@ -21,7 +21,7 @@ class singleMemory(width:Int) extends Module {
     val paddrRead = Module(new PaddrReadDPI)
 
     paddrRead.io.addr    := io.raddr      
-    paddrRead.io.len     := io.len           
+    paddrRead.io.len     := 4.U         
     paddrRead.io.is_inst := true.B        
     // read
     io.rdata := paddrRead.io.data
