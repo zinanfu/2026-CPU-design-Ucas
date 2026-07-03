@@ -18,7 +18,7 @@ module PaddrReadDPI(
     input   [31:0]    addr,
     input   [31:0]    len,
     input             is_inst,
-    Output  [31:0]    data
+    output  [31:0]    data
 );
 
 import "DPI-C" function void paddr_read(   
