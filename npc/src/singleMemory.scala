@@ -7,7 +7,7 @@ import npc.PaddrReadDPI
 class singleMemory(width:Int) extends Module {
     val io = IO(new Bundle{
         // read
-        val raddr = Input(UInt(5.W))
+        val raddr = Input(UInt(32.W))
         val rdata = Output(UInt(32.W))
 
         // write 
