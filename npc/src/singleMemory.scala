@@ -2,7 +2,7 @@ package logic
 
 import chisel3._
 import chisel3.util._
-import npc.PaddrReadDPI
+import npc.Paddr
 
 class singleMemory(width:Int) extends Module {
     val io = IO(new Bundle{
@@ -20,9 +20,9 @@ class singleMemory(width:Int) extends Module {
     val regs = RegInit(VecInit(Seq.fill(32)(0.U(32.W))))
     val paddrRead = Module(new PaddrReadDPI)
 
-    paddrRead.io.addr := io.addr
-    paddrRead.io.len  := io.len
-    paddrRead.io.is_inst := io.is_inst
+    paddrRead.io.addr    := io.raddr      
+    paddrRead.io.len     := io.len           
+    paddrRead.io.is_inst := true.B        
     // read
     io.rdata := paddrRead.io.data
 
