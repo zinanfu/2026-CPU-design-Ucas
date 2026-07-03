@@ -70,7 +70,7 @@ static inline bool in_pmem(uint32_t addr, int len) {
     return false;
 }
 
-uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
+extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
 
