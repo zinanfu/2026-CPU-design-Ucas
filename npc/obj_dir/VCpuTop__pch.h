@@ -18,6 +18,7 @@
 
 
 #include "verilated.h"
+#include "verilated_dpi.h"
 
 #include "VCpuTop__Syms.h"
 #include "VCpuTop.h"

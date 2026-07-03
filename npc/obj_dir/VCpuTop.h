@@ -9,6 +9,7 @@
 #define VERILATED_VCPUTOP_H_  // guard
 
 #include "verilated.h"
+#include "svdpi.h"
 
 class VCpuTop__Syms;
 class VCpuTop___024root;

@@ -30,12 +30,12 @@ VM_CLASSES_FAST += \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
-  VCpuTop__ConstPool__0__Slow \
   VCpuTop___024root__Slow \
   VCpuTop___024root__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \
+  VCpuTop__Dpi \
   VCpuTop__Trace__0 \
 
 # Generated support classes, non-fast-path, compile with low/medium optimization
@@ -47,6 +47,7 @@ VM_SUPPORT_SLOW += \
 # Global classes, need linked once per executable, fast-path, compile with highest optimization
 VM_GLOBAL_FAST += \
   verilated \
+  verilated_dpi \
   verilated_fst_c \
   verilated_threads \
 

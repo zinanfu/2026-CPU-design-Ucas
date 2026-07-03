@@ -11,7 +11,7 @@ VCpuTop__Syms::VCpuTop__Syms(VerilatedContext* contextp, const char* namep, VCpu
     , TOP{this, namep}
 {
     // Check resources
-    Verilated::stackCheck(188);
+    Verilated::stackCheck(354);
     // Setup sub module instances
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
@@ -20,6 +20,8 @@ VCpuTop__Syms::VCpuTop__Syms(VerilatedContext* contextp, const char* namep, VCpu
     // Setup each module's pointer back to symbol table (for public functions)
     TOP.__Vconfigure(true);
     // Setup scopes
+    // Setup export functions - final: 0
+    // Setup export functions - final: 1
 }
 
 VCpuTop__Syms::~VCpuTop__Syms() {
