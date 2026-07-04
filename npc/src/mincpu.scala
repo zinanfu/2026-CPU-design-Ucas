@@ -6,9 +6,9 @@ import npc.ItraceDPI
 import chisel3.experimental.prefix
 
 
-class ysyx_26050162(enableItrace: Boolean = true) extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   
-  override def localModulePrefix = Some("ysyx_26050162")
+  // override def localModulePrefix = Some("ysyx_26050162")
 
   val io = IO(new Bundle {
     val inst            = Input(UInt(32.W))
