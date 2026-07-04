@@ -238,7 +238,9 @@ void repl_loop(VCpuTop* top) {
             bool sign = true;
             printf("out1\n");
             while (!Verilated :: gotFinish() && sign) {
+                printf("out2\n");
                 sign = step_once(top);
+                printf("out3\n");
                 // if (breakpoints.count(top->io_pc)) {
                 //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
                 //     break;
