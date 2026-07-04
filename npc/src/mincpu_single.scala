@@ -289,7 +289,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
       val load_addr = rs1_data + immI
 
-      io.mem_ren := true.B
+      io.mem_ren := true.B && (state === sEX)
       io.mem_addr := load_addr & "hfffffffc".U(32.W)
 
       wb_en := true.B
@@ -348,7 +348,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
       val store_addr = rs1_data + immS
 
-      io.mem_wen := true.B
+      io.mem_wen := true.B && (state === sEX)
       io.mem_addr := store_addr & "hfffffffc".U(32.W)
 
       when(funct3 === "b000".U) { // sb
@@ -476,14 +476,14 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   /*===========================wb=================================*/
 
-  when(wb_en && wb_addr =/= 0.U) {
+  when(wb_en && wb_addr =/= 0.U && (state === sEX)) {
     regs(wb_addr) := wb_data
   }
 
   /**************************debug*********************************/
   io.debug_pc := pc
   io.debug_inst := inst
-  io.debug_valid := !illegal // only use in no pipe line
+  io.debug_valid := !illegal && (state === sEX) // only use in no pipe line
 
   var i = 0
 
