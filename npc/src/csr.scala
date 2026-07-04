@@ -57,7 +57,7 @@ class Csr extends Module {
     val mcycle_64   = RegInit("h00000000".U(64.W))
     val mepc        = RegInit("h00000000".U(32.W))
     val mvendorid   = RegInit("h79737978".U(32.W))
-    val marchid     = RegInit("26050162".U(32.W)) // 学号未知
+    val marchid     = RegInit("h018D7E72".U(32.W)) // 学号未知
     val mcause      = RegInit("h00000000".U(32.W))
     val mtvec       = RegInit("h00000000".U(32.W))
 
