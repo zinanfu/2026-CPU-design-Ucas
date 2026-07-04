@@ -5,21 +5,20 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VCPUTOP_H_
-#define VERILATED_VCPUTOP_H_  // guard
+#ifndef VERILATED_VCPUTOP_SINGLE_H_
+#define VERILATED_VCPUTOP_SINGLE_H_  // guard
 
 #include "verilated.h"
-#include "svdpi.h"
 
-class VCpuTop__Syms;
-class VCpuTop___024root;
+class VCpuTop_single__Syms;
+class VCpuTop_single___024root;
 class VerilatedFstC;
 
 // This class is the main interface to the Verilated model
-class alignas(VL_CACHE_LINE_BYTES) VCpuTop VL_NOT_FINAL : public VerilatedModel {
+class alignas(VL_CACHE_LINE_BYTES) VCpuTop_single VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    VCpuTop__Syms* const vlSymsp;
+    VCpuTop_single__Syms* const vlSymsp;
 
   public:
 
@@ -36,6 +35,8 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop VL_NOT_FINAL : public VerilatedModel 
     VL_OUT8(&io_mem_wen,0,0);
     VL_OUT8(&io_mem_ren,0,0);
     VL_OUT8(&io_debug_valid,0,0);
+    VL_IN(&io_inst,31,0);
+    VL_OUT(&io_pc,31,0);
     VL_IN(&io_mem_rdata,31,0);
     VL_OUT(&io_mem_addr,31,0);
     VL_OUT(&io_mem_wdata,31,0);
@@ -49,19 +50,19 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop VL_NOT_FINAL : public VerilatedModel 
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    VCpuTop___024root* const rootp;
+    VCpuTop_single___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit VCpuTop(VerilatedContext* contextp, const char* name = "TOP");
-    explicit VCpuTop(const char* name = "TOP");
+    explicit VCpuTop_single(VerilatedContext* contextp, const char* name = "TOP");
+    explicit VCpuTop_single(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~VCpuTop();
+    virtual ~VCpuTop_single();
   private:
-    VL_UNCOPYABLE(VCpuTop);  ///< Copying not allowed
+    VL_UNCOPYABLE(VCpuTop_single);  ///< Copying not allowed
 
   public:
     // API METHODS

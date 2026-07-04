@@ -10,6 +10,7 @@
 #include <string>
 #include <iomanip>
 #include <cstdlib>
+#include <cstring>
 #include <set>
 
 
@@ -26,29 +27,45 @@ int main(int argc, char** argv) {
     // init memory
     init_pmem(128 * 1024 * 1024, 0x80000000);
 
+    // parse arguments: skip flags, extract positional args
+    bool batch_mode = false;
+    const char* img_path = nullptr;
+    const char* elf_path = nullptr;
+    const char* diff_so_path = nullptr;
+
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--batch") == 0) {
+            batch_mode = true;
+        } else if (img_path == nullptr) {
+            img_path = argv[i];
+        } else if (elf_path == nullptr) {
+            elf_path = argv[i];
+        } else if (diff_so_path == nullptr) {
+            diff_so_path = argv[i];
+        }
+    }
+
     // load image
-    if (argc > 1) {
-        bool success = load_image(argv[1], 0x80000000);
+    if (img_path) {
+        bool success = load_image(img_path, 0x80000000);
         if (!success) {
             printf("Error: load is wrong\n");
         }
     }
 
 #ifdef CONFIG_DIFFTEST
-    const char* diff_so_file = (argc > 3) ? argv[3] : nullptr;
     size_t img_size = 128 * 1024 * 1024;
 
-    if (diff_so_file) {
-        init_difftest(diff_so_file, get_pmem_ptr(), img_size);
+    if (diff_so_path) {
+        init_difftest(diff_so_path, get_pmem_ptr(), img_size);
     }
-    
+
 #endif
 
 #ifdef CONFIG_FTRACE
-    printf("The argc is %d\n", argc);
-    const char* elf_path = (argc > 2) ? argv[2] : argv[1];
+    const char* ftrace_elf = elf_path ? elf_path : img_path;
 
-    init_ftrace(elf_path);
+    init_ftrace(ftrace_elf);
 #endif
 
     // reset
@@ -64,9 +81,16 @@ int main(int argc, char** argv) {
     }
 
     top->reset = 0;
-    // int sign = 0;
 
-    repl_loop(top);
+    if (batch_mode) {
+        printf("Batch mode: running to completion...\n");
+        while (!Verilated::gotFinish()) {
+            if (!step_once(top)) break;
+        }
+        printf("Simulation finished.\n");
+    } else {
+        repl_loop(top);
+    }
 
     delete top;
 
@@ -75,16 +99,19 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-bool step_once(VCpuTop *top) {
-    uint32_t pc = top->io_pc;
-    if (pc < 0x80000000 || pc > 0x80100000) {
-        printf("BAD PC = 0x%08x\n", pc);
-        return false;
-    }
+static uint64_t cycle_count = 0;
 
-    uint32_t inst = paddr_read(pc, 4, true);
-    
-    if (inst == 0x00100073) {
+bool step_once(VCpuTop *top) {
+    // uint32_t pc = top->io_pc;
+    // if (pc < 0x80000000 || pc > 0x80100000) {
+    //     printf("BAD PC = 0x%08x\n", pc);
+    //     return false;
+    // }
+
+    // uint32_t inst = paddr_read(pc, 4, true);
+    cycle_count++;
+
+    if (top->io_debug_inst == 0x00100073) {
         uint32_t code = top->io_debug_regs_flat[10];
         if (code == 0) {
             printf("Hit GOOD TRAP (code = %d)\n", code);
@@ -92,14 +119,15 @@ bool step_once(VCpuTop *top) {
         else {
             printf("Hit BAD TRAP (code = %d)\n", code);
         }
-        
+        printf("Total cycles: %lu (including %d reset cycles)\n", cycle_count + 10, 10);
+
         Verilated::gotFinish(true);
-        return false; 
+        return false;
     }
 
     // instruction fetch
-
-    top->io_inst = inst;
+    
+    // top->io_inst = inst;
 
     // clock low
     top->clock = 0;
@@ -107,9 +135,10 @@ bool step_once(VCpuTop *top) {
 
 
 
-
     // data memory read
-    top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
+    if (top->io_mem_ren) {
+        top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
+    }
 
     // clock high
     top->clock = 1;
@@ -123,14 +152,10 @@ bool step_once(VCpuTop *top) {
         case 0x3: len = 2; break;
         case 0xf: len = 4; break;
     }
-
-
+  
     if (top->io_mem_wen) {
-
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
     }
-
-    
     // debug
 #ifdef CONFIG_FTRACE
     if (top->io_debug_valid) {
@@ -182,37 +207,41 @@ void repl_loop(VCpuTop* top) {
             }
             for (int i = 0; i < n; i++) {
                 bool sign = step_once(top);
-                printf("pc=0x%8x\n", top->io_debug_pc);
-                printf("inst=0x%8x\n", top->io_debug_inst);
+                // printf("pc  = 0x%08x\n", top->io_si_pc);
+                // printf("inst= 0x%08x\n", top->io_si_inst);
+                printf("debug_pc = 0x%08x\n", top->io_debug_pc);
+                printf("debug_inst= 0x%08x\n", top->io_debug_inst);
+
                 if (Verilated :: gotFinish()) {
                     break;
                 }
                 if (sign == false) {
                     break;
                 }
-                // 单步执行后检查断点
-                if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
-                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
-                    break;
-                }
-                if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
-                    break;
-                }
+                // // 单步执行后检查断点
+                // if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
+                //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                //     break;
+                // }
+                // if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                //     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
+                //     break;
+                // }
             }
         }
         else if (cmd == "c") {
             bool sign = true;
             while (!Verilated :: gotFinish() && sign) {
                 sign = step_once(top);
-                if (breakpoints.count(top->io_pc)) {
-                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
-                    break;
-                }
-                if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
-                    break;
-                }
+                // if (breakpoints.count(top->io_pc)) {
+                //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                //     break;
+                // }
+                // if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                //     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
+                //     break;
+                // }
+                
             }
         }
         else if (cmd == "info") {

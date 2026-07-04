@@ -3,10 +3,10 @@
 //
 // Internal details; most user sources do not need this header,
 // unless using verilator public meta comments.
-// Suggest use VCpuTop.h instead.
+// Suggest use VCpuTop_single.h instead.
 
-#ifndef VERILATED_VCPUTOP__PCH_H_
-#define VERILATED_VCPUTOP__PCH_H_  // guard
+#ifndef VERILATED_VCPUTOP_SINGLE__PCH_H_
+#define VERILATED_VCPUTOP_SINGLE__PCH_H_  // guard
 
 // GCC and Clang only will precompile headers (PCH) for the first header.
 // So, make sure this is the one and only PCH.
@@ -18,10 +18,9 @@
 
 
 #include "verilated.h"
-#include "verilated_dpi.h"
 
-#include "VCpuTop__Syms.h"
-#include "VCpuTop.h"
+#include "VCpuTop_single__Syms.h"
+#include "VCpuTop_single.h"
 
 // Additional include files added using '--compiler-include'
 

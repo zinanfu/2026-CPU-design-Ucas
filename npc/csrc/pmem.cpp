@@ -70,7 +70,7 @@ static inline bool in_pmem(uint32_t addr, int len) {
     return false;
 }
 
-uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
+extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
 
@@ -140,6 +140,8 @@ void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_i
                 ch = (data >> 24) & 0xff;
             }
 
+            // printf("ch = %c\n", ch);
+            // fprintf(stderr, "[UART] 0x%02x '%c', addr = %08x\n", ch, (ch >= 32 && ch < 127) ? ch : '.', addr);
             putchar(ch);
             fflush(stdout);
         }
