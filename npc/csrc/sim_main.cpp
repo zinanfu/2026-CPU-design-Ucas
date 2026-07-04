@@ -109,7 +109,7 @@ bool step_once(VCpuTop *top) {
     // }
 
     // uint32_t inst = paddr_read(pc, 4, true);
-
+    printf("hello1\n");
     cycle_count++;
 
     // if (top->io_debug_inst == 0x00100073) {
@@ -133,7 +133,7 @@ bool step_once(VCpuTop *top) {
     // clock low
     top->clock = 0;
     top->eval();
-
+    printf("hello2\n");
 
 
 
@@ -142,6 +142,7 @@ bool step_once(VCpuTop *top) {
         top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
     }
 
+    printf("hello3\n");
     // clock high
     top->clock = 1;
     top->eval();
@@ -149,13 +150,14 @@ bool step_once(VCpuTop *top) {
     // memory write
     int len = 4;
 
+    printf("hello4\n");
     switch(top->io_mem_wmask) {
         case 0x1: len = 1; break;
         case 0x3: len = 2; break;
         case 0xf: len = 4; break;
     }
   
-
+    printf("hello5\n");
     if (top->io_mem_wen) {
         paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
     }
@@ -234,6 +236,7 @@ void repl_loop(VCpuTop* top) {
         }
         else if (cmd == "c") {
             bool sign = true;
+            printf("out1\n");
             while (!Verilated :: gotFinish() && sign) {
                 sign = step_once(top);
                 // if (breakpoints.count(top->io_pc)) {
