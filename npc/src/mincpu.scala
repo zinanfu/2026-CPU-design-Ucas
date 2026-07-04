@@ -3,9 +3,13 @@ package logic
 import chisel3._
 import chisel3.util._
 import npc.ItraceDPI
+import chisel3.experimental.prefix
 
 
-class CpuTop(enableItrace: Boolean = true) extends Module {
+class ysyx_09929017(enableItrace: Boolean = true) extends Module {
+  
+  override def localModulePrefix = Some("ysyx_09929017")
+
   val io = IO(new Bundle {
     val inst            = Input(UInt(32.W))
     val pc              = Output(UInt(32.W))

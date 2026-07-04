@@ -125,7 +125,7 @@ bool step_once(VCpuTop *top) {
         return false;
     }
 
-    // instruction fetch
+    // IF
     
     top->io_inst = inst;
 
@@ -135,7 +135,7 @@ bool step_once(VCpuTop *top) {
 
 
 
-    // data memory read
+    // mem_read
     if (top->io_mem_ren) {
         top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
     }
