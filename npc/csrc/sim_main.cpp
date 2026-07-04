@@ -144,7 +144,7 @@ bool step_once(VCpuTop *top) {
     top->clock = 1;
     top->eval();
 
-    // memory write
+    // mem_write
     int len = 4;
 
     switch(top->io_mem_wmask) {
