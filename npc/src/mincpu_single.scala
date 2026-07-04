@@ -60,6 +60,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   
   printf("state = %d\n", state)
+  printf("pc = %x\n", pc)
   
 
   // id
