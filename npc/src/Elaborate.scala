@@ -38,7 +38,7 @@ object Elaborate extends App {
   val (enableItrace, chiselArgs) = parseItraceArgs(args)
 
   ChiselStage.emitSystemVerilogFile(
-    new ysyx_09929017(enableItrace),
+    new ysyx_26050162(enableItrace),
     chiselArgs,
     firtoolOptions
   )
