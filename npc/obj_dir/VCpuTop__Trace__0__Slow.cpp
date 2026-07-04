@@ -212,7 +212,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+36,(vlSelfRef.CpuTop__DOT__csr__DOT__io_csr_rdata),32);
     bufp->fullIData(oldp+37,(vlSelfRef.CpuTop__DOT__csr__DOT__mtvec),32);
     bufp->fullBit(oldp+38,(vlSelfRef.CpuTop__DOT____Vcellinp__csr__io_exception));
-    bufp->fullCData(oldp+39,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_28)) 
+    bufp->fullCData(oldp+39,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_10)) 
                                      | (IData)(vlSelfRef.CpuTop__DOT___GEN_30)))
                                ? 0U : ((1U == (0x0000000fU 
                                                & (vlSelfRef.CpuTop__DOT__instReg 
@@ -224,13 +224,15 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                      >> 0x00000014U)))
                                                  ? 0U
                                                  : 0x0bU)))),4);
-    bufp->fullIData(oldp+40,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_9)) 
+    bufp->fullIData(oldp+40,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_28)) 
                                      | (IData)(vlSelfRef.CpuTop__DOT___GEN_30)))
                                ? 0U : vlSelfRef.CpuTop__DOT__pc)),32);
-    bufp->fullBit(oldp+41,(((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_30)) 
-                            & ((IData)(vlSelfRef.CpuTop__DOT___GEN_32) 
-                               & (0x18U == (vlSelfRef.CpuTop__DOT__instReg 
-                                            >> 0x00000019U))))));
+    bufp->fullBit(oldp+41,(((~ (0U != (7U & (vlSelfRef.CpuTop__DOT__instReg 
+                                             >> 0x0000000cU)))) 
+                            & ((IData)(vlSelfRef.CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_9) 
+                               & ((0x18U == (vlSelfRef.CpuTop__DOT__instReg 
+                                             >> 0x00000019U)) 
+                                  & (IData)(vlSelfRef.CpuTop__DOT__state))))));
     bufp->fullIData(oldp+42,(vlSelfRef.CpuTop__DOT__csr__DOT__mepc),32);
     bufp->fullIData(oldp+43,(vlSelfRef.CpuTop__DOT__csr__DOT__mstatus),32);
     bufp->fullIData(oldp+44,(vlSelfRef.CpuTop__DOT__csr__DOT__mstatush),32);
