@@ -44,10 +44,26 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   instMemory.io.waddr := 0.U
   instMemory.io.wdata := 0.U
 
+
+  // state
+  val sIF :: sEX :: Nil = Enum(2)
+  val state = RegInit(sIF)
+  val instReg = RegInit(0.U(32.W))
+
+  when (state === sIF) {
+    instReg := instMemory.io.rdata
+    state := sEX
+  }
+  when (state === sEX) {
+    state := sIF
+  }
+
+  
+
   
 
   // id
-  val inst = instMemory.io.rdata
+  val inst = instReg
 
   val opcode = inst(6,0)
   val rd     = inst(11,7)
