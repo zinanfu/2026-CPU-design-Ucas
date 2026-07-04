@@ -15,10 +15,6 @@ extern "C" {
 #endif
 
 
-    // DPI IMPORTS
-    // DPI import at build/PaddrReadDPI.sv:10:29
-    extern int paddr_read(int addr, int len, svBit is_inst);
-
 #ifdef __cplusplus
 }
 #endif
