@@ -458,7 +458,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
         }
       }.otherwise {                     // csr
         illegal := false.B
-        csr.io.csr_wen := true.B
+        csr.io.csr_wen := true.B && (state === sEX)
         csr.io.csr_op := funct3
         csr.io.csr_addr := inst(31,20)
         csr.io.rs1_data := rs1_data
