@@ -1018,7 +1018,9 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                       | (IData)(vlSelfRef.CpuTop__DOT___GEN_18));
     vlSelfRef.CpuTop__DOT____Vcellinp__csr__io_csr_wen 
         = ((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_30)) 
-           & (IData)(vlSelfRef.CpuTop__DOT___GEN_34));
+           & ((0x73U == (0x0000007fU & vlSelfRef.CpuTop__DOT__instReg)) 
+              & ((0U != (7U & (vlSelfRef.CpuTop__DOT__instReg 
+                               >> 0x0000000cU))) & (IData)(vlSelfRef.CpuTop__DOT__state))));
     vlSelfRef.__VdfgRegularize_h6e95ff9d_0_2 = (1U 
                                                 & ((~ 
                                                     ((IData)(vlSelfRef.CpuTop__DOT___GEN_34) 
