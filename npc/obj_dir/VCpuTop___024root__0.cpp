@@ -334,6 +334,10 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     __Vdly__CpuTop__DOT__csr__DOT__mstatus = 0;
     // Body
     __Vdly__CpuTop__DOT__state = vlSelfRef.CpuTop__DOT__state;
+    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.reset)))))) {
+        VL_FWRITEF_NX(0x80000002U,"state = %1#\n",0,
+                      1,vlSelfRef.CpuTop__DOT__state);
+    }
     if (VL_UNLIKELY(((1U & (((IData)(vlSelfRef.CpuTop__DOT__illegal) 
                              & ((~ (IData)(vlSelfRef.CpuTop__DOT__illegal_seen)) 
                                 & (IData)(vlSelfRef.CpuTop__DOT__state))) 
