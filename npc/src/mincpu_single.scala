@@ -508,7 +508,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   val illegal_seen = RegInit(false.B)
 
-  when(illegal && !illegal_seen) {
+  when(illegal && !illegal_seen && state === sEX) {
     printf(p"illegal inst = 0x${Hexadecimal(inst)} pc = 0x${Hexadecimal(pc)}\n")
     illegal_seen := true.B
   }
