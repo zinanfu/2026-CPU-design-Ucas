@@ -108,7 +108,8 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                    & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2))) 
                                                  & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2))));
     vlSelfRef.CpuTop__DOT__ifuSram__DOT__arFire_d = 
-        (1U & (~ (IData)(vlSelfRef.reset)));
+        ((1U & (~ (IData)(vlSelfRef.reset))) && (1U 
+                                                 & (~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid))));
     vlSelfRef.CpuTop__DOT__reg_valid_3 = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                           && (IData)(vlSelfRef.CpuTop__DOT___mem_io_out_valid));
     if (vlSelfRef.CpuTop__DOT___mem_io_out_valid) {
@@ -1116,11 +1117,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                    == 
                                                    (0x0000007fU 
                                                     & vlSelfRef.CpuTop__DOT__reg_inst)));
-    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_1 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
-                                                   == 
-                                                   (0x0000001fU 
-                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                       >> 0x0000000fU)));
     vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata1 
         = ((0x00080000U & vlSelfRef.CpuTop__DOT__reg_inst)
             ? ((0x00040000U & vlSelfRef.CpuTop__DOT__reg_inst)
@@ -1185,11 +1181,11 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                         : ((0x00008000U & vlSelfRef.CpuTop__DOT__reg_inst)
                             ? vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1
                             : 0U)))));
-    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
+    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_1 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
                                                    == 
                                                    (0x0000001fU 
                                                     & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                       >> 0x00000014U)));
+                                                       >> 0x0000000fU)));
     vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata2 
         = ((0x01000000U & vlSelfRef.CpuTop__DOT__reg_inst)
             ? ((0x00800000U & vlSelfRef.CpuTop__DOT__reg_inst)
@@ -1254,9 +1250,11 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                         : ((0x00100000U & vlSelfRef.CpuTop__DOT__reg_inst)
                             ? vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_1
                             : 0U)))));
-    VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read_TOP(vlSelfRef.CpuTop__DOT__ifu__DOT__pc, 4U, 1U, vlSelfRef.__Vfunc_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read__0__Vfuncout);
-    vlSelfRef.CpuTop__DOT__ifuSram__DOT___paddrRead_data 
-        = vlSelfRef.__Vfunc_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read__0__Vfuncout;
+    vlSelfRef.CpuTop__DOT__idu__DOT___stall_T_2 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_addr) 
+                                                   == 
+                                                   (0x0000001fU 
+                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                       >> 0x00000014U)));
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22 = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_13) 
                                                 | ((0x67U 
                                                     == 
@@ -1515,6 +1513,12 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
            & ((~ (0U != (7U & (vlSelfRef.CpuTop__DOT__reg_inst 
                                >> 0x0000000cU)))) & 
               (0x73U == (0x0000007fU & vlSelfRef.CpuTop__DOT__reg_inst))));
+    VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read_TOP(
+                                                                                ((IData)(vlSelfRef.CpuTop__DOT__redirect_valid)
+                                                                                 ? 0U
+                                                                                 : vlSelfRef.CpuTop__DOT__ifu__DOT__pc), 4U, 1U, vlSelfRef.__Vfunc_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read__0__Vfuncout);
+    vlSelfRef.CpuTop__DOT__ifuSram__DOT___paddrRead_data 
+        = vlSelfRef.__Vfunc_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read__0__Vfuncout;
 }
 
 void VCpuTop___024root___eval_nba(VCpuTop___024root* vlSelf) {
