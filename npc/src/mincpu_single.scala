@@ -58,32 +58,6 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   val state = RegInit(sIF)
   val instReg = RegInit(0.U(32.W))
 
-  when (state === sIF) {
-    instReg := instMemory.io.rdata
-    state   := sEX
-  }
-
-  when (state === sEX) {
-    when (is_load) {
-      state := sMEM
-    }.otherwise {
-      state := sIF
-      pc    := next_pc
-      when (wb_en && wb_addr =/= 0.U) {
-        regs(wb_addr) := wb_data
-      }
-    }
-  }
-
-  when (state === sMEM) {
-    state := sIF
-    pc    := next_pc
-    when (wb_en && wb_addr =/= 0.U) {
-      regs(wb_addr) := load_processed_data
-    }
-  }
-
-
   // printf("state = %d\n", state)
   // printf("pc = %x\n", pc)
 
@@ -563,4 +537,30 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   // }
 
   // printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+
+  // state
+  when (state === sIF) {
+    instReg := instMemory.io.rdata
+    state   := sEX
+  }
+
+  when (state === sEX) {
+    when (is_load) {
+      state := sMEM
+    }.otherwise {
+      state := sIF
+      pc    := next_pc
+      when (wb_en && wb_addr =/= 0.U) {
+        regs(wb_addr) := wb_data
+      }
+    }
+  }
+
+  when (state === sMEM) {
+    state := sIF
+    pc    := next_pc
+    when (wb_en && wb_addr =/= 0.U) {
+      regs(wb_addr) := load_processed_data
+    }
+  }
 }
