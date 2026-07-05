@@ -28,13 +28,12 @@ class LSUMem extends Module {
     paddrRead.io.is_inst := false.B
     io.rdata             := RegNext(paddrRead.io.data, 0.U(32.W))
 
-    // write
+    // write（wen=false 时 wmask=0）
     paddrWrite.io.addr   := io.waddr
     paddrWrite.io.data   := io.wdata
-    paddrWrite.io.wmask  := Cat(Fill(28, 0.U), io.wmask)
+    paddrWrite.io.wmask  := Mux(io.wen, Cat(Fill(28, 0.U), io.wmask), 0.U)
     paddrWrite.io.is_inst := false.B
 
-    // translate 4-bit wmask to byte-length for len parameter
     paddrWrite.io.len    := MuxLookup(io.wmask, 4.U)(Seq(
         "b0001".U -> 1.U,
         "b0010".U -> 1.U,
