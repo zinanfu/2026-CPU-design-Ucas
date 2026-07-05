@@ -352,10 +352,11 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+155,0,"data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("paddrWrite", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+205,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+205,0,"wen",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+206,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+203,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+205,0,"data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+205,0,"wmask",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+206,0,"data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+206,0,"wmask",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+204,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->popPrefix();
     tracep->popPrefix();
@@ -433,15 +434,16 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->pushPrefix("paddrRead", VerilatedTracePrefixType::SCOPE_MODULE);
     tracep->declBus(c+142,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+203,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+206,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+205,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+160,0,"data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("paddrWrite", VerilatedTracePrefixType::SCOPE_MODULE);
+    tracep->declBit(c+157,0,"wen",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+161,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+162,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+158,0,"data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+163,0,"wmask",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+206,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+205,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->popPrefix();
     tracep->popPrefix();
     tracep->pushPrefix("wbu", VerilatedTracePrefixType::SCOPE_MODULE);
@@ -502,8 +504,8 @@ VL_ATTR_COLD void VCpuTop___024root__trace_const_0_sub_0(VCpuTop___024root* vlSe
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
     bufp->fullIData(oldp+203,(4U),32);
     bufp->fullBit(oldp+204,(1U));
-    bufp->fullIData(oldp+205,(0U),32);
-    bufp->fullBit(oldp+206,(0U));
+    bufp->fullBit(oldp+205,(0U));
+    bufp->fullIData(oldp+206,(0U),32);
 }
 
 VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFst::Buffer* bufp);
@@ -942,17 +944,17 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+155,(vlSelfRef.CpuTop__DOT__ifuSram__DOT___paddrRead_data),32);
     bufp->fullIData(oldp+156,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
                                 ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_addr)),32);
-    bufp->fullBit(oldp+157,(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid));
+    bufp->fullBit(oldp+157,(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire));
     bufp->fullIData(oldp+158,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
                                 ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_wdata)),32);
     bufp->fullCData(oldp+159,(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_w_strb),4);
     bufp->fullIData(oldp+160,(vlSelfRef.CpuTop__DOT__memSram__DOT___paddrRead_data),32);
-    bufp->fullIData(oldp+161,(((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid)
+    bufp->fullIData(oldp+161,(((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire)
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
                                     ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_addr)
                                 : 0U)),32);
     bufp->fullIData(oldp+162,(vlSelfRef.CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__len),32);
-    bufp->fullIData(oldp+163,(((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid)
+    bufp->fullIData(oldp+163,(((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire)
                                 ? (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_w_strb)
                                 : 0U)),32);
     bufp->fullBit(oldp+164,(vlSelfRef.clock));

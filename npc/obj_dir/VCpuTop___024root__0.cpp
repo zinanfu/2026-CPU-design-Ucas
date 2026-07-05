@@ -44,18 +44,14 @@ void VCpuTop___024root___eval_triggers_vec__act(VCpuTop___024root* vlSelf) {
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
     vlSelfRef.__VactTriggered[0U] = (QData)((IData)(
-                                                    (((vlSelfRef.CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask 
-                                                       != vlSelfRef.__Vtrigprevexpr___TOP__CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask__0) 
+                                                    ((((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire) 
+                                                       & (~ (IData)(vlSelfRef.__Vtrigprevexpr___TOP__CpuTop__DOT__memSram__DOT__writeFire__0))) 
                                                       << 1U) 
                                                      | ((IData)(vlSelfRef.clock) 
                                                         & (~ (IData)(vlSelfRef.__Vtrigprevexpr___TOP__clock__0))))));
     vlSelfRef.__Vtrigprevexpr___TOP__clock__0 = vlSelfRef.clock;
-    vlSelfRef.__Vtrigprevexpr___TOP__CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask__0 
-        = vlSelfRef.CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask;
-    if (VL_UNLIKELY(((1U & (~ (IData)(vlSelfRef.__VactDidInit)))))) {
-        vlSelfRef.__VactDidInit = 1U;
-        vlSelfRef.__VactTriggered[0U] = (2ULL | vlSelfRef.__VactTriggered[0U]);
-    }
+    vlSelfRef.__Vtrigprevexpr___TOP__CpuTop__DOT__memSram__DOT__writeFire__0 
+        = vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire;
 }
 
 bool VCpuTop___024root___trigger_anySet__act(const VlUnpacked<QData/*63:0*/, 1> &in) {
@@ -96,7 +92,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     __Vdly__CpuTop__DOT__ifu__DOT__pc_reg = vlSelfRef.CpuTop__DOT__ifu__DOT__pc_reg;
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
     __Vdly__CpuTop__DOT__memSram__DOT__bvalidreg = 
-        ((1U & (~ (IData)(vlSelfRef.reset))) && ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid) 
+        ((1U & (~ (IData)(vlSelfRef.reset))) && ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire) 
                                                  | ((~ 
                                                      ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg) 
                                                       & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_b_ready))) 
@@ -1287,7 +1283,7 @@ void VCpuTop___024root___nba_sequent__TOP__1(VCpuTop___024root* vlSelf) {
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
     VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__ifuSram__DOT__paddrWrite__DOT__paddr_write_TOP(
-                                                                                ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid)
+                                                                                ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire)
                                                                                  ? 
                                                                                 ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
                                                                                  ? 0U
@@ -1296,7 +1292,7 @@ void VCpuTop___024root___nba_sequent__TOP__1(VCpuTop___024root* vlSelf) {
                                                                                 ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
                                                                                  ? 0U
                                                                                  : vlSelfRef.CpuTop__DOT__reg_2_mem_wdata), 
-                                                                                ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid)
+                                                                                ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire)
                                                                                  ? (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_w_strb)
                                                                                  : 0U), 0U);
 }
@@ -1312,7 +1308,7 @@ void VCpuTop___024root___nba_sequent__TOP__2(VCpuTop___024root* vlSelf) {
                                                ((~ (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN)) 
                                                 | ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)) 
                                                    | (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren))));
-    vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid 
+    vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire 
         = ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1) 
            & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen));
     vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_w_strb 
@@ -1340,10 +1336,6 @@ void VCpuTop___024root___nba_sequent__TOP__2(VCpuTop___024root* vlSelf) {
                                                         << 3U)))
                                                     : vlSelfRef.CpuTop__DOT__reg_1_mem_wdata));
     }
-    vlSelfRef.CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask 
-        = ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_aw_valid)
-            ? (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_w_strb)
-            : 0U);
     vlSelfRef.__Vtableidx1 = (((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_w_strb) 
                                << 5U) | (((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask) 
                                           << 1U) | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)));

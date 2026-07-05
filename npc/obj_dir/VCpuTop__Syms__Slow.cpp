@@ -11,7 +11,7 @@ VCpuTop__Syms::VCpuTop__Syms(VerilatedContext* contextp, const char* namep, VCpu
     , TOP{this, namep}
 {
     // Check resources
-    Verilated::stackCheck(494);
+    Verilated::stackCheck(460);
     // Setup sub module instances
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
