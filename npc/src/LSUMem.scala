@@ -31,7 +31,7 @@ class LSUMem extends Module {
     // write
     paddrWrite.io.addr   := io.waddr
     paddrWrite.io.data   := io.wdata
-    paddrWrite.io.wmask  := Cat(Fill(4, 0.U), io.wmask)
+    paddrWrite.io.wmask  := Cat(Fill(28, 0.U), io.wmask)
     paddrWrite.io.is_inst := false.B
 
     // translate 4-bit wmask to byte-length for len parameter
