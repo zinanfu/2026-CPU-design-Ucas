@@ -42,28 +42,44 @@ class MEM extends Module {
   // io.mem_wen   := io.in.valid && in.mem_wen
   // io.mem_ren   := io.in.valid && in.mem_ren
 
+  // default
+  io.in.ready              := false.B
+  io.out.valid             := false.B
+  io.axi_mem.ar.addr       := 0.U
+  io.axi_mem.ar.valid      := false.B
+  io.axi_mem.r.ready       := false.B
+  io.axi_mem.aw.addr       := 0.U
+  io.axi_mem.aw.valid      := false.B
+  io.axi_mem.w.data        := 0.U
+  io.axi_mem.w.strb        := 0.U
+  io.axi_mem.w.valid       := false.B
+  io.axi_mem.b.ready       := false.B
+
   // axi
-  when (io.in.fire && state === sIDLE) {
+  when (state === sIDLE) {
     io.in.ready := true.B
-    when (in.mem_ren) {
-      //read
-      io.axi_mem.ar.addr := in.mem_addr
-      io.axi_mem.ar.valid := true.B
+    when (io.in.fire) {
+      when (in.mem_ren) {
+        //read
+        io.axi_mem.ar.addr := in.mem_addr
+        io.axi_mem.ar.valid := true.B
 
-      state := sREAD
-    }.elsewhen (in.mem_wen) {
-      // write
-      io.axi_mem.aw.addr := in.mem_addr
-      io.axi_mem.aw.valid := true.B
+        state := sREAD
+      }.elsewhen (in.mem_wen) {
+        // write
+        io.axi_mem.aw.addr := in.mem_addr
+        io.axi_mem.aw.valid := true.B
 
-      io.axi_mem.w.data := in.mem_wdata
-      io.axi_mem.w.strb := in.mem_wmask
-      io.axi_mem.w.valid := true.B
+        io.axi_mem.w.data := in.mem_wdata
+        io.axi_mem.w.strb := in.mem_wmask
+        io.axi_mem.w.valid := true.B
 
-      state := sWRITE
-    }.otherwise {
-      io.out.valid := true.B
+        state := sWRITE
+      }.otherwise {
+        io.out.valid := true.B
+      }
     }
+    
   }.elsewhen (state === sREAD) {
     io.in.ready := false.B
     io.axi_mem.r.ready := io.out.ready
