@@ -9,13 +9,16 @@ class MEM extends Module {
     val out = Decoupled(new MemToWbMessage)
 
     // mem
-    val mem_addr  = Output(UInt(32.W))
-    val load_addr = Output(UInt(32.W))
-    val mem_wdata = Output(UInt(32.W))
-    val mem_wmask = Output(UInt(4.W))
-    val mem_wen   = Output(Bool())
-    val mem_ren   = Output(Bool())
-    val mem_rdata = Input(UInt(32.W))
+    // val mem_addr  = Output(UInt(32.W))
+    // val load_addr = Output(UInt(32.W))
+    // val mem_wdata = Output(UInt(32.W))
+    // val mem_wmask = Output(UInt(4.W))
+    // val mem_wen   = Output(Bool())
+    // val mem_ren   = Output(Bool())
+    // val mem_rdata = Input(UInt(32.W))
+
+    // axi
+    val axi_mem     = new Axi4LiteMasterIO
 
     // forwarding
     val fwd_wb_en   = Output(Bool())
@@ -23,25 +26,68 @@ class MEM extends Module {
     val fwd_wb_data = Output(UInt(32.W))
   })
   
-
+  val sIDLE :: sREAD :: sWRITE = Enum()
+  val state = RegInit(sIDLE)
   val in = io.in.bits
 
   // transfer
   io.out.bits.pc   := in.pc
   io.out.bits.inst := in.inst
 
-  io.mem_addr  := in.mem_addr
-  io.load_addr := in.load_addr
-  io.mem_wdata := in.mem_wdata
-  io.mem_wmask := in.mem_wmask
-  io.mem_wen   := io.in.valid && in.mem_wen
-  io.mem_ren   := io.in.valid && in.mem_ren
+  // io.mem_addr  := in.mem_addr
+  // io.load_addr := in.load_addr
+  // io.mem_wdata := in.mem_wdata
+  // io.mem_wmask := in.mem_wmask
+  // io.mem_wen   := io.in.valid && in.mem_wen
+  // io.mem_ren   := io.in.valid && in.mem_ren
 
-  
+  // axi
+  when (in.fire && state === sIDLE) {
+    in.ready := true.B
+    when (in.mem_ren) {
+      //read
+      io.axi_mem.ar.addr := in.mem_addr
+      io.axi_mem.ar.valid := true.B
+
+      state := sREAD
+    }elsewhen (in.mem_wen) {
+      // write
+      io.axi_mem.aw.addr := in.mem_addr
+      io.axi_mem.aw.valid := true.B
+
+      io.axi_mem.w.data := in.mem_wdata
+      io.axi_mem.w.strb := in.mem_wmask
+      io.axi_mem.w.valid := true.B
+
+      state := sWRITE
+    }else {
+      out.valid := true.B
+    }
+  } 
+  when (state === sREAD) {
+    in.ready := false.B
+    io.axi_mem.r.ready := out.ready
+    out.valid := io.axi_mem.r.valid
+    mem_rdata := io.axi_mem.r.data
+
+    when (io.axi_mem.r.valid && io.axi_mem.r.ready) {
+      state := sIDLE
+    }
+  }
+  when (state === sWRITE) {
+    in.ready := false.B
+
+    io.axi_mem.b.ready := out.ready
+    out.valid := io.axi_mem.b.valid
+
+    when (io.axi_mem.b.ready && io.axi_mem.b.valid) {
+      state := sIDLE
+    }
+  }
 
   // load
   val load_addr_offset = in.load_addr(1, 0)
-  val mem_rdata = io.mem_rdata
+  val mem_rdata = WireDefault(0.U(32.W))
 
   val load_byte = MuxLookup(load_addr_offset, 0.U)(Seq(
     0.U -> mem_rdata(7, 0),

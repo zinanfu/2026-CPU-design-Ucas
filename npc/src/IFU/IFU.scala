@@ -12,9 +12,9 @@ class IFU extends Module {
       val target = UInt(32.W)
     }))
 
-    val if_pc   = Output(UInt(32.W))   
-    val if_inst = Input(UInt(32.W))    
-
+    // val if_pc   = Output(UInt(32.W))   
+    // val if_inst = Input(UInt(32.W))    
+    val axi_if     = new Axi4LiteMasterIO
     // si
     val si_pc   = Output(UInt(32.W))
     val si_inst = Output(UInt(32.W))
@@ -26,17 +26,36 @@ class IFU extends Module {
   // PC 更新逻辑
   when (io.redirect.valid) {
     pc := io.redirect.bits.target 
-  }.elsewhen (io.out.fire) {
+  }.elsewhen (io.axi_if.ar.ready && io.axi.ar_if.ar.valid) {
     pc := pc + 4.U
   }
 
-  io.if_pc := pc
+  // io.if_pc := pc
 
-  io.si_pc := RegNext(pc, 0.U)
-  io.si_inst := RegNext(io.if_inst, 0.U)
+  // axi_if
+  io.axi_if.ar.addr  := pc
+  io.axi_if.ar.valid := true.B
+
+  io.axi_if.r.ready  := true.B
+
+
+  io.axi_if.aw.addr  := 0.U
+  io.axi_if.aw.valid := false.B
+  io.axi_if.w.data   := 0.U
+  io.axi_if.w.strb   := 0.U
+  io.axi_if.w.valid  := false.B
+  io.axi_if.b.ready  := false.B
+
+  val pc_reg = RegNext(pc, 0.U)
+
+  io.si_pc   := pc_reg
+  io.si_inst := io.axi_if.r.data
   // IF to ID
 
-  io.out.bits.pc    := pc
-  io.out.bits.inst  := io.if_inst
-  io.out.valid      := true.B
+  io.out.bits.pc    := pc_reg
+  io.out.bits.inst  := io.axi_if.r.data
+  io.out.valid      := io.axi_if.r.valid
 }
+
+
+
