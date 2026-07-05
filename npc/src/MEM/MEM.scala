@@ -26,6 +26,7 @@ class MEM extends Module {
     val fwd_wb_data = Output(UInt(32.W))
   })
   
+  val mem_rdata = WireDefault(0.U(32.W))
   val sIDLE :: sREAD :: sWRITE :: Nil = Enum(3)
   val state = RegInit(sIDLE)
   val in = io.in.bits
@@ -87,7 +88,7 @@ class MEM extends Module {
 
   // load
   val load_addr_offset = in.load_addr(1, 0)
-  val mem_rdata = WireDefault(0.U(32.W))
+  
 
   val load_byte = MuxLookup(load_addr_offset, 0.U)(Seq(
     0.U -> mem_rdata(7, 0),
