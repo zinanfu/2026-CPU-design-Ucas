@@ -120,8 +120,8 @@ extern "C" void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask
     assert(len == 1 || len == 2 || len == 4);
     
     // Debug: print every physical write to help trace MMIO vs PMEM
-    // printf("paddr_write called addr = 0x%08x len = %d data = 0x%08x wmask = 0x%x\n",
-    //        addr, len, data, wmask);
+    printf("paddr_write called addr = 0x%08x len = %d data = 0x%08x wmask = 0x%x\n",
+           addr, len, data, wmask);
     if (!in_pmem(addr, len)) {
 
         if ((addr & ~0x3) == SERIAL_PORT) {
