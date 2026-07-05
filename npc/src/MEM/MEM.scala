@@ -26,7 +26,7 @@ class MEM extends Module {
     val fwd_wb_data = Output(UInt(32.W))
   })
   
-  val sIDLE :: sREAD :: sWRITE = Enum(3)
+  val sIDLE :: sREAD :: sWRITE :: Nil = Enum(3)
   val state = RegInit(sIDLE)
   val in = io.in.bits
 
@@ -42,8 +42,8 @@ class MEM extends Module {
   // io.mem_ren   := io.in.valid && in.mem_ren
 
   // axi
-  when (in.fire && state === sIDLE) {
-    in.ready := true.B
+  when (io.in.fire && state === sIDLE) {
+    io.in.ready := true.B
     when (in.mem_ren) {
       //read
       io.axi_mem.ar.addr := in.mem_addr
@@ -61,13 +61,13 @@ class MEM extends Module {
 
       state := sWRITE
     }.otherwise {
-      out.valid := true.B
+      io.out.valid := true.B
     }
   } 
   when (state === sREAD) {
-    in.ready := false.B
-    io.axi_mem.r.ready := out.ready
-    out.valid := io.axi_mem.r.valid
+    io.in.ready := false.B
+    io.axi_mem.r.ready := io.out.ready
+    io.out.valid := io.axi_mem.r.valid
     mem_rdata := io.axi_mem.r.data
 
     when (io.axi_mem.r.valid && io.axi_mem.r.ready) {
@@ -75,10 +75,10 @@ class MEM extends Module {
     }
   }
   when (state === sWRITE) {
-    in.ready := false.B
+    io.in.ready := false.B
 
-    io.axi_mem.b.ready := out.ready
-    out.valid := io.axi_mem.b.valid
+    io.axi_mem.b.ready := io.out.ready
+    io.out.valid := io.axi_mem.b.valid
 
     when (io.axi_mem.b.ready && io.axi_mem.b.valid) {
       state := sIDLE
