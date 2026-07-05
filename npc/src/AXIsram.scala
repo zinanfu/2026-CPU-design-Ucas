@@ -50,6 +50,7 @@ class AXIsram(is_inst: Boolean = false) extends Module {
   val writeFire = awFire && wFire
   val bvalidreg = RegInit(false.B)
 
+  paddrWrite.io.wen     := writeFire
   paddrWrite.io.addr    := Mux(writeFire, io.axi.aw.addr, 0.U)
   paddrWrite.io.data    := io.axi.w.data
   paddrWrite.io.wmask   := Mux(writeFire, Cat(Fill(28, 0.U), io.axi.w.strb), 0.U)

@@ -37,6 +37,7 @@ endmodule
 
 class PaddrWriteDPI extends ExtModule {
     val io = FlatIO(new Bundle {
+        val wen         = Input(Bool())
         val addr        = Input(UInt(32.W))
         val len         = Input(UInt(32.W))
         val data        = Input(UInt(32.W))
@@ -48,6 +49,7 @@ class PaddrWriteDPI extends ExtModule {
         "PaddrWriteDPI.sv",
         s"""
 module PaddrWriteDPI(
+    input             wen,
     input   [31:0]    addr,
     input   [31:0]    len,
     input   [31:0]    data,
@@ -63,7 +65,7 @@ import "DPI-C" function void paddr_write(
     input bit       is_inst
 );
 
-always @(wmask) begin
+always @(posedge wen) begin
     paddr_write(addr, len, data, wmask, is_inst);
 end
 
