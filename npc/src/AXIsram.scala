@@ -75,5 +75,5 @@ class AXIsram(is_inst: Boolean = false) extends Module {
   // val writeFire_d = RegNext(writeFire, false.B)
 
   // io.axi.b.valid := writeFire_d
-  // io.axi.b.resp  := 0.U
+  io.axi.b.resp  := 0.U
 }
