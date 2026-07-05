@@ -293,7 +293,7 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
       val load_addr = rs1_data + immI
 
       lsuMem.io.ren   := state === sEX
-      lsuMem.io.raddr := load_addr & "hfffffffc".U(32.W)
+      lsuMem.io.raddr := Mux(state === sEX, load_addr & "hfffffffc".U(32.W), 0.U)
 
       // 在 sEX 时锁存 load 的字节偏移和类型，供 sMEM 使用
       when (state === sEX) {

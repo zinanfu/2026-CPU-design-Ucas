@@ -71,7 +71,6 @@ static inline bool in_pmem(uint32_t addr, int len) {
 }
 
 extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
-    fprintf(stderr, "[pmem read]  addr=0x%08x len=%d inst=%d\n", addr, len, is_inst);
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
 
@@ -118,7 +117,6 @@ extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
 }
 
 extern "C" void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_inst) {
-    fprintf(stderr, "[pmem write] addr=0x%08x len=%d data=0x%08x wmask=0x%02x inst=%d\n", addr, len, data, wmask, is_inst);
     assert(len == 1 || len == 2 || len == 4);
     
     // Debug: print every physical write to help trace MMIO vs PMEM
