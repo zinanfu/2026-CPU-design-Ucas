@@ -12,20 +12,20 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     // Body
     const int c = vlSymsp->__Vm_baseCode;
     tracep->pushPrefix("$rootio", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+68,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+69,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+70,0,"io_debug_pc",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+71,0,"io_debug_inst",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+72,0,"io_debug_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declArray(c+73,0,"io_debug_regs_flat",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1023,0);
+    tracep->declBit(c+69,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+70,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+71,0,"io_debug_pc",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+72,0,"io_debug_inst",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+73,0,"io_debug_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declArray(c+74,0,"io_debug_regs_flat",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1023,0);
     tracep->popPrefix();
     tracep->pushPrefix("CpuTop", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+68,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+69,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+70,0,"io_debug_pc",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+71,0,"io_debug_inst",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+72,0,"io_debug_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declArray(c+73,0,"io_debug_regs_flat",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1023,0);
+    tracep->declBit(c+69,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+70,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+71,0,"io_debug_pc",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+72,0,"io_debug_inst",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+73,0,"io_debug_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declArray(c+74,0,"io_debug_regs_flat",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1023,0);
     tracep->declBus(c+0,0,"pc",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+1,0,"load_offset_reg",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
     tracep->declBus(c+2,0,"load_funct3_reg",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
@@ -70,8 +70,8 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+39,0,"casez_tmp",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("csr", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+68,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+69,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+69,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+70,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+40,0,"io_csr_addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 11,0);
     tracep->declBus(c+41,0,"io_csr_op",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 2,0);
     tracep->declBus(c+42,0,"io_rs1_data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
@@ -98,14 +98,14 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+58,0,"io_rdata",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->pushPrefix("paddrRead", VerilatedTracePrefixType::SCOPE_MODULE);
     tracep->declBus(c+0,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+105,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+106,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+106,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+107,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+58,0,"data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->popPrefix();
     tracep->pushPrefix("lsuMem", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBit(c+68,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+69,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+69,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+70,0,"reset",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+59,0,"io_raddr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+60,0,"io_rdata",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+61,0,"io_wen",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
@@ -115,16 +115,16 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+60,0,"io_rdata_REG",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->pushPrefix("paddrRead", VerilatedTracePrefixType::SCOPE_MODULE);
     tracep->declBus(c+59,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+105,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+107,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+106,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+108,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+65,0,"data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->popPrefix();
     tracep->pushPrefix("paddrWrite", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declBus(c+63,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+66,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+66,0,"addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+67,0,"len",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBus(c+64,0,"data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+67,0,"wmask",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+107,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+68,0,"wmask",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+108,0,"is_inst",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->popPrefix();
     tracep->popPrefix();
     tracep->popPrefix();
@@ -170,9 +170,9 @@ VL_ATTR_COLD void VCpuTop___024root__trace_const_0_sub_0(VCpuTop___024root* vlSe
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Body
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
-    bufp->fullIData(oldp+105,(4U),32);
-    bufp->fullBit(oldp+106,(1U));
-    bufp->fullBit(oldp+107,(0U));
+    bufp->fullIData(oldp+106,(4U),32);
+    bufp->fullBit(oldp+107,(1U));
+    bufp->fullBit(oldp+108,(0U));
 }
 
 VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFst::Buffer* bufp);
@@ -308,9 +308,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                             & ((0x23U == (0x0000007fU 
                                           & vlSelfRef.CpuTop__DOT__instReg)) 
                                & (1U == (IData)(vlSelfRef.CpuTop__DOT__state))))));
-    bufp->fullCData(oldp+62,((((0x23U != (0x0000007fU 
-                                          & vlSelfRef.CpuTop__DOT__instReg)) 
-                               | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+    bufp->fullCData(oldp+62,(((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                ? 0U : ((2U == (7U & 
                                                (vlSelfRef.CpuTop__DOT__instReg 
                                                 >> 0x0000000cU)))
@@ -349,9 +347,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                        + 
                                                        (vlSelfRef.CpuTop__DOT__instReg 
                                                         >> 7U)))))))))),4);
-    bufp->fullIData(oldp+63,((((0x23U != (0x0000007fU 
-                                          & vlSelfRef.CpuTop__DOT__instReg)) 
-                               | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+    bufp->fullIData(oldp+63,(((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                ? 0U : (0xfffffffcU 
                                        & (vlSelfRef.CpuTop__DOT__rs1_data 
                                           + (((- (IData)(
@@ -364,9 +360,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                 | (0x0000001fU 
                                                    & (vlSelfRef.CpuTop__DOT__instReg 
                                                       >> 7U)))))))),32);
-    bufp->fullIData(oldp+64,((((0x23U != (0x0000007fU 
-                                          & vlSelfRef.CpuTop__DOT__instReg)) 
-                               | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+    bufp->fullIData(oldp+64,(((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                ? 0U : ((2U == (7U & 
                                                (vlSelfRef.CpuTop__DOT__instReg 
                                                 >> 0x0000000cU)))
@@ -404,9 +398,25 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                          >> 7U)) 
                                                        << 3U)))))))),32);
     bufp->fullIData(oldp+65,(vlSelfRef.CpuTop__DOT__lsuMem__DOT___paddrRead_data),32);
-    bufp->fullIData(oldp+66,((((~ ((0x23U != (0x0000007fU 
-                                              & vlSelfRef.CpuTop__DOT__instReg)) 
-                                   | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))) 
+    bufp->fullIData(oldp+66,((((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_20)) 
+                               & ((0x23U == (0x0000007fU 
+                                             & vlSelfRef.CpuTop__DOT__instReg)) 
+                                  & (1U == (IData)(vlSelfRef.CpuTop__DOT__state))))
+                               ? ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
+                                   ? 0U : (0xfffffffcU 
+                                           & (vlSelfRef.CpuTop__DOT__rs1_data 
+                                              + (((- (IData)(
+                                                             (vlSelfRef.CpuTop__DOT__instReg 
+                                                              >> 0x0000001fU))) 
+                                                  << 0x0000000cU) 
+                                                 | ((0x00000fe0U 
+                                                     & (vlSelfRef.CpuTop__DOT__instReg 
+                                                        >> 0x00000014U)) 
+                                                    | (0x0000001fU 
+                                                       & (vlSelfRef.CpuTop__DOT__instReg 
+                                                          >> 7U)))))))
+                               : 0U)),32);
+    bufp->fullIData(oldp+67,((((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_21)) 
                                & ((2U == (7U & (vlSelfRef.CpuTop__DOT__instReg 
                                                 >> 0x0000000cU))) 
                                   | (0x0000000fU == 
@@ -438,12 +448,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                      + 
                                                      (vlSelfRef.CpuTop__DOT__instReg 
                                                       >> 7U))))))))))
-                               ? 4U : (((0x0cU == (
-                                                   ((0x23U 
-                                                     != 
-                                                     (0x0000007fU 
-                                                      & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                    | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                               ? 4U : (((0x0cU == ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                                     ? 0U
                                                     : 
                                                    ((2U 
@@ -490,12 +495,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                               + 
                                                               (vlSelfRef.CpuTop__DOT__instReg 
                                                                >> 7U)))))))))) 
-                                        | (3U == ((
-                                                   (0x23U 
-                                                    != 
-                                                    (0x0000007fU 
-                                                     & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                   | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                                        | (3U == ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                                    ? 0U
                                                    : 
                                                   ((2U 
@@ -544,11 +544,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                               >> 7U)))))))))))
                                         ? 2U : (((8U 
                                                   == 
-                                                  (((0x23U 
-                                                     != 
-                                                     (0x0000007fU 
-                                                      & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                    | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                                                  ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                                     ? 0U
                                                     : 
                                                    ((2U 
@@ -597,11 +593,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                                >> 7U)))))))))) 
                                                  | ((4U 
                                                      == 
-                                                     (((0x23U 
-                                                        != 
-                                                        (0x0000007fU 
-                                                         & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                       | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                                                     ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                                        ? 0U
                                                        : 
                                                       ((2U 
@@ -650,11 +642,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                                   >> 7U)))))))))) 
                                                     | ((2U 
                                                         == 
-                                                        (((0x23U 
-                                                           != 
-                                                           (0x0000007fU 
-                                                            & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                          | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                                                        ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                                           ? 0U
                                                           : 
                                                          ((2U 
@@ -703,11 +691,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                                      >> 7U)))))))))) 
                                                        | (1U 
                                                           == 
-                                                          (((0x23U 
-                                                             != 
-                                                             (0x0000007fU 
-                                                              & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                            | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                                                          ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                                             ? 0U
                                                             : 
                                                            ((2U 
@@ -756,13 +740,11 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                                        >> 7U)))))))))))))
                                                  ? 1U
                                                  : 4U)))),32);
-    bufp->fullIData(oldp+67,((((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_20)) 
+    bufp->fullIData(oldp+68,((((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_20)) 
                                & ((0x23U == (0x0000007fU 
                                              & vlSelfRef.CpuTop__DOT__instReg)) 
                                   & (1U == (IData)(vlSelfRef.CpuTop__DOT__state))))
-                               ? (((0x23U != (0x0000007fU 
-                                              & vlSelfRef.CpuTop__DOT__instReg)) 
-                                   | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                               ? ((IData)(vlSelfRef.CpuTop__DOT___GEN_21)
                                    ? 0U : ((2U == (7U 
                                                    & (vlSelfRef.CpuTop__DOT__instReg 
                                                       >> 0x0000000cU)))
@@ -805,10 +787,10 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                                         (vlSelfRef.CpuTop__DOT__instReg 
                                                          >> 7U)))))))))
                                : 0U)),32);
-    bufp->fullBit(oldp+68,(vlSelfRef.clock));
-    bufp->fullBit(oldp+69,(vlSelfRef.reset));
-    bufp->fullIData(oldp+70,(vlSelfRef.io_debug_pc),32);
-    bufp->fullIData(oldp+71,(vlSelfRef.io_debug_inst),32);
-    bufp->fullBit(oldp+72,(vlSelfRef.io_debug_valid));
-    bufp->fullWData(oldp+73,(vlSelfRef.io_debug_regs_flat),1024);
+    bufp->fullBit(oldp+69,(vlSelfRef.clock));
+    bufp->fullBit(oldp+70,(vlSelfRef.reset));
+    bufp->fullIData(oldp+71,(vlSelfRef.io_debug_pc),32);
+    bufp->fullIData(oldp+72,(vlSelfRef.io_debug_inst),32);
+    bufp->fullBit(oldp+73,(vlSelfRef.io_debug_valid));
+    bufp->fullWData(oldp+74,(vlSelfRef.io_debug_regs_flat),1024);
 }

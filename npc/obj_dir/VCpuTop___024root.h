@@ -40,6 +40,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT___GEN_18;
         CData/*7:0*/ CpuTop__DOT__casez_tmp_1;
         CData/*0:0*/ CpuTop__DOT___GEN_20;
+        CData/*0:0*/ CpuTop__DOT___GEN_21;
         CData/*0:0*/ CpuTop__DOT___GEN_24;
         CData/*0:0*/ CpuTop__DOT___GEN_25;
         CData/*0:0*/ CpuTop__DOT___GEN_26;
@@ -79,9 +80,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT____Vcellinp__csr__io_csr_wen;
         CData/*0:0*/ CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_6;
         CData/*0:0*/ CpuTop__DOT____VdfgRegularize_h9f7eeac2_0_9;
-        CData/*3:0*/ CpuTop__DOT__alu__DOT__io_op;
     };
     struct {
+        CData/*3:0*/ CpuTop__DOT__alu__DOT__io_op;
         CData/*2:0*/ CpuTop__DOT__csr__DOT__io_csr_op;
         CData/*0:0*/ __VdfgRegularize_h6e95ff9d_0_0;
         CData/*0:0*/ __VstlFirstIteration;
@@ -145,9 +146,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         QData/*63:0*/ CpuTop__DOT__csr__DOT__mcycle_64;
         QData/*63:0*/ CpuTop__DOT__csr__DOT___mcycle_64_T;
         VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
-        VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
     };
     struct {
+        VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VnbaTriggered;
         VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
     };
