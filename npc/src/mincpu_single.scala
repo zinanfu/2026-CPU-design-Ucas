@@ -9,7 +9,7 @@ import npc.ItraceDPI
 // 同理 := 是硬件上的赋值，会连线  = 是 scala 的赋值
 
 
-class CpuTop_s(enableItrace: Boolean = true) extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   val io = IO(new Bundle {
 
     // instruction memory
@@ -19,12 +19,12 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
     // val pc              = Output(UInt(32.W))
 
     // data memory
-    val mem_rdata       = Input(UInt(32.W))
-    val mem_addr        = Output(UInt(32.W))
-    val mem_wdata       = Output(UInt(32.W))
-    val mem_wmask       = Output(UInt(4.W))
-    val mem_wen         = Output(Bool())
-    val mem_ren         = Output(Bool())
+    // val mem_rdata       = Input(UInt(32.W))
+    // val mem_addr        = Output(UInt(32.W))
+    // val mem_wdata       = Output(UInt(32.W))
+    // val mem_wmask       = Output(UInt(4.W))
+    // val mem_wen         = Output(Bool())
+    // val mem_ren         = Output(Bool())
 
     // debug
     val debug_pc        = Output(UInt(32.W))
@@ -44,24 +44,23 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
   instMemory.io.waddr := 0.U
   instMemory.io.wdata := 0.U
 
+  // mem
+  val lsuMem = Module(new LSUMem)
+
+  // load 相关信号
+  val is_load            = WireDefault(false.B)
+  val load_processed_data= WireDefault(0.U(32.W))
+  val load_offset_reg    = RegInit(0.U(2.W))     // load_addr(1,0)
+  val load_funct3_reg    = RegInit(0.U(3.W))
 
   // state
-  val sIF :: sEX :: Nil = Enum(2)
+  val sIF :: sEX :: sMEM :: Nil = Enum(3)
   val state = RegInit(sIF)
   val instReg = RegInit(0.U(32.W))
 
-  when (state === sIF) {
-    instReg := instMemory.io.rdata
-    state := sEX
-  }
-  when (state === sEX) {
-    state := sIF
-  }
-
-  
   // printf("state = %d\n", state)
   // printf("pc = %x\n", pc)
-  
+
 
   // id
   val inst = instReg
@@ -128,11 +127,13 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
   csr.io.exception_pc     := 0.U
   csr.io.mret             := false.B
 
-  io.mem_addr  := 0.U
-  io.mem_wdata := 0.U
-  io.mem_wmask := 0.U
-  io.mem_wen   := false.B
-  io.mem_ren   := false.B
+  // lsuMem 默认连接（各指令处理中按需覆盖）
+  lsuMem.io.raddr   := 0.U
+  lsuMem.io.ren     := false.B
+  lsuMem.io.waddr   := 0.U
+  lsuMem.io.wdata   := 0.U
+  lsuMem.io.wmask   := 0.U
+  lsuMem.io.wen     := false.B
 
   val wb_en   = WireDefault(false.B)
   val wb_addr = WireDefault(rd)
@@ -286,59 +287,61 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
 
     // L_type
     is("b0000011".U) {
+      is_load := true.B
+      wb_en   := true.B
 
       val load_addr = rs1_data + immI
 
-      io.mem_ren := true.B && (state === sEX)
-      io.mem_addr := load_addr & "hfffffffc".U(32.W)
+      lsuMem.io.ren   := state === sEX
+      lsuMem.io.raddr := Mux(state === sEX, load_addr & "hfffffffc".U(32.W), 0.U)
 
-      wb_en := true.B
-
-      when(funct3 === "b010".U) { //lw
-        illegal := false.B
-        wb_data := io.mem_rdata
-        // printf("L_wdata:0x%8x\n", io.mem_rdata)
+      // 在 sEX 时锁存 load 的字节偏移和类型，供 sMEM 使用
+      when (state === sEX) {
+        load_offset_reg := load_addr(1, 0)
+        load_funct3_reg := funct3
       }
-      when(funct3 === "b000".U) { //lb
-        illegal := false.B
 
-        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
-          0.U -> io.mem_rdata(7,0),
-          1.U -> io.mem_rdata(15,8),
-          2.U -> io.mem_rdata(23,16),
-          3.U -> io.mem_rdata(31,24)
-        ))
+      val offset   = load_offset_reg
+      val raw_data = lsuMem.io.rdata
 
-        wb_data := Cat(Fill(24,byte(7)), byte)
+      val load_byte = MuxLookup(offset, 0.U)(Seq(
+        0.U -> raw_data(7, 0),
+        1.U -> raw_data(15, 8),
+        2.U -> raw_data(23, 16),
+        3.U -> raw_data(31, 24)
+      ))
+
+      val load_half = MuxLookup(offset(1), 0.U)(Seq(
+        0.U -> raw_data(15, 0),
+        1.U -> raw_data(31, 16)
+      ))
+
+      // illegal 基于当前 funct3 判断(sEX)
+      switch (funct3) {
+        is("b010".U) { illegal := false.B } // lw
+        is("b000".U) { illegal := false.B } // lb
+        is("b001".U) { illegal := false.B } // lh
+        is("b100".U) { illegal := false.B } // lbu
+        is("b101".U) { illegal := false.B } // lhu
       }
-      when(funct3 === "b001".U) { //lh
-        illegal := false.B
-        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
-          0.U -> io.mem_rdata(15,0),
-          2.U -> io.mem_rdata(31,16)
-        ))
 
-        wb_data := Cat(Fill(16,byte(15)), byte)
-      }
-      when(funct3 === "b100".U) { //lbu
-        illegal := false.B
-        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
-          0.U -> io.mem_rdata(7,0),
-          1.U -> io.mem_rdata(15,8),
-          2.U -> io.mem_rdata(23,16),
-          3.U -> io.mem_rdata(31,24)
-        ))
-
-        wb_data := Cat(0.U(24.W), byte)
-      }
-      when(funct3 === "b101".U) { //lhu
-        illegal := false.B
-        val byte = MuxLookup(load_addr(1,0), 0.U)(Seq(
-          0.U -> io.mem_rdata(15,0),
-          2.U -> io.mem_rdata(31,16)
-        ))
-
-        wb_data := Cat(0.U(16.W), byte)
+      // 数据提取基于寄存的 load_funct3_reg(sMEM)
+      switch (load_funct3_reg) {
+        is("b010".U) { // lw
+          load_processed_data := raw_data
+        }
+        is("b000".U) { // lb
+          load_processed_data := Cat(Fill(24, load_byte(7)), load_byte)
+        }
+        is("b001".U) { // lh
+          load_processed_data := Cat(Fill(16, load_half(15)), load_half)
+        }
+        is("b100".U) { // lbu
+          load_processed_data := Cat(0.U(24.W), load_byte)
+        }
+        is("b101".U) { // lhu
+          load_processed_data := Cat(0.U(16.W), load_half)
+        }
       }
     }
 
@@ -348,22 +351,22 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
 
       val store_addr = rs1_data + immS
 
-      io.mem_wen := true.B && (state === sEX)
-      io.mem_addr := store_addr & "hfffffffc".U(32.W)
+      lsuMem.io.wen   := state === sEX
+      lsuMem.io.waddr := store_addr & "hfffffffc".U(32.W)
 
       when(funct3 === "b000".U) { // sb
-        io.mem_wmask := (1.U(4.W) << store_addr(1,0))
-        io.mem_wdata := rs2_data << (store_addr(1,0) << 3)
+        lsuMem.io.wmask := (1.U(4.W) << store_addr(1,0))
+        lsuMem.io.wdata := rs2_data << (store_addr(1,0) << 3)
       }
 
       when(funct3 === "b001".U) { // sh
-        io.mem_wmask := Mux(store_addr(1), "b1100".U, "b0011".U)
-        io.mem_wdata := rs2_data << (store_addr(1) << 4)
+        lsuMem.io.wmask := Mux(store_addr(1), "b1100".U, "b0011".U)
+        lsuMem.io.wdata := rs2_data << (store_addr(1) << 4)
       }
 
       when(funct3 === "b010".U) { // sw
-        io.mem_wmask := "b1111".U
-        io.mem_wdata := rs2_data
+        lsuMem.io.wmask := "b1111".U
+        lsuMem.io.wdata := rs2_data
         // printf("S_wdata:0x%8x\n", rs2_data)
       }
     }
@@ -433,7 +436,7 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
       }
     }
 
-    // syscall 
+    // syscall
     is("b1110011".U) {
       when(funct3 === "b000".U) {
         when(funct7 === "b0000000".U) {
@@ -462,23 +465,18 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
         csr.io.csr_op := funct3
         csr.io.csr_addr := inst(31,20)
         csr.io.rs1_data := rs1_data
-        csr.io.zimm := Cat(0.U(27.W), rs1) 
+        csr.io.zimm := Cat(0.U(27.W), rs1)
 
         wb_data := csr.io.csr_rdata
         wb_en := true.B
       }
-      
 
-      
+
+
 
     }
   }
 
-  /*===========================wb=================================*/
-
-  when(wb_en && wb_addr =/= 0.U && (state === sEX)) {
-    regs(wb_addr) := wb_data
-  }
 
   /**************************debug*********************************/
   io.debug_pc := pc
@@ -489,8 +487,8 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
 
   // when(csr.io.mret) {
   //   printf("mret: mepc=0x%x next_pc=0x%x\n", csr.io.mret_target, next_pc)
-  // } 
-  
+  // }
+
 
   while(i < DEBUG_REGS) {
     if (i == 0) {
@@ -525,11 +523,6 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
   }
 
 
-  when (state === sEX) {
-    pc := next_pc
-  }
-  
-
   // when(pc === "h8001905c".U) {
   //   printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
   //   printf("sp=0x%8x\n", rs1_data)
@@ -544,4 +537,30 @@ class CpuTop_s(enableItrace: Boolean = true) extends Module {
   // }
 
   // printf("pc=0x%8x, next_pc=0x%8x, inst=0x%8x\n", pc, next_pc, inst)
+
+  // state
+  when (state === sIF) {
+    instReg := instMemory.io.rdata
+    state   := sEX
+  }
+
+  when (state === sEX) {
+    when (is_load) {
+      state := sMEM
+    }.otherwise {
+      state := sIF
+      pc    := next_pc
+      when (wb_en && wb_addr =/= 0.U) {
+        regs(wb_addr) := wb_data
+      }
+    }
+  }
+
+  when (state === sMEM) {
+    state := sIF
+    pc    := next_pc
+    when (wb_en && wb_addr =/= 0.U) {
+      regs(wb_addr) := load_processed_data
+    }
+  }
 }
