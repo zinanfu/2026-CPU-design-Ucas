@@ -96,6 +96,8 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__ifuSram__DOT__rvalidReg;
         CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_ar_valid;
         CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_r_ready;
+        CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_aw_valid;
+        CData/*3:0*/ CpuTop__DOT__memSram__DOT__io_axi_w_strb;
         CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_b_ready;
         CData/*0:0*/ CpuTop__DOT__memSram__DOT__rvalidReg;
         CData/*0:0*/ CpuTop__DOT__memSram__DOT__bvalidreg;
@@ -103,6 +105,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __VstlPhaseResult;
         CData/*0:0*/ __Vtrigprevexpr___TOP__clock__0;
+        CData/*0:0*/ __VactDidInit;
         CData/*0:0*/ __VactPhaseResult;
         CData/*0:0*/ __VnbaPhaseResult;
         SData/*11:0*/ CpuTop__DOT__reg_1_csr_addr;
@@ -143,11 +146,11 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata1;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata2;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_1;
+    };
+    struct {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_2;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_3;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_4;
-    };
-    struct {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_5;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_6;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_7;
@@ -188,16 +191,18 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__ifuSram__DOT__rdataReg;
         IData/*31:0*/ CpuTop__DOT__memSram__DOT___paddrRead_data;
         IData/*31:0*/ CpuTop__DOT__memSram__DOT__rdataReg;
+        IData/*31:0*/ CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask;
         IData/*31:0*/ CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__len;
         IData/*31:0*/ __Vfunc_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read__0__Vfuncout;
         IData/*31:0*/ __Vfunc_CpuTop__DOT__memSram__DOT__paddrRead__DOT__paddr_read__2__Vfuncout;
+        IData/*31:0*/ __Vtrigprevexpr___TOP__CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__wmask__0;
         IData/*31:0*/ __VactIterCount;
         QData/*63:0*/ CpuTop__DOT__exu__DOT__csr__DOT__mcycle_64;
         QData/*63:0*/ CpuTop__DOT__exu__DOT__csr__DOT___mcycle_64_T;
         VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VnbaTriggered;
-        VlUnpacked<CData/*0:0*/, 2> __Vm_traceActivity;
+        VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
     };
 
     // INTERNAL VARIABLES
