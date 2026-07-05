@@ -113,7 +113,7 @@ class EXU extends Module {
   io.out.bits.pc_plus4   := pc_plus4
   io.out.bits.csr_rdata  := csr.io.csr_rdata
 
-  when (!io.in.valid) {
+  when (!io.out.fire) {
     io.redirect.valid := false.B
   }
 

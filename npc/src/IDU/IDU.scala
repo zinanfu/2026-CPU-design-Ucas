@@ -425,7 +425,7 @@ class IDU extends Module {
   io.out.valid := io.in.valid && !stall
   io.in.ready  := io.out.ready && !stall
 
-  when (!io.in.valid || stall) {
+  when (!io.out.fire) {
     io.redirect.valid := false.B
   }
 }
