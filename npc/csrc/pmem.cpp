@@ -116,7 +116,7 @@ extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     return ret;
 }
 
-void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_inst) {
+extern "C" void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask, bool is_inst) {
     assert(len == 1 || len == 2 || len == 4);
     
     // Debug: print every physical write to help trace MMIO vs PMEM

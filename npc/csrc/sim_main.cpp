@@ -102,13 +102,13 @@ int main(int argc, char** argv) {
 static uint64_t cycle_count = 0;
 
 bool step_once(VCpuTop *top) {
-    uint32_t pc = top->io_pc;
-    if (pc < 0x80000000 || pc > 0x80100000) {
-        printf("BAD PC = 0x%08x\n", pc);
-        return false;
-    }
+    // uint32_t pc = top->io_pc;
+    // if (pc < 0x80000000 || pc > 0x80100000) {
+    //     printf("BAD PC = 0x%08x\n", pc);
+    //     return false;
+    // }
 
-    uint32_t inst = paddr_read(pc, 4, true);
+    // uint32_t inst = paddr_read(pc, 4, true);
     cycle_count++;
 
     if (top->io_debug_inst == 0x00100073) {
@@ -127,7 +127,7 @@ bool step_once(VCpuTop *top) {
 
     // IF
     
-    top->io_inst = inst;
+    // top->io_inst = inst;
 
     // clock low
     top->clock = 0;
@@ -136,26 +136,26 @@ bool step_once(VCpuTop *top) {
 
 
     // mem_read
-    if (top->io_mem_ren) {
-        top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
-    }
+    // if (top->io_mem_ren) {
+    //     top->io_mem_rdata = paddr_read(top->io_mem_addr, 4, false);
+    // }
 
     // clock high
     top->clock = 1;
     top->eval();
 
-    // mem_write
-    int len = 4;
+    // // mem_write
+    // int len = 4;
 
-    switch(top->io_mem_wmask) {
-        case 0x1: len = 1; break;
-        case 0x3: len = 2; break;
-        case 0xf: len = 4; break;
-    }
+    // switch(top->io_mem_wmask) {
+    //     case 0x1: len = 1; break;
+    //     case 0x3: len = 2; break;
+    //     case 0xf: len = 4; break;
+    // }
   
-    if (top->io_mem_wen) {
-        paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
-    }
+    // if (top->io_mem_wen) {
+    //     paddr_write(top->io_mem_addr, len, top->io_mem_wdata, top->io_mem_wmask, false);
+    // }
     // debug
 #ifdef CONFIG_FTRACE
     if (top->io_debug_valid) {
@@ -219,28 +219,28 @@ void repl_loop(VCpuTop* top) {
                     break;
                 }
                 // 单步执行后检查断点
-                if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
-                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
-                    break;
-                }
-                if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
-                    break;
-                }
+                // if (breakpoints.count(top->io_pc)) {    // 	返回元素出现次数
+                //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                //     break;
+                // }
+                // if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                //     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
+                //     break;
+                // }
             }
         }
         else if (cmd == "c") {
             bool sign = true;
             while (!Verilated :: gotFinish() && sign) {
                 sign = step_once(top);
-                if (breakpoints.count(top->io_pc)) {
-                    printf("Hit breakpoint at 0x%08x\n", top->io_pc);
-                    break;
-                }
-                if (checkpoints.count(top->io_debug_regs_flat[1])) {
-                    printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
-                    break;
-                }
+                // if (breakpoints.count(top->io_pc)) {
+                //     printf("Hit breakpoint at 0x%08x\n", top->io_pc);
+                //     break;
+                // }
+                // if (checkpoints.count(top->io_debug_regs_flat[1])) {
+                //     printf("BAD RA at pc:0x%8x\n", top->io_debug_pc);
+                //     break;
+                // }
                 
             }
         }
