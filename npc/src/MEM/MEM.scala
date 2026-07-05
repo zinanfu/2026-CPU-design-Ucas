@@ -26,7 +26,7 @@ class MEM extends Module {
     val fwd_wb_data = Output(UInt(32.W))
   })
   
-  val sIDLE :: sREAD :: sWRITE = Enum()
+  val sIDLE :: sREAD :: sWRITE = Enum(3)
   val state = RegInit(sIDLE)
   val in = io.in.bits
 
