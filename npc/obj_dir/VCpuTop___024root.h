@@ -93,10 +93,12 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__mem__DOT___GEN_2;
         CData/*7:0*/ CpuTop__DOT__mem__DOT__casez_tmp;
         CData/*0:0*/ CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1;
-        CData/*0:0*/ CpuTop__DOT__ifuSram__DOT__arFire_d;
+        CData/*0:0*/ CpuTop__DOT__ifuSram__DOT__rvalidReg;
         CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_ar_valid;
-        CData/*0:0*/ CpuTop__DOT__memSram__DOT__arFire_d;
-        CData/*0:0*/ CpuTop__DOT__memSram__DOT__writeFire_d;
+        CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_r_ready;
+        CData/*0:0*/ CpuTop__DOT__memSram__DOT__io_axi_b_ready;
+        CData/*0:0*/ CpuTop__DOT__memSram__DOT__rvalidReg;
+        CData/*0:0*/ CpuTop__DOT__memSram__DOT__bvalidreg;
         CData/*0:0*/ __VdfgRegularize_he50b618e_0_1;
         CData/*0:0*/ __VstlFirstIteration;
         CData/*0:0*/ __VstlPhaseResult;
@@ -105,7 +107,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ __VnbaPhaseResult;
         SData/*11:0*/ CpuTop__DOT__reg_1_csr_addr;
         SData/*15:0*/ CpuTop__DOT__mem__DOT__load_half;
-        SData/*8:0*/ __Vtableidx2;
+        SData/*8:0*/ __Vtableidx1;
         VL_OUT(io_debug_pc,31,0);
         VL_OUT(io_debug_inst,31,0);
         VL_OUTW(io_debug_regs_flat,1023,0,32);
@@ -144,10 +146,10 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_2;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_3;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_4;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_5;
-        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_6;
     };
     struct {
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_5;
+        IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_6;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_7;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_8;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__regs_9;
@@ -183,9 +185,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
         IData/*31:0*/ CpuTop__DOT__mem__DOT__mem_rdata;
         IData/*31:0*/ CpuTop__DOT__ifuSram__DOT___paddrRead_data;
-        IData/*31:0*/ CpuTop__DOT__ifuSram__DOT__rdata_d;
+        IData/*31:0*/ CpuTop__DOT__ifuSram__DOT__rdataReg;
         IData/*31:0*/ CpuTop__DOT__memSram__DOT___paddrRead_data;
-        IData/*31:0*/ CpuTop__DOT__memSram__DOT__rdata_d;
+        IData/*31:0*/ CpuTop__DOT__memSram__DOT__rdataReg;
         IData/*31:0*/ CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__len;
         IData/*31:0*/ __Vfunc_CpuTop__DOT__ifuSram__DOT__paddrRead__DOT__paddr_read__0__Vfuncout;
         IData/*31:0*/ __Vfunc_CpuTop__DOT__memSram__DOT__paddrRead__DOT__paddr_read__2__Vfuncout;

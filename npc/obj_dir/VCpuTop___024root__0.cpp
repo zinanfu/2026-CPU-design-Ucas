@@ -64,8 +64,6 @@ bool VCpuTop___024root___trigger_anySet__act(const VlUnpacked<QData/*63:0*/, 1> 
     return (0U);
 }
 
-extern const VlUnpacked<CData/*0:0*/, 512> VCpuTop__ConstPool__TABLE_hd8382ce1_0;
-extern const VlUnpacked<CData/*1:0*/, 512> VCpuTop__ConstPool__TABLE_hab868d44_0;
 extern const VlUnpacked<IData/*31:0*/, 512> VCpuTop__ConstPool__TABLE_h9cba449d_0;
 
 void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
@@ -73,19 +71,29 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     VCpuTop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     auto& vlSelfRef = std::ref(*vlSelf).get();
     // Locals
-    SData/*8:0*/ __Vtableidx1;
-    __Vtableidx1 = 0;
     IData/*31:0*/ __Vdly__CpuTop__DOT__ifu__DOT__pc;
     __Vdly__CpuTop__DOT__ifu__DOT__pc = 0;
     IData/*31:0*/ __Vdly__CpuTop__DOT__ifu__DOT__pc_reg;
     __Vdly__CpuTop__DOT__ifu__DOT__pc_reg = 0;
     IData/*31:0*/ __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0;
+    CData/*0:0*/ __Vdly__CpuTop__DOT__memSram__DOT__rvalidReg;
+    __Vdly__CpuTop__DOT__memSram__DOT__rvalidReg = 0;
+    CData/*0:0*/ __Vdly__CpuTop__DOT__memSram__DOT__bvalidreg;
+    __Vdly__CpuTop__DOT__memSram__DOT__bvalidreg = 0;
     // Body
+    __Vdly__CpuTop__DOT__memSram__DOT__rvalidReg = vlSelfRef.CpuTop__DOT__memSram__DOT__rvalidReg;
+    __Vdly__CpuTop__DOT__memSram__DOT__bvalidreg = vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg;
     __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
         = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
     __Vdly__CpuTop__DOT__ifu__DOT__pc_reg = vlSelfRef.CpuTop__DOT__ifu__DOT__pc_reg;
     __Vdly__CpuTop__DOT__ifu__DOT__pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
+    __Vdly__CpuTop__DOT__memSram__DOT__rvalidReg = 
+        ((1U & (~ (IData)(vlSelfRef.reset))) && ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_ar_valid) 
+                                                 | ((~ 
+                                                     ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__rvalidReg) 
+                                                      & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_r_ready))) 
+                                                    & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__rvalidReg))));
     vlSelfRef.CpuTop__DOT__reg_valid = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                         && ((~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid)) 
                                             & ((IData)(vlSelfRef.CpuTop__DOT___reg_T) 
@@ -100,6 +108,13 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                      ((IData)(vlSelfRef.CpuTop__DOT___exu_io_in_ready) 
                                                       & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1))) 
                                                     & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1)))));
+    __Vdly__CpuTop__DOT__memSram__DOT__bvalidreg = 
+        ((1U & (~ (IData)(vlSelfRef.reset))) && (((IData)(vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1) 
+                                                  & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)) 
+                                                 | ((~ 
+                                                     ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg) 
+                                                      & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_b_ready))) 
+                                                    & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg))));
     vlSelfRef.CpuTop__DOT__reg_valid_2 = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                           && ((IData)(vlSelfRef.CpuTop__DOT___reg_T_2) 
                                               | ((~ 
@@ -107,14 +122,48 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                     == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)) 
                                                    & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2))) 
                                                  & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2))));
-    vlSelfRef.CpuTop__DOT__ifuSram__DOT__arFire_d = 
-        ((1U & (~ (IData)(vlSelfRef.reset))) && (1U 
-                                                 & (~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid))));
+    vlSelfRef.CpuTop__DOT__ifuSram__DOT__rvalidReg 
+        = ((1U & (~ (IData)(vlSelfRef.reset))) && (1U 
+                                                   & (~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid))));
     vlSelfRef.CpuTop__DOT__reg_valid_3 = ((1U & (~ (IData)(vlSelfRef.reset))) 
                                           && (IData)(vlSelfRef.CpuTop__DOT___mem_io_out_valid));
     if (vlSelfRef.CpuTop__DOT___mem_io_out_valid) {
         vlSelfRef.CpuTop__DOT__reg_3_pc = vlSelfRef.CpuTop__DOT__reg_2_pc;
         vlSelfRef.CpuTop__DOT__reg_3_inst = vlSelfRef.CpuTop__DOT__reg_2_inst;
+    }
+    if (vlSelfRef.CpuTop__DOT___reg_T_2) {
+        vlSelfRef.CpuTop__DOT__reg_2_mem_addr = (0xfffffffcU 
+                                                 & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out);
+        if (vlSelfRef.CpuTop__DOT__exu__DOT___GEN_0) {
+            vlSelfRef.CpuTop__DOT__reg_2_mem_wdata 
+                = ((0x0000ffffU & vlSelfRef.CpuTop__DOT__reg_1_mem_wdata) 
+                   << (0x00000010U & (vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out 
+                                      << 3U)));
+            vlSelfRef.CpuTop__DOT__reg_2_mem_wmask 
+                = (0x0000000fU & ((2U & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)
+                                   ? 0x0cU : 3U));
+        } else if (vlSelfRef.CpuTop__DOT__exu__DOT___GEN) {
+            vlSelfRef.CpuTop__DOT__reg_2_mem_wdata 
+                = ((0x000000ffU & vlSelfRef.CpuTop__DOT__reg_1_mem_wdata) 
+                   << (0x00000018U & (vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out 
+                                      << 3U)));
+            vlSelfRef.CpuTop__DOT__reg_2_mem_wmask 
+                = (0x0000000fU & ((IData)(1U) << (3U 
+                                                  & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)));
+        } else {
+            vlSelfRef.CpuTop__DOT__reg_2_mem_wdata 
+                = vlSelfRef.CpuTop__DOT__reg_1_mem_wdata;
+            vlSelfRef.CpuTop__DOT__reg_2_mem_wmask 
+                = (0x0000000fU & (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wmask));
+        }
+        vlSelfRef.CpuTop__DOT__reg_2_csr_rdata = vlSelfRef.CpuTop__DOT___exu_io_out_bits_csr_rdata;
+        vlSelfRef.CpuTop__DOT__reg_2_pc_plus4 = ((IData)(4U) 
+                                                 + vlSelfRef.CpuTop__DOT__reg_1_pc);
+        vlSelfRef.CpuTop__DOT__reg_2_alu_result = vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out;
+        vlSelfRef.CpuTop__DOT__reg_2_mem_funct3 = vlSelfRef.CpuTop__DOT__reg_1_mem_funct3;
+        vlSelfRef.CpuTop__DOT__reg_2_wb_sel = vlSelfRef.CpuTop__DOT__reg_1_wb_sel;
+    }
+    if (vlSelfRef.CpuTop__DOT___mem_io_out_valid) {
         vlSelfRef.CpuTop__DOT__reg_3_wb_en = vlSelfRef.CpuTop__DOT__reg_2_wb_en;
     }
     if (vlSelfRef.reset) {
@@ -122,7 +171,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus = 0x00001800U;
         __Vdly__CpuTop__DOT__ifu__DOT__pc = 0x80000000U;
         __Vdly__CpuTop__DOT__ifu__DOT__pc_reg = 0U;
-        vlSelfRef.CpuTop__DOT__memSram__DOT__rdata_d = 0U;
+        vlSelfRef.CpuTop__DOT__memSram__DOT__rdataReg = 0U;
         vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatush = 0U;
         vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_31 = 0U;
         vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_30 = 0U;
@@ -244,8 +293,10 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                               : ((IData)(4U) 
                                                  + vlSelfRef.CpuTop__DOT__ifu__DOT__pc));
         __Vdly__CpuTop__DOT__ifu__DOT__pc_reg = vlSelfRef.CpuTop__DOT__ifu__DOT__pc;
-        vlSelfRef.CpuTop__DOT__memSram__DOT__rdata_d 
-            = vlSelfRef.CpuTop__DOT__memSram__DOT___paddrRead_data;
+        if (vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_ar_valid) {
+            vlSelfRef.CpuTop__DOT__memSram__DOT__rdataReg 
+                = vlSelfRef.CpuTop__DOT__memSram__DOT___paddrRead_data;
+        }
         if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
              & (0x0310U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
             vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatush 
@@ -411,65 +462,45 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         vlSelfRef.CpuTop__DOT__reg_3_wb_data = vlSelfRef.CpuTop__DOT___mem_io_out_bits_wb_data;
         vlSelfRef.CpuTop__DOT__reg_3_wb_addr = vlSelfRef.CpuTop__DOT__reg_2_wb_addr;
     }
-    vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
-        = __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
-    vlSelfRef.CpuTop__DOT__ifu__DOT__pc = __Vdly__CpuTop__DOT__ifu__DOT__pc;
-    vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT___mcycle_64_T 
-        = (1ULL + vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcycle_64);
-    __Vtableidx1 = ((((((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire_d) 
-                        << 4U) | (((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_2) 
-                                   << 3U) | ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__arFire_d) 
-                                             << 2U))) 
-                      | (((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1) 
-                          << 1U) | (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen))) 
-                     << 4U) | ((((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren) 
-                                 << 3U) | ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN) 
-                                           << 2U)) 
-                               | (((IData)(vlSelfRef.CpuTop__DOT___mem_io_in_ready) 
-                                   << 1U) | (IData)(vlSelfRef.reset))));
     if (vlSelfRef.CpuTop__DOT___reg_T_2) {
-        vlSelfRef.CpuTop__DOT__reg_2_mem_addr = (0xfffffffcU 
-                                                 & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out);
-        if (vlSelfRef.CpuTop__DOT__exu__DOT___GEN_0) {
-            vlSelfRef.CpuTop__DOT__reg_2_mem_wdata 
-                = ((0x0000ffffU & vlSelfRef.CpuTop__DOT__reg_1_mem_wdata) 
-                   << (0x00000010U & (vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out 
-                                      << 3U)));
-            vlSelfRef.CpuTop__DOT__reg_2_mem_wmask 
-                = (0x0000000fU & ((2U & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)
-                                   ? 0x0cU : 3U));
-        } else if (vlSelfRef.CpuTop__DOT__exu__DOT___GEN) {
-            vlSelfRef.CpuTop__DOT__reg_2_mem_wdata 
-                = ((0x000000ffU & vlSelfRef.CpuTop__DOT__reg_1_mem_wdata) 
-                   << (0x00000018U & (vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out 
-                                      << 3U)));
-            vlSelfRef.CpuTop__DOT__reg_2_mem_wmask 
-                = (0x0000000fU & ((IData)(1U) << (3U 
-                                                  & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)));
-        } else {
-            vlSelfRef.CpuTop__DOT__reg_2_mem_wdata 
-                = vlSelfRef.CpuTop__DOT__reg_1_mem_wdata;
-            vlSelfRef.CpuTop__DOT__reg_2_mem_wmask 
-                = (0x0000000fU & (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wmask));
-        }
-        vlSelfRef.CpuTop__DOT__reg_2_csr_rdata = vlSelfRef.CpuTop__DOT___exu_io_out_bits_csr_rdata;
-        vlSelfRef.CpuTop__DOT__reg_2_pc_plus4 = ((IData)(4U) 
-                                                 + vlSelfRef.CpuTop__DOT__reg_1_pc);
-        vlSelfRef.CpuTop__DOT__reg_2_alu_result = vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out;
-        vlSelfRef.CpuTop__DOT__reg_2_mem_funct3 = vlSelfRef.CpuTop__DOT__reg_1_mem_funct3;
-        vlSelfRef.CpuTop__DOT__reg_2_wb_sel = vlSelfRef.CpuTop__DOT__reg_1_wb_sel;
         vlSelfRef.CpuTop__DOT__reg_2_pc = vlSelfRef.CpuTop__DOT__reg_1_pc;
         vlSelfRef.CpuTop__DOT__reg_2_inst = vlSelfRef.CpuTop__DOT__reg_1_inst;
         vlSelfRef.CpuTop__DOT__reg_2_wb_en = vlSelfRef.CpuTop__DOT__reg_1_wb_en;
+    }
+    if (vlSelfRef.reset) {
+        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcause = 0U;
+        vlSelfRef.CpuTop__DOT__mem__DOT__state = 0U;
+    } else {
+        if (vlSelfRef.CpuTop__DOT__reg_1_exception) {
+            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcause 
+                = vlSelfRef.CpuTop__DOT__reg_1_exception_cause;
+        } else if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
+                    & (0x0342U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
+            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcause 
+                = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
+        }
+        if (vlSelfRef.CpuTop__DOT___mem_io_in_ready) {
+            if (vlSelfRef.CpuTop__DOT__mem__DOT___GEN) {
+                if (vlSelfRef.CpuTop__DOT__reg_2_mem_ren) {
+                    vlSelfRef.CpuTop__DOT__mem__DOT__state = 1U;
+                } else if (vlSelfRef.CpuTop__DOT__reg_2_mem_wen) {
+                    vlSelfRef.CpuTop__DOT__mem__DOT__state = 2U;
+                }
+            }
+        } else if (((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
+                     ? ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__rvalidReg) 
+                        & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_r_ready))
+                     : (((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_2) 
+                         & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_b_ready)) 
+                        & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg)))) {
+            vlSelfRef.CpuTop__DOT__mem__DOT__state = 0U;
+        }
+    }
+    if (vlSelfRef.CpuTop__DOT___reg_T_2) {
+        vlSelfRef.CpuTop__DOT__reg_2_mem_wen = vlSelfRef.CpuTop__DOT__reg_1_mem_wen;
         vlSelfRef.CpuTop__DOT__reg_2_mem_ren = vlSelfRef.CpuTop__DOT__reg_1_mem_ren;
+        vlSelfRef.CpuTop__DOT__reg_2_wb_addr = vlSelfRef.CpuTop__DOT__reg_1_wb_addr;
     }
-    if (VCpuTop__ConstPool__TABLE_hd8382ce1_0[__Vtableidx1]) {
-        vlSelfRef.CpuTop__DOT__mem__DOT__state = VCpuTop__ConstPool__TABLE_hab868d44_0
-            [__Vtableidx1];
-    }
-    vlSelfRef.io_debug_valid = vlSelfRef.CpuTop__DOT__reg_valid_3;
-    vlSelfRef.io_debug_pc = vlSelfRef.CpuTop__DOT__reg_3_pc;
-    vlSelfRef.io_debug_inst = vlSelfRef.CpuTop__DOT__reg_3_inst;
     if (vlSelfRef.CpuTop__DOT___reg_T_1) {
         vlSelfRef.CpuTop__DOT__reg_1_csr_wdata = vlSelfRef.CpuTop__DOT___idu_io_out_bits_csr_wdata;
         vlSelfRef.CpuTop__DOT__reg_1_alu_b = vlSelfRef.CpuTop__DOT___idu_io_out_bits_alu_b;
@@ -496,7 +527,149 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                      & vlSelfRef.CpuTop__DOT__reg_inst))
                                                     ? vlSelfRef.CpuTop__DOT__reg_pc
                                                     : vlSelfRef.CpuTop__DOT___idu_io_out_bits_csr_wdata)));
+        vlSelfRef.CpuTop__DOT__reg_1_mret = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_11) 
+                                             & (0x18U 
+                                                == 
+                                                (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                 >> 0x00000019U)));
+        vlSelfRef.CpuTop__DOT__reg_1_is_jalr = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_13)) 
+                                                & (0x67U 
+                                                   == 
+                                                   (0x0000007fU 
+                                                    & vlSelfRef.CpuTop__DOT__reg_inst)));
+        vlSelfRef.CpuTop__DOT__reg_1_mem_wdata = vlSelfRef.CpuTop__DOT___idu_io_out_bits_mem_wdata;
+        vlSelfRef.CpuTop__DOT__reg_1_mem_wmask = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_24)
+                                                   ? 0U
+                                                   : 
+                                                  (0x0000000fU 
+                                                   & (- (IData)((IData)(
+                                                                        (0x00002023U 
+                                                                         == 
+                                                                         (0x0000707fU 
+                                                                          & vlSelfRef.CpuTop__DOT__reg_inst)))))));
+        vlSelfRef.CpuTop__DOT__reg_1_mem_funct3 = (
+                                                   (1U 
+                                                    & ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_25)) 
+                                                       | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22)))
+                                                    ? 0U
+                                                    : 
+                                                   (7U 
+                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                       >> 0x0000000cU)));
+        vlSelfRef.CpuTop__DOT__reg_1_wb_sel = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20)
+                                                ? 0U
+                                                : ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_16)
+                                                    ? 2U
+                                                    : 
+                                                   ((0x63U 
+                                                     == 
+                                                     (0x0000007fU 
+                                                      & vlSelfRef.CpuTop__DOT__reg_inst))
+                                                     ? 0U
+                                                     : 
+                                                    ((3U 
+                                                      == 
+                                                      (0x0000007fU 
+                                                       & vlSelfRef.CpuTop__DOT__reg_inst))
+                                                      ? 1U
+                                                      : 
+                                                     (((0x73U 
+                                                        != 
+                                                        (0x0000007fU 
+                                                         & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                                                       | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_31))
+                                                       ? 0U
+                                                       : 
+                                                      (3U 
+                                                       & (- (IData)(
+                                                                    (0U 
+                                                                     != 
+                                                                     (7U 
+                                                                      & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                                         >> 0x0000000cU)))))))))));
+        vlSelfRef.CpuTop__DOT__reg_1_exception_cause 
+            = ((1U & ((~ ((~ (0U != (7U & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                           >> 0x0000000cU)))) 
+                          & ((0x73U == (0x0000007fU 
+                                        & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                             & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10)))) 
+                      | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)))
+                ? 0U : 0x0bU);
     }
+    if (vlSelfRef.reset) {
+        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec = 0U;
+        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc = 0U;
+    } else {
+        if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
+             & (0x0305U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
+            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec 
+                = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
+        }
+        if (vlSelfRef.CpuTop__DOT__reg_1_exception) {
+            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc 
+                = vlSelfRef.CpuTop__DOT__reg_1_pc;
+        } else if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
+                    & (0x0341U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
+            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc 
+                = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
+        }
+    }
+    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
+        vlSelfRef.CpuTop__DOT__reg_1_csr_en = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)) 
+                                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33));
+        vlSelfRef.CpuTop__DOT__reg_1_exception = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_11) 
+                                                  & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10));
+        vlSelfRef.CpuTop__DOT__reg_1_csr_addr = (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                 >> 0x00000014U);
+        vlSelfRef.CpuTop__DOT__reg_1_pc = vlSelfRef.CpuTop__DOT__reg_pc;
+        vlSelfRef.CpuTop__DOT__reg_1_inst = vlSelfRef.CpuTop__DOT__reg_inst;
+        vlSelfRef.CpuTop__DOT__reg_1_wb_en = ((0x13U 
+                                               == (0x0000007fU 
+                                                   & vlSelfRef.CpuTop__DOT__reg_inst))
+                                               ? (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9)
+                                               : ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_17) 
+                                                  | ((0x63U 
+                                                      != 
+                                                      (0x0000007fU 
+                                                       & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                                                     & ((3U 
+                                                         == 
+                                                         (0x0000007fU 
+                                                          & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                                                        | ((0x23U 
+                                                            != 
+                                                            (0x0000007fU 
+                                                             & vlSelfRef.CpuTop__DOT__reg_inst)) 
+                                                           & ((0x33U 
+                                                               == 
+                                                               (0x0000007fU 
+                                                                & vlSelfRef.CpuTop__DOT__reg_inst))
+                                                               ? 
+                                                              ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_27) 
+                                                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9))
+                                                               : (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33)))))));
+        vlSelfRef.CpuTop__DOT__reg_1_mem_wen = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_24)) 
+                                                & (0x23U 
+                                                   == 
+                                                   (0x0000007fU 
+                                                    & vlSelfRef.CpuTop__DOT__reg_inst)));
+        vlSelfRef.CpuTop__DOT__reg_1_mem_ren = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22)) 
+                                                & (3U 
+                                                   == 
+                                                   (0x0000007fU 
+                                                    & vlSelfRef.CpuTop__DOT__reg_inst)));
+        vlSelfRef.CpuTop__DOT__reg_1_wb_addr = (0x0000001fU 
+                                                & (vlSelfRef.CpuTop__DOT__reg_inst 
+                                                   >> 7U));
+    }
+    vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus 
+        = __Vdly__CpuTop__DOT__exu__DOT__csr__DOT__mstatus;
+    vlSelfRef.CpuTop__DOT__ifu__DOT__pc = __Vdly__CpuTop__DOT__ifu__DOT__pc;
+    vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT___mcycle_64_T 
+        = (1ULL + vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcycle_64);
+    vlSelfRef.io_debug_valid = vlSelfRef.CpuTop__DOT__reg_valid_3;
+    vlSelfRef.io_debug_pc = vlSelfRef.CpuTop__DOT__reg_3_pc;
+    vlSelfRef.io_debug_inst = vlSelfRef.CpuTop__DOT__reg_3_inst;
     vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out 
         = ((8U & (IData)(vlSelfRef.CpuTop__DOT__reg_1_alu_op))
             ? ((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_1_alu_op))
@@ -603,9 +776,18 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                    << 0x00000020U) 
                                                   | (QData)((IData)(vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__regs_30))) 
                                                  >> 0x00000020U));
-    vlSelfRef.CpuTop__DOT__memSram__DOT__arFire_d = 
-        ((1U & (~ (IData)(vlSelfRef.reset))) && (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_ar_valid));
+    vlSelfRef.CpuTop__DOT__memSram__DOT__rvalidReg 
+        = __Vdly__CpuTop__DOT__memSram__DOT__rvalidReg;
+    vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg 
+        = __Vdly__CpuTop__DOT__memSram__DOT__bvalidreg;
     vlSelfRef.CpuTop__DOT___mem_io_in_ready = (0U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state));
+    vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_r_ready 
+        = ((0U != (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)) 
+           & (1U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)));
+    vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_b_ready 
+        = ((~ ((0U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)) 
+               | (1U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)))) 
+           & (2U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)));
     vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1 = (1U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state));
     vlSelfRef.CpuTop__DOT__mem__DOT___GEN_2 = (2U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state));
     vlSelfRef.CpuTop__DOT___exu_io_in_ready = (1U & 
@@ -620,14 +802,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                    | (0U 
                                                       == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)))
                                                    ? 0U
-                                                   : vlSelfRef.CpuTop__DOT__memSram__DOT__rdata_d);
-    vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire_d 
-        = ((1U & (~ (IData)(vlSelfRef.reset))) && ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1) 
-                                                   & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)));
-    if (vlSelfRef.CpuTop__DOT___reg_T_2) {
-        vlSelfRef.CpuTop__DOT__reg_2_wb_addr = vlSelfRef.CpuTop__DOT__reg_1_wb_addr;
-        vlSelfRef.CpuTop__DOT__reg_2_mem_wen = vlSelfRef.CpuTop__DOT__reg_1_mem_wen;
-    }
+                                                   : vlSelfRef.CpuTop__DOT__memSram__DOT__rdataReg);
     vlSelfRef.CpuTop__DOT__idu__DOT__io_fwd_mem_wen 
         = ((IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_en) 
            & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2));
@@ -669,12 +844,18 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                      (vlSelfRef.CpuTop__DOT__mem__DOT__mem_rdata 
                                                       >> 0x00000010U)
                                                       : vlSelfRef.CpuTop__DOT__mem__DOT__mem_rdata));
+    vlSelfRef.CpuTop__DOT___reg_T_2 = ((IData)(vlSelfRef.CpuTop__DOT___exu_io_in_ready) 
+                                       & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1));
     vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_ar_valid 
         = ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN) 
            & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren));
     vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1 
         = ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren)) 
            & (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN));
+    vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0 = (1U & 
+                                               ((~ (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN)) 
+                                                | ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)) 
+                                                   | (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren))));
     vlSelfRef.CpuTop__DOT___mem_io_out_bits_wb_data 
         = ((0U == (IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_sel))
             ? vlSelfRef.CpuTop__DOT__reg_2_alu_result
@@ -701,121 +882,11 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                     : 0U) : ((2U == (IData)(vlSelfRef.CpuTop__DOT__reg_2_wb_sel))
                               ? vlSelfRef.CpuTop__DOT__reg_2_pc_plus4
                               : vlSelfRef.CpuTop__DOT__reg_2_csr_rdata)));
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_mret = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_11) 
-                                             & (0x18U 
-                                                == 
-                                                (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                 >> 0x00000019U)));
-        vlSelfRef.CpuTop__DOT__reg_1_is_jalr = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_13)) 
-                                                & (0x67U 
-                                                   == 
-                                                   (0x0000007fU 
-                                                    & vlSelfRef.CpuTop__DOT__reg_inst)));
-        vlSelfRef.CpuTop__DOT__reg_1_mem_wdata = vlSelfRef.CpuTop__DOT___idu_io_out_bits_mem_wdata;
-        vlSelfRef.CpuTop__DOT__reg_1_mem_wmask = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_24)
-                                                   ? 0U
-                                                   : 
-                                                  (0x0000000fU 
-                                                   & (- (IData)((IData)(
-                                                                        (0x00002023U 
-                                                                         == 
-                                                                         (0x0000707fU 
-                                                                          & vlSelfRef.CpuTop__DOT__reg_inst)))))));
-        vlSelfRef.CpuTop__DOT__reg_1_mem_funct3 = (
-                                                   (1U 
-                                                    & ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_25)) 
-                                                       | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22)))
-                                                    ? 0U
-                                                    : 
-                                                   (7U 
-                                                    & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                       >> 0x0000000cU)));
-        vlSelfRef.CpuTop__DOT__reg_1_wb_sel = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_20)
-                                                ? 0U
-                                                : ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_16)
-                                                    ? 2U
-                                                    : 
-                                                   ((0x63U 
-                                                     == 
-                                                     (0x0000007fU 
-                                                      & vlSelfRef.CpuTop__DOT__reg_inst))
-                                                     ? 0U
-                                                     : 
-                                                    ((3U 
-                                                      == 
-                                                      (0x0000007fU 
-                                                       & vlSelfRef.CpuTop__DOT__reg_inst))
-                                                      ? 1U
-                                                      : 
-                                                     (((0x73U 
-                                                        != 
-                                                        (0x0000007fU 
-                                                         & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                                                       | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_31))
-                                                       ? 0U
-                                                       : 
-                                                      (3U 
-                                                       & (- (IData)(
-                                                                    (0U 
-                                                                     != 
-                                                                     (7U 
-                                                                      & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                                         >> 0x0000000cU)))))))))));
-    }
-    if (vlSelfRef.reset) {
-        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcause = 0U;
-    } else if (vlSelfRef.CpuTop__DOT__reg_1_exception) {
-        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcause 
-            = vlSelfRef.CpuTop__DOT__reg_1_exception_cause;
-    } else if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
-                & (0x0342U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
-        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mcause 
-            = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
-    }
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_exception_cause 
-            = ((1U & ((~ ((~ (0U != (7U & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                           >> 0x0000000cU)))) 
-                          & ((0x73U == (0x0000007fU 
-                                        & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                             & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10)))) 
-                      | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)))
-                ? 0U : 0x0bU);
-    }
-    if (vlSelfRef.reset) {
-        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec = 0U;
-        vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc = 0U;
-    } else {
-        if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
-             & (0x0305U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
-            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mtvec 
-                = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
-        }
-        if (vlSelfRef.CpuTop__DOT__reg_1_exception) {
-            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc 
-                = vlSelfRef.CpuTop__DOT__reg_1_pc;
-        } else if (((IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_en) 
-                    & (0x0341U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr)))) {
-            vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc 
-                = vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp;
-        }
-    }
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_csr_en = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_32)) 
-                                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33));
-        vlSelfRef.CpuTop__DOT__reg_1_exception = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_11) 
-                                                  & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT____VdfgRegularize_h52656aab_0_10));
-    }
     vlSelfRef.CpuTop__DOT___exu_io_redirect_valid = 
         ((IData)(vlSelfRef.CpuTop__DOT__reg_valid_1) 
          & ((IData)(vlSelfRef.CpuTop__DOT__reg_1_exception) 
             | ((IData)(vlSelfRef.CpuTop__DOT__reg_1_is_jalr) 
                | (IData)(vlSelfRef.CpuTop__DOT__reg_1_mret))));
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_csr_addr = (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                 >> 0x00000014U);
-    }
     vlSelfRef.CpuTop__DOT___exu_io_out_bits_csr_rdata 
         = ((0x0341U == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr))
             ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mepc
@@ -843,48 +914,9 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                     == (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_addr))
                                                     ? vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__mstatus
                                                     : 0U)))))))));
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_pc = vlSelfRef.CpuTop__DOT__reg_pc;
-        vlSelfRef.CpuTop__DOT__reg_1_inst = vlSelfRef.CpuTop__DOT__reg_inst;
-        vlSelfRef.CpuTop__DOT__reg_1_wb_en = ((0x13U 
-                                               == (0x0000007fU 
-                                                   & vlSelfRef.CpuTop__DOT__reg_inst))
-                                               ? (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9)
-                                               : ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_17) 
-                                                  | ((0x63U 
-                                                      != 
-                                                      (0x0000007fU 
-                                                       & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                                                     & ((3U 
-                                                         == 
-                                                         (0x0000007fU 
-                                                          & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                                                        | ((0x23U 
-                                                            != 
-                                                            (0x0000007fU 
-                                                             & vlSelfRef.CpuTop__DOT__reg_inst)) 
-                                                           & ((0x33U 
-                                                               == 
-                                                               (0x0000007fU 
-                                                                & vlSelfRef.CpuTop__DOT__reg_inst))
-                                                               ? 
-                                                              ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_27) 
-                                                               & (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9))
-                                                               : (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_33)))))));
-    }
     vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T 
         = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_en) 
            & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1));
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_mem_ren = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22)) 
-                                                & (3U 
-                                                   == 
-                                                   (0x0000007fU 
-                                                    & vlSelfRef.CpuTop__DOT__reg_inst)));
-        vlSelfRef.CpuTop__DOT__reg_1_wb_addr = (0x0000001fU 
-                                                & (vlSelfRef.CpuTop__DOT__reg_inst 
-                                                   >> 7U));
-    }
     if (vlSelfRef.CpuTop__DOT___reg_T) {
         vlSelfRef.CpuTop__DOT__reg_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc_reg;
     }
@@ -892,17 +924,27 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                                                 ((IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__io_axi_ar_valid)
                                                                                  ? vlSelfRef.CpuTop__DOT__reg_2_mem_addr
                                                                                  : 0U), 4U, 0U, vlSelfRef.__Vfunc_CpuTop__DOT__memSram__DOT__paddrRead__DOT__paddr_read__2__Vfuncout);
-    if (vlSelfRef.CpuTop__DOT___reg_T_1) {
-        vlSelfRef.CpuTop__DOT__reg_1_mem_wen = ((~ (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_24)) 
-                                                & (0x23U 
-                                                   == 
-                                                   (0x0000007fU 
-                                                    & vlSelfRef.CpuTop__DOT__reg_inst)));
-    }
     vlSelfRef.CpuTop__DOT__memSram__DOT___paddrRead_data 
         = vlSelfRef.__Vfunc_CpuTop__DOT__memSram__DOT__paddrRead__DOT__paddr_read__2__Vfuncout;
-    vlSelfRef.CpuTop__DOT___reg_T_2 = ((IData)(vlSelfRef.CpuTop__DOT___exu_io_in_ready) 
-                                       & (IData)(vlSelfRef.CpuTop__DOT__reg_valid_1));
+    vlSelfRef.CpuTop__DOT___mem_io_out_valid = ((0U 
+                                                 == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state))
+                                                 ? 
+                                                ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)) 
+                                                 & (IData)(vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1))
+                                                 : 
+                                                ((1U 
+                                                  == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state))
+                                                  ? (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__rvalidReg)
+                                                  : 
+                                                 ((2U 
+                                                   == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)) 
+                                                  & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__bvalidreg))));
+    vlSelfRef.__Vtableidx1 = ((((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
+                                 ? 0U : (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask)) 
+                               << 5U) | (((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask) 
+                                          << 1U) | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)));
+    vlSelfRef.CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__len 
+        = VCpuTop__ConstPool__TABLE_h9cba449d_0[vlSelfRef.__Vtableidx1];
     vlSelfRef.CpuTop__DOT__exu__DOT__csr__DOT__casez_tmp 
         = ((4U & (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_op))
             ? ((2U & (IData)(vlSelfRef.CpuTop__DOT__reg_1_csr_op))
@@ -933,30 +975,12 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     vlSelfRef.CpuTop__DOT__exu__DOT__io_fwd_wb_en = 
         ((IData)(vlSelfRef.CpuTop__DOT__exu__DOT___io_fwd_wb_is_Load_T) 
          & (1U != (IData)(vlSelfRef.CpuTop__DOT__reg_1_wb_sel)));
-    vlSelfRef.CpuTop__DOT___mem_io_out_valid = ((0U 
-                                                 == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state))
-                                                 ? 
-                                                ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)) 
-                                                 & (IData)(vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1))
-                                                 : 
-                                                ((1U 
-                                                  == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state))
-                                                  ? (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__arFire_d)
-                                                  : 
-                                                 ((2U 
-                                                   == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)) 
-                                                  & (IData)(vlSelfRef.CpuTop__DOT__memSram__DOT__writeFire_d))));
-    vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0 = (1U & 
-                                               ((~ (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN)) 
-                                                | ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen)) 
-                                                   | (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_ren))));
-    vlSelfRef.io_si_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc_reg;
-    vlSelfRef.__Vtableidx2 = ((((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)
-                                 ? 0U : (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask)) 
-                               << 5U) | (((IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask) 
-                                          << 1U) | (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_0)));
-    vlSelfRef.CpuTop__DOT__memSram__DOT____Vcellinp__paddrWrite__len 
-        = VCpuTop__ConstPool__TABLE_h9cba449d_0[vlSelfRef.__Vtableidx2];
+    vlSelfRef.CpuTop__DOT__exu__DOT___GEN = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wen) 
+                                             & (0U 
+                                                == (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_funct3)));
+    vlSelfRef.CpuTop__DOT__exu__DOT___GEN_0 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wen) 
+                                               & (1U 
+                                                  == (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_funct3)));
     VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__ifuSram__DOT__paddrWrite__DOT__paddr_write_TOP(
                                                                                 (((IData)(vlSelfRef.CpuTop__DOT__mem__DOT____VdfgRegularize_hc37f55c7_0_1) 
                                                                                 & (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wen))
@@ -976,16 +1000,15 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                                                  : (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask))
                                                                                  : 0U), 0U);
     if (vlSelfRef.CpuTop__DOT___reg_T) {
-        vlSelfRef.CpuTop__DOT__reg_inst = vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdata_d;
+        vlSelfRef.CpuTop__DOT__reg_inst = vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdataReg;
     }
-    vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdata_d = 
-        ((IData)(vlSelfRef.reset) ? 0U : vlSelfRef.CpuTop__DOT__ifuSram__DOT___paddrRead_data);
-    vlSelfRef.CpuTop__DOT__exu__DOT___GEN = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wen) 
-                                             & (0U 
-                                                == (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_funct3)));
-    vlSelfRef.CpuTop__DOT__exu__DOT___GEN_0 = ((IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_wen) 
-                                               & (1U 
-                                                  == (IData)(vlSelfRef.CpuTop__DOT__reg_1_mem_funct3)));
+    if (vlSelfRef.reset) {
+        vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdataReg = 0U;
+    } else if ((1U & (~ (IData)(vlSelfRef.CpuTop__DOT__redirect_valid)))) {
+        vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdataReg 
+            = vlSelfRef.CpuTop__DOT__ifuSram__DOT___paddrRead_data;
+    }
+    vlSelfRef.io_si_pc = vlSelfRef.CpuTop__DOT__ifu__DOT__pc_reg;
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_9 = (1U & 
                                                ((3U 
                                                  == 
@@ -1324,7 +1347,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                         ? vlSelfRef.CpuTop__DOT__reg_3_wb_data
                         : vlSelfRef.CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata2)))
             : 0U);
-    vlSelfRef.io_si_inst = vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdata_d;
+    vlSelfRef.io_si_inst = vlSelfRef.CpuTop__DOT__ifuSram__DOT__rdataReg;
     vlSelfRef.CpuTop__DOT__idu__DOT___GEN_24 = ((IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_22) 
                                                 | (3U 
                                                    == 
@@ -1493,7 +1516,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                 | (IData)(vlSelfRef.CpuTop__DOT__idu__DOT___GEN_31));
     vlSelfRef.CpuTop__DOT___reg_T = (((~ (IData)(vlSelfRef.CpuTop__DOT__reg_valid)) 
                                       | (IData)(vlSelfRef.CpuTop__DOT___idu_io_in_ready)) 
-                                     & (IData)(vlSelfRef.CpuTop__DOT__ifuSram__DOT__arFire_d));
+                                     & (IData)(vlSelfRef.CpuTop__DOT__ifuSram__DOT__rvalidReg));
     vlSelfRef.CpuTop__DOT__redirect_valid = ((IData)(vlSelfRef.CpuTop__DOT___exu_io_redirect_valid) 
                                              | ((~ 
                                                  ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_valid)) 
