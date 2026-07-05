@@ -92,7 +92,7 @@ VL_ATTR_COLD bool VCpuTop___024root___trigger_anySet__stl(const VlUnpacked<QData
 }
 
 void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__instMemory__DOT__paddrRead__DOT__paddr_read_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, CData/*0:0*/ is_inst, IData/*31:0*/ &paddr_read__Vfuncrtn);
-void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__lsuMem__DOT__paddrWrite__DOT__paddr_write_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ data, CData/*7:0*/ wmask, CData/*0:0*/ is_inst);
+void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__lsuMem__DOT__paddrWrite__DOT__paddr_write_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ data, IData/*31:0*/ wmask, CData/*0:0*/ is_inst);
 
 VL_ATTR_COLD void VCpuTop___024root___stl_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VCpuTop___024root___stl_sequent__TOP__0\n"); );

@@ -20,9 +20,9 @@ void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__instMemory__DOT__paddrRead__DO
     paddr_read__Vfuncrtn = (paddr_read__Vfuncrtn__Vcvt);
 }
 
-extern "C" void paddr_write(int addr, int len, int data, char wmask, svBit is_inst);
+extern "C" void paddr_write(int addr, int len, int data, int wmask, svBit is_inst);
 
-void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__lsuMem__DOT__paddrWrite__DOT__paddr_write_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ data, CData/*7:0*/ wmask, CData/*0:0*/ is_inst) {
+void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__lsuMem__DOT__paddrWrite__DOT__paddr_write_TOP(IData/*31:0*/ addr, IData/*31:0*/ len, IData/*31:0*/ data, IData/*31:0*/ wmask, CData/*0:0*/ is_inst) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__lsuMem__DOT__paddrWrite__DOT__paddr_write_TOP\n"); );
     // Body
     int addr__Vcvt;
@@ -31,7 +31,7 @@ void VCpuTop___024root____Vdpiimwrap_CpuTop__DOT__lsuMem__DOT__paddrWrite__DOT__
     len__Vcvt = len;
     int data__Vcvt;
     data__Vcvt = data;
-    char wmask__Vcvt;
+    int wmask__Vcvt;
     wmask__Vcvt = wmask;
     svBit is_inst__Vcvt;
     is_inst__Vcvt = is_inst;

@@ -634,13 +634,59 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                                           >> 7U)))))))))))))
                                                     ? 1U
                                                     : 4U)))),32);
+        bufp->chgIData(oldp+66,((((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
+                                  | ((0x23U != (0x0000007fU 
+                                                & vlSelfRef.CpuTop__DOT__instReg)) 
+                                     | (3U == (0x0000007fU 
+                                               & vlSelfRef.CpuTop__DOT__instReg))))
+                                  ? 0U : ((2U == (7U 
+                                                  & (vlSelfRef.CpuTop__DOT__instReg 
+                                                     >> 0x0000000cU)))
+                                           ? 0x0000000fU
+                                           : (0x0000000fU 
+                                              & ((1U 
+                                                  == 
+                                                  (7U 
+                                                   & (vlSelfRef.CpuTop__DOT__instReg 
+                                                      >> 0x0000000cU)))
+                                                  ? 
+                                                 ((2U 
+                                                   & (vlSelfRef.CpuTop__DOT__rs1_data 
+                                                      + 
+                                                      (((- (IData)(
+                                                                   (vlSelfRef.CpuTop__DOT__instReg 
+                                                                    >> 0x0000001fU))) 
+                                                        << 0x0000000cU) 
+                                                       | ((0x00000fe0U 
+                                                           & (vlSelfRef.CpuTop__DOT__instReg 
+                                                              >> 0x00000014U)) 
+                                                          | (0x0000001fU 
+                                                             & (vlSelfRef.CpuTop__DOT__instReg 
+                                                                >> 7U))))))
+                                                   ? 0x0cU
+                                                   : 3U)
+                                                  : 
+                                                 ((0U 
+                                                   != 
+                                                   (7U 
+                                                    & (vlSelfRef.CpuTop__DOT__instReg 
+                                                       >> 0x0000000cU)))
+                                                   ? 0U
+                                                   : 
+                                                  ((IData)(1U) 
+                                                   << 
+                                                   (3U 
+                                                    & (vlSelfRef.CpuTop__DOT__rs1_data 
+                                                       + 
+                                                       (vlSelfRef.CpuTop__DOT__instReg 
+                                                        >> 7U)))))))))),32);
     }
-    bufp->chgBit(oldp+66,(vlSelfRef.clock));
-    bufp->chgBit(oldp+67,(vlSelfRef.reset));
-    bufp->chgIData(oldp+68,(vlSelfRef.io_debug_pc),32);
-    bufp->chgIData(oldp+69,(vlSelfRef.io_debug_inst),32);
-    bufp->chgBit(oldp+70,(vlSelfRef.io_debug_valid));
-    bufp->chgWData(oldp+71,(vlSelfRef.io_debug_regs_flat),1024);
+    bufp->chgBit(oldp+67,(vlSelfRef.clock));
+    bufp->chgBit(oldp+68,(vlSelfRef.reset));
+    bufp->chgIData(oldp+69,(vlSelfRef.io_debug_pc),32);
+    bufp->chgIData(oldp+70,(vlSelfRef.io_debug_inst),32);
+    bufp->chgBit(oldp+71,(vlSelfRef.io_debug_valid));
+    bufp->chgWData(oldp+72,(vlSelfRef.io_debug_regs_flat),1024);
 }
 
 void VCpuTop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
