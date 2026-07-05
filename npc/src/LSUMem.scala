@@ -28,8 +28,8 @@ class LSUMem extends Module {
     paddrRead.io.is_inst := false.B
     io.rdata             := RegNext(paddrRead.io.data, 0.U(32.W))
 
-    // write（wen=false 时 wmask=0）
-    paddrWrite.io.addr   := io.waddr
+    // write
+    paddrWrite.io.addr   := Mux(io.wen, io.waddr, 0.U)
     paddrWrite.io.data   := io.wdata
     paddrWrite.io.wmask  := Mux(io.wen, Cat(Fill(28, 0.U), io.wmask), 0.U)
     paddrWrite.io.is_inst := false.B
