@@ -64,8 +64,7 @@ class MEM extends Module {
     }.otherwise {
       io.out.valid := true.B
     }
-  } 
-  .elsewhen (state === sREAD) {
+  }.elsewhen (state === sREAD) {
     io.in.ready := false.B
     io.axi_mem.r.ready := io.out.ready
     io.out.valid := io.axi_mem.r.valid
@@ -74,8 +73,7 @@ class MEM extends Module {
     when (io.axi_mem.r.valid && io.axi_mem.r.ready) {
       state := sIDLE
     }
-  }
-  .elsewhen (state === sWRITE) {
+  }.elsewhen (state === sWRITE) {
     io.in.ready := false.B
 
     io.axi_mem.b.ready := io.out.ready
