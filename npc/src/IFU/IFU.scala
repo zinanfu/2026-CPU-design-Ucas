@@ -26,7 +26,7 @@ class IFU extends Module {
   // PC 更新逻辑
   when (io.redirect.valid) {
     pc := io.redirect.bits.target 
-  }.elsewhen (io.axi_if.ar.ready && io.axi_if.ar_if.ar.valid) {
+  }.elsewhen (io.axi_if.ar.ready && io.axi_if.ar.valid) {
     pc := pc + 4.U
   }
 
