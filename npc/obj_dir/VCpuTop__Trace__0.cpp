@@ -97,8 +97,8 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgIData(oldp+45,(vlSelfRef.CpuTop__DOT__csr__DOT__io_csr_rdata),32);
         bufp->chgIData(oldp+46,(vlSelfRef.CpuTop__DOT__csr__DOT__mtvec),32);
         bufp->chgBit(oldp+47,(vlSelfRef.CpuTop__DOT____Vcellinp__csr__io_exception));
-        bufp->chgCData(oldp+48,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_29)) 
-                                        | (IData)(vlSelfRef.CpuTop__DOT___GEN_31)))
+        bufp->chgCData(oldp+48,(((1U & ((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_30)) 
+                                        | (IData)(vlSelfRef.CpuTop__DOT___GEN_32)))
                                   ? 0U : ((1U == (0x0000000fU 
                                                   & (vlSelfRef.CpuTop__DOT__instReg 
                                                      >> 0x00000014U)))
@@ -110,7 +110,7 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                         >> 0x00000014U)))
                                                     ? 0U
                                                     : 0x0bU)))),4);
-        bufp->chgIData(oldp+49,(((1U & ((~ ((IData)(vlSelfRef.CpuTop__DOT___GEN_29) 
+        bufp->chgIData(oldp+49,(((1U & ((~ ((IData)(vlSelfRef.CpuTop__DOT___GEN_30) 
                                             & ((~ (0U 
                                                    != 
                                                    (0x0000000fU 
@@ -121,7 +121,7 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                   (0x0000000fU 
                                                    & (vlSelfRef.CpuTop__DOT__instReg 
                                                       >> 0x00000014U)))))) 
-                                        | (IData)(vlSelfRef.CpuTop__DOT___GEN_31)))
+                                        | (IData)(vlSelfRef.CpuTop__DOT___GEN_32)))
                                   ? 0U : vlSelfRef.CpuTop__DOT__pc)),32);
         bufp->chgBit(oldp+50,(((~ (0U != (7U & (vlSelfRef.CpuTop__DOT__instReg 
                                                 >> 0x0000000cU)))) 
@@ -140,11 +140,13 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                   ? 0U : (0xfffffffcU 
                                           & vlSelfRef.CpuTop__DOT___load_addr_T))),32);
         bufp->chgIData(oldp+60,(vlSelfRef.CpuTop__DOT__lsuMem__DOT__io_rdata_REG),32);
-        bufp->chgCData(oldp+61,((((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                  | ((0x23U != (0x0000007fU 
-                                                & vlSelfRef.CpuTop__DOT__instReg)) 
-                                     | (3U == (0x0000007fU 
-                                               & vlSelfRef.CpuTop__DOT__instReg))))
+        bufp->chgBit(oldp+61,(((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_20)) 
+                               & ((0x23U == (0x0000007fU 
+                                             & vlSelfRef.CpuTop__DOT__instReg)) 
+                                  & (1U == (IData)(vlSelfRef.CpuTop__DOT__state))))));
+        bufp->chgCData(oldp+62,((((0x23U != (0x0000007fU 
+                                             & vlSelfRef.CpuTop__DOT__instReg)) 
+                                  | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                   ? 0U : ((2U == (7U 
                                                   & (vlSelfRef.CpuTop__DOT__instReg 
                                                      >> 0x0000000cU)))
@@ -186,11 +188,9 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                        + 
                                                        (vlSelfRef.CpuTop__DOT__instReg 
                                                         >> 7U)))))))))),4);
-        bufp->chgIData(oldp+62,((((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                  | ((0x23U != (0x0000007fU 
-                                                & vlSelfRef.CpuTop__DOT__instReg)) 
-                                     | (3U == (0x0000007fU 
-                                               & vlSelfRef.CpuTop__DOT__instReg))))
+        bufp->chgIData(oldp+63,((((0x23U != (0x0000007fU 
+                                             & vlSelfRef.CpuTop__DOT__instReg)) 
+                                  | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                   ? 0U : (0xfffffffcU 
                                           & (vlSelfRef.CpuTop__DOT__rs1_data 
                                              + (((- (IData)(
@@ -203,11 +203,9 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                    | (0x0000001fU 
                                                       & (vlSelfRef.CpuTop__DOT__instReg 
                                                          >> 7U)))))))),32);
-        bufp->chgIData(oldp+63,((((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                  | ((0x23U != (0x0000007fU 
-                                                & vlSelfRef.CpuTop__DOT__instReg)) 
-                                     | (3U == (0x0000007fU 
-                                               & vlSelfRef.CpuTop__DOT__instReg))))
+        bufp->chgIData(oldp+64,((((0x23U != (0x0000007fU 
+                                             & vlSelfRef.CpuTop__DOT__instReg)) 
+                                  | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                   ? 0U : ((2U == (7U 
                                                   & (vlSelfRef.CpuTop__DOT__instReg 
                                                      >> 0x0000000cU)))
@@ -247,13 +245,10 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                         (vlSelfRef.CpuTop__DOT__instReg 
                                                          >> 7U)) 
                                                        << 3U)))))))),32);
-        bufp->chgIData(oldp+64,(vlSelfRef.CpuTop__DOT__lsuMem__DOT___paddrRead_data),32);
-        bufp->chgIData(oldp+65,((((~ ((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                      | ((0x23U != 
-                                          (0x0000007fU 
-                                           & vlSelfRef.CpuTop__DOT__instReg)) 
-                                         | (3U == (0x0000007fU 
-                                                   & vlSelfRef.CpuTop__DOT__instReg))))) 
+        bufp->chgIData(oldp+65,(vlSelfRef.CpuTop__DOT__lsuMem__DOT___paddrRead_data),32);
+        bufp->chgIData(oldp+66,((((~ ((0x23U != (0x0000007fU 
+                                                 & vlSelfRef.CpuTop__DOT__instReg)) 
+                                      | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))) 
                                   & ((2U == (7U & (vlSelfRef.CpuTop__DOT__instReg 
                                                    >> 0x0000000cU))) 
                                      | (0x0000000fU 
@@ -295,15 +290,10 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                         (vlSelfRef.CpuTop__DOT__instReg 
                                                          >> 7U))))))))))
                                   ? 4U : (((0x0cU == 
-                                            (((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                              | ((0x23U 
-                                                  != 
-                                                  (0x0000007fU 
+                                            (((0x23U 
+                                               != (0x0000007fU 
                                                    & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                 | (3U 
-                                                    == 
-                                                    (0x0000007fU 
-                                                     & vlSelfRef.CpuTop__DOT__instReg))))
+                                              | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                               ? 0U : 
                                              ((2U == 
                                                (7U 
@@ -348,15 +338,11 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                            (vlSelfRef.CpuTop__DOT__instReg 
                                                             >> 7U)))))))))) 
                                            | (3U == 
-                                              (((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                                | ((0x23U 
-                                                    != 
-                                                    (0x0000007fU 
-                                                     & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                   | (3U 
-                                                      == 
-                                                      (0x0000007fU 
-                                                       & vlSelfRef.CpuTop__DOT__instReg))))
+                                              (((0x23U 
+                                                 != 
+                                                 (0x0000007fU 
+                                                  & vlSelfRef.CpuTop__DOT__instReg)) 
+                                                | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                                 ? 0U
                                                 : (
                                                    (2U 
@@ -406,15 +392,11 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                            ? 2U : (
                                                    ((8U 
                                                      == 
-                                                     (((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                                       | ((0x23U 
-                                                           != 
-                                                           (0x0000007fU 
-                                                            & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                          | (3U 
-                                                             == 
-                                                             (0x0000007fU 
-                                                              & vlSelfRef.CpuTop__DOT__instReg))))
+                                                     (((0x23U 
+                                                        != 
+                                                        (0x0000007fU 
+                                                         & vlSelfRef.CpuTop__DOT__instReg)) 
+                                                       | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                                        ? 0U
                                                        : 
                                                       ((2U 
@@ -463,15 +445,11 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                                   >> 7U)))))))))) 
                                                     | ((4U 
                                                         == 
-                                                        (((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                                          | ((0x23U 
-                                                              != 
-                                                              (0x0000007fU 
-                                                               & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                             | (3U 
-                                                                == 
-                                                                (0x0000007fU 
-                                                                 & vlSelfRef.CpuTop__DOT__instReg))))
+                                                        (((0x23U 
+                                                           != 
+                                                           (0x0000007fU 
+                                                            & vlSelfRef.CpuTop__DOT__instReg)) 
+                                                          | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                                           ? 0U
                                                           : 
                                                          ((2U 
@@ -520,15 +498,11 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                                      >> 7U)))))))))) 
                                                        | ((2U 
                                                            == 
-                                                           (((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                                             | ((0x23U 
-                                                                 != 
-                                                                 (0x0000007fU 
-                                                                  & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                                | (3U 
-                                                                   == 
-                                                                   (0x0000007fU 
-                                                                    & vlSelfRef.CpuTop__DOT__instReg))))
+                                                           (((0x23U 
+                                                              != 
+                                                              (0x0000007fU 
+                                                               & vlSelfRef.CpuTop__DOT__instReg)) 
+                                                             | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                                              ? 0U
                                                              : 
                                                             ((2U 
@@ -577,15 +551,11 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                                         >> 7U)))))))))) 
                                                           | (1U 
                                                              == 
-                                                             (((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                                               | ((0x23U 
-                                                                   != 
-                                                                   (0x0000007fU 
-                                                                    & vlSelfRef.CpuTop__DOT__instReg)) 
-                                                                  | (3U 
-                                                                     == 
-                                                                     (0x0000007fU 
-                                                                      & vlSelfRef.CpuTop__DOT__instReg))))
+                                                             (((0x23U 
+                                                                != 
+                                                                (0x0000007fU 
+                                                                 & vlSelfRef.CpuTop__DOT__instReg)) 
+                                                               | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
                                                                ? 0U
                                                                : 
                                                               ((2U 
@@ -634,59 +604,63 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                                                           >> 7U)))))))))))))
                                                     ? 1U
                                                     : 4U)))),32);
-        bufp->chgIData(oldp+66,((((IData)(vlSelfRef.CpuTop__DOT___GEN_17) 
-                                  | ((0x23U != (0x0000007fU 
+        bufp->chgIData(oldp+67,((((~ (IData)(vlSelfRef.CpuTop__DOT___GEN_20)) 
+                                  & ((0x23U == (0x0000007fU 
                                                 & vlSelfRef.CpuTop__DOT__instReg)) 
-                                     | (3U == (0x0000007fU 
-                                               & vlSelfRef.CpuTop__DOT__instReg))))
-                                  ? 0U : ((2U == (7U 
-                                                  & (vlSelfRef.CpuTop__DOT__instReg 
-                                                     >> 0x0000000cU)))
-                                           ? 0x0000000fU
-                                           : (0x0000000fU 
-                                              & ((1U 
-                                                  == 
-                                                  (7U 
-                                                   & (vlSelfRef.CpuTop__DOT__instReg 
-                                                      >> 0x0000000cU)))
-                                                  ? 
-                                                 ((2U 
-                                                   & (vlSelfRef.CpuTop__DOT__rs1_data 
-                                                      + 
-                                                      (((- (IData)(
-                                                                   (vlSelfRef.CpuTop__DOT__instReg 
-                                                                    >> 0x0000001fU))) 
-                                                        << 0x0000000cU) 
-                                                       | ((0x00000fe0U 
-                                                           & (vlSelfRef.CpuTop__DOT__instReg 
-                                                              >> 0x00000014U)) 
-                                                          | (0x0000001fU 
-                                                             & (vlSelfRef.CpuTop__DOT__instReg 
-                                                                >> 7U))))))
-                                                   ? 0x0cU
-                                                   : 3U)
-                                                  : 
-                                                 ((0U 
-                                                   != 
-                                                   (7U 
-                                                    & (vlSelfRef.CpuTop__DOT__instReg 
-                                                       >> 0x0000000cU)))
-                                                   ? 0U
-                                                   : 
-                                                  ((IData)(1U) 
-                                                   << 
-                                                   (3U 
-                                                    & (vlSelfRef.CpuTop__DOT__rs1_data 
-                                                       + 
-                                                       (vlSelfRef.CpuTop__DOT__instReg 
-                                                        >> 7U)))))))))),32);
+                                     & (1U == (IData)(vlSelfRef.CpuTop__DOT__state))))
+                                  ? (((0x23U != (0x0000007fU 
+                                                 & vlSelfRef.CpuTop__DOT__instReg)) 
+                                      | (IData)(vlSelfRef.CpuTop__DOT___GEN_20))
+                                      ? 0U : ((2U == 
+                                               (7U 
+                                                & (vlSelfRef.CpuTop__DOT__instReg 
+                                                   >> 0x0000000cU)))
+                                               ? 0x0000000fU
+                                               : (0x0000000fU 
+                                                  & ((1U 
+                                                      == 
+                                                      (7U 
+                                                       & (vlSelfRef.CpuTop__DOT__instReg 
+                                                          >> 0x0000000cU)))
+                                                      ? 
+                                                     ((2U 
+                                                       & (vlSelfRef.CpuTop__DOT__rs1_data 
+                                                          + 
+                                                          (((- (IData)(
+                                                                       (vlSelfRef.CpuTop__DOT__instReg 
+                                                                        >> 0x0000001fU))) 
+                                                            << 0x0000000cU) 
+                                                           | ((0x00000fe0U 
+                                                               & (vlSelfRef.CpuTop__DOT__instReg 
+                                                                  >> 0x00000014U)) 
+                                                              | (0x0000001fU 
+                                                                 & (vlSelfRef.CpuTop__DOT__instReg 
+                                                                    >> 7U))))))
+                                                       ? 0x0cU
+                                                       : 3U)
+                                                      : 
+                                                     ((0U 
+                                                       != 
+                                                       (7U 
+                                                        & (vlSelfRef.CpuTop__DOT__instReg 
+                                                           >> 0x0000000cU)))
+                                                       ? 0U
+                                                       : 
+                                                      ((IData)(1U) 
+                                                       << 
+                                                       (3U 
+                                                        & (vlSelfRef.CpuTop__DOT__rs1_data 
+                                                           + 
+                                                           (vlSelfRef.CpuTop__DOT__instReg 
+                                                            >> 7U)))))))))
+                                  : 0U)),32);
     }
-    bufp->chgBit(oldp+67,(vlSelfRef.clock));
-    bufp->chgBit(oldp+68,(vlSelfRef.reset));
-    bufp->chgIData(oldp+69,(vlSelfRef.io_debug_pc),32);
-    bufp->chgIData(oldp+70,(vlSelfRef.io_debug_inst),32);
-    bufp->chgBit(oldp+71,(vlSelfRef.io_debug_valid));
-    bufp->chgWData(oldp+72,(vlSelfRef.io_debug_regs_flat),1024);
+    bufp->chgBit(oldp+68,(vlSelfRef.clock));
+    bufp->chgBit(oldp+69,(vlSelfRef.reset));
+    bufp->chgIData(oldp+70,(vlSelfRef.io_debug_pc),32);
+    bufp->chgIData(oldp+71,(vlSelfRef.io_debug_inst),32);
+    bufp->chgBit(oldp+72,(vlSelfRef.io_debug_valid));
+    bufp->chgWData(oldp+73,(vlSelfRef.io_debug_regs_flat),1024);
 }
 
 void VCpuTop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {
