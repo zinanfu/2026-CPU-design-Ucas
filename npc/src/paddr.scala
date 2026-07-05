@@ -63,7 +63,7 @@ import "DPI-C" function void paddr_write(
     input bit       is_inst
 );
 
-always @* begin
+always @(wmask) begin
     paddr_write(addr, len, data, wmask, is_inst);
 end
 
