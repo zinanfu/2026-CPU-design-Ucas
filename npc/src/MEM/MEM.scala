@@ -60,7 +60,7 @@ class MEM extends Module {
       io.axi_mem.w.valid := true.B
 
       state := sWRITE
-    }.else {
+    }.otherwise {
       out.valid := true.B
     }
   } 
