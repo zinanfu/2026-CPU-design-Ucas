@@ -50,7 +50,7 @@ class MEM extends Module {
       io.axi_mem.ar.valid := true.B
 
       state := sREAD
-    }elsewhen (in.mem_wen) {
+    }.elsewhen (in.mem_wen) {
       // write
       io.axi_mem.aw.addr := in.mem_addr
       io.axi_mem.aw.valid := true.B
@@ -60,7 +60,7 @@ class MEM extends Module {
       io.axi_mem.w.valid := true.B
 
       state := sWRITE
-    }else {
+    }.else {
       out.valid := true.B
     }
   } 

@@ -3,7 +3,7 @@ package logic
 import chisel3._
 import chisel3.util._
 
-/. ar
+// ar
 class Axi4LiteAR extends Bundle {
   val addr  = Output(UInt(32.W))
   val valid = Output(Bool())
