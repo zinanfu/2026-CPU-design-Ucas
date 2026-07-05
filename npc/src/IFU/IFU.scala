@@ -34,7 +34,7 @@ class IFU extends Module {
 
   // axi_if
   io.axi_if.ar.addr  := pc
-  io.axi_if.ar.valid := true.B
+  io.axi_if.ar.valid := !io.redirect_valid
 
   io.axi_if.r.ready  := true.B
 
