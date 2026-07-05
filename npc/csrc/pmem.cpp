@@ -140,8 +140,8 @@ extern "C" void paddr_write(uint32_t addr, int len, uint32_t data, uint8_t wmask
                 ch = (data >> 24) & 0xff;
             }
 
-            printf("ch = %c\n", ch);
-            fprintf(stderr, "[UART] 0x%02x '%c', addr = %08x\n", ch, (ch >= 32 && ch < 127) ? ch : '.', addr);
+            // printf("ch = %c\n", ch);
+            // fprintf(stderr, "[UART] 0x%02x '%c', addr = %08x\n", ch, (ch >= 32 && ch < 127) ? ch : '.', addr);
             putchar(ch);
             fflush(stdout);
         }
