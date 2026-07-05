@@ -71,6 +71,7 @@ static inline bool in_pmem(uint32_t addr, int len) {
 }
 
 extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
+    fprintf(stderr, "[pmem read]  addr=0x%08x len=%d inst=%d\n", addr, len, is_inst);
     assert(len == 1 || len == 2 || len == 4);
     if (!in_pmem(addr, len)) {
 
@@ -107,12 +108,12 @@ extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     
     // mtrace
 
-// #ifdef CONFIG_MTRACE
+#ifdef CONFIG_MTRACE
 
     if (!is_inst) {
         printf("[mtrace(mem)] read addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, ret);
     }
-// #endif
+#endif
     return ret;
 }
 
