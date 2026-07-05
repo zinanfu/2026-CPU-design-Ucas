@@ -145,8 +145,8 @@ class MEM extends Module {
   io.fwd_wb_addr := in.wb_addr
   io.fwd_wb_data := wb_data
 
-  io.out.valid := io.in.valid
-  io.in.ready  := io.out.ready
+  // io.out.valid := io.in.valid
+  // io.in.ready  := io.out.ready
 
 
   // when (io.in.valid && io.in.bits.mem_ren) {

@@ -40,6 +40,12 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   val mem = Module(new MEM)
   val wbu = Module(new WBU)
 
+  // sram
+  val ifuSram = Module(new AXIsram(is_inst = true))
+  val memSram = Module(new AXIsram(is_inst = false))
+
+  ifu.io.axi_if <> ifuSram.io.axi
+  mem.io.axi_mem <> memSram.io.axi
   
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
   // printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
