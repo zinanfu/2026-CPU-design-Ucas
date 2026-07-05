@@ -107,12 +107,12 @@ extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
     
     // mtrace
 
-#ifdef CONFIG_MTRACE
+// #ifdef CONFIG_MTRACE
 
     if (!is_inst) {
         printf("[mtrace(mem)] read addr = 0x%08x, len = %d, data = 0x%08x\n",  addr, len, ret);
     }
-#endif
+// #endif
     return ret;
 }
 
