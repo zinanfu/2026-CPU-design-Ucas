@@ -6,7 +6,7 @@ import npc.ItraceDPI
 import chisel3.experimental.prefix
 
 
-class CpuTop_p(enableItrace: Boolean = true) extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   
   // override def localModulePrefix = Some("ysyx_26050162")
 
