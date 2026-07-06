@@ -6,21 +6,21 @@ import npc.ItraceDPI
 import chisel3.experimental.prefix
 
 
-class CpuTop_p(enableItrace: Boolean = true) extends Module {
+class CpuTop(enableItrace: Boolean = true) extends Module {
   
   // override def localModulePrefix = Some("ysyx_26050162")
 
   val io = IO(new Bundle {
-    val inst            = Input(UInt(32.W))
-    val pc              = Output(UInt(32.W))
+    // val inst            = Input(UInt(32.W))
+    // val pc              = Output(UInt(32.W))
 
     // MEM
-    val mem_rdata       = Input(UInt(32.W))
-    val mem_addr        = Output(UInt(32.W))
-    val mem_wdata       = Output(UInt(32.W))
-    val mem_wmask       = Output(UInt(4.W))
-    val mem_wen         = Output(Bool())
-    val mem_ren         = Output(Bool())
+    // val mem_rdata       = Input(UInt(32.W))
+    // val mem_addr        = Output(UInt(32.W))
+    // val mem_wdata       = Output(UInt(32.W))
+    // val mem_wmask       = Output(UInt(4.W))
+    // val mem_wen         = Output(Bool())
+    // val mem_ren         = Output(Bool())
 
     // DEBUG
     val debug_pc        = Output(UInt(32.W))
@@ -40,6 +40,12 @@ class CpuTop_p(enableItrace: Boolean = true) extends Module {
   val mem = Module(new MEM)
   val wbu = Module(new WBU)
 
+  // sram
+  val ifuSram = Module(new AXIsram(is_inst = true))
+  val memSram = Module(new AXIsram(is_inst = false))
+
+  ifu.io.axi_if <> ifuSram.io.axi
+  mem.io.axi_mem <> memSram.io.axi
   
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
   // printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
@@ -65,16 +71,16 @@ class CpuTop_p(enableItrace: Boolean = true) extends Module {
   StageConnect(mem.io.out, wbu.io.in, arch = "pipeline")
 
   // pc & inst
-  io.pc               := ifu.io.if_pc
-  ifu.io.if_inst      := io.inst
+  // io.pc               := ifu.io.if_pc
+  // ifu.io.if_inst      := io.inst
 
   // mem
-  io.mem_addr         := mem.io.mem_addr
-  io.mem_wdata        := mem.io.mem_wdata
-  io.mem_wmask        := mem.io.mem_wmask
-  io.mem_wen          := mem.io.mem_wen
-  io.mem_ren          := mem.io.mem_ren
-  mem.io.mem_rdata    := io.mem_rdata
+  // io.mem_addr         := mem.io.mem_addr
+  // io.mem_wdata        := mem.io.mem_wdata
+  // io.mem_wmask        := mem.io.mem_wmask
+  // io.mem_wen          := mem.io.mem_wen
+  // io.mem_ren          := mem.io.mem_ren
+  // mem.io.mem_rdata    := io.mem_rdata
 
   // wb (reg is in IDU)
   idu.io.reg_wen      := wbu.io.reg_wen

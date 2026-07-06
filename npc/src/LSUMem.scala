@@ -29,6 +29,7 @@ class LSUMem extends Module {
     io.rdata             := RegNext(paddrRead.io.data, 0.U(32.W))
 
     // write
+    paddrWrite.io.wen    := io.wen
     paddrWrite.io.addr   := Mux(io.wen, io.waddr, 0.U)
     paddrWrite.io.data   := io.wdata
     paddrWrite.io.wmask  := Mux(io.wen, Cat(Fill(28, 0.U), io.wmask), 0.U)

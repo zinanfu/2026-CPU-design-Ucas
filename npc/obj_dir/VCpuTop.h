@@ -36,6 +36,8 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop VL_NOT_FINAL : public VerilatedModel 
     VL_OUT(&io_debug_pc,31,0);
     VL_OUT(&io_debug_inst,31,0);
     VL_OUTW(&io_debug_regs_flat,1023,0,32);
+    VL_OUT(&io_si_pc,31,0);
+    VL_OUT(&io_si_inst,31,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

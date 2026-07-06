@@ -12,31 +12,88 @@ class IFU extends Module {
       val target = UInt(32.W)
     }))
 
-    val if_pc   = Output(UInt(32.W))   
-    val if_inst = Input(UInt(32.W))    
-
+    // val if_pc   = Output(UInt(32.W))   
+    // val if_inst = Input(UInt(32.W))    
+    val axi_if     = new Axi4LiteMasterIO
     // si
     val si_pc   = Output(UInt(32.W))
     val si_inst = Output(UInt(32.W))
   })
 
   val pc = RegInit("h80000000".U(32.W))
+  val reqPcReg = RegInit("h80000000".U(32.W))
+  val outPcReg = RegInit(0.U(32.W))
+  val outInstReg = RegInit(0.U(32.W))
+  val sIDLE :: sWAIT :: sHAVEINST :: sDROP :: Nil = Enum(4)
+  val state = RegInit(sIDLE)
 
   // printf("pc = 0x%x, if_inst = 0x%x, redirect_valid = %d, redirect_target = %x\n", pc, io.if_inst, io.redirect.valid, io.redirect.bits.target)
-  // PC 更新逻辑
+
+  // io.if_pc := pc
+
+  // axi_if default
+  io.axi_if.ar.addr  := pc
+  io.axi_if.ar.valid := false.B
+  io.axi_if.r.ready  := false.B
+  io.axi_if.aw.addr  := 0.U
+  io.axi_if.aw.valid := false.B
+  io.axi_if.w.data   := 0.U
+  io.axi_if.w.strb   := 0.U
+  io.axi_if.w.valid  := false.B
+  io.axi_if.b.ready  := false.B
+
+  // IF to ID
+  io.out.bits.pc    := outPcReg
+  io.out.bits.inst  := outInstReg
+  io.out.valid      := state === sHAVEINST
+
+  // si
+  io.si_pc   := outPcReg
+  io.si_inst := outInstReg
+
   when (io.redirect.valid) {
-    pc := io.redirect.bits.target 
-  }.elsewhen (io.out.fire) {
-    pc := pc + 4.U
+    pc := io.redirect.bits.target
+    when (state === sWAIT) {
+      state := sDROP
+    }.otherwise {
+      state := sIDLE
+    }
+  }.otherwise {
+    switch (state) {
+      is (sIDLE) {
+        io.axi_if.ar.addr  := pc
+        io.axi_if.ar.valid := true.B
+        when (io.axi_if.ar.valid && io.axi_if.ar.ready) {
+          reqPcReg := pc
+          pc       := pc + 4.U
+          state    := sWAIT
+        }
+      }
+
+      is (sWAIT) {
+        io.axi_if.r.ready := true.B
+        when (io.axi_if.r.valid && io.axi_if.r.ready) {
+          outPcReg   := reqPcReg
+          outInstReg := io.axi_if.r.data
+          state      := sHAVEINST
+        }
+      }
+
+      is (sHAVEINST) {
+        when (io.out.fire) {
+          state := sIDLE
+        }
+      }
+      
+      // 等待接受后丢弃
+      is (sDROP) {
+        io.axi_if.r.ready := true.B
+        when (io.axi_if.r.valid && io.axi_if.r.ready) {
+          state := sIDLE
+        }
+      }
+    }
   }
 
-  io.if_pc := pc
-
-  io.si_pc := RegNext(pc, 0.U)
-  io.si_inst := RegNext(io.if_inst, 0.U)
-  // IF to ID
-
-  io.out.bits.pc    := pc
-  io.out.bits.inst  := io.if_inst
-  io.out.valid      := true.B
 }
+
