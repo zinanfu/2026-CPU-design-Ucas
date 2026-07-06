@@ -30,7 +30,7 @@ class MEM extends Module {
   val sIDLE :: sREAD :: sWRITE :: Nil = Enum(3)
   val state = RegInit(sIDLE)
   val in = io.in.bits
-  val reqReg = Reg(new ExToMemMessage)
+  val reqReg = Reg(new ExToMemMessage)  // 保存访存指令
   val req = Wire(new ExToMemMessage)
   req := reqReg
   when (state === sIDLE) {
@@ -85,7 +85,7 @@ class MEM extends Module {
           reqReg := in
           state  := sWRITE
         }
-      }.otherwise {
+      }.otherwise { // 非访存
         io.in.ready  := io.out.ready
         io.out.valid := true.B
       }
@@ -93,8 +93,10 @@ class MEM extends Module {
     
   }.elsewhen (state === sREAD) {
     io.in.ready := false.B
+
     io.axi_mem.r.ready := io.out.ready
     io.out.valid := io.axi_mem.r.valid
+  
     mem_rdata := io.axi_mem.r.data
 
     when (io.axi_mem.r.valid && io.axi_mem.r.ready) {
