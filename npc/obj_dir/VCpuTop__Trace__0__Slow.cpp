@@ -707,7 +707,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                     & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_r_ready))))));
     bufp->fullBit(oldp+115,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_1) 
                              & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_b_ready))));
-    bufp->fullIData(oldp+116,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid)
+    bufp->fullIData(oldp+116,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)
                                 ? (((0U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                     | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_valid))
                                     ? 0U : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid)
@@ -876,7 +876,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullCData(oldp+142,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                 ? 0U : (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask))),4);
     bufp->fullBit(oldp+143,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_b_valid));
-    bufp->fullBit(oldp+144,(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid));
+    bufp->fullBit(oldp+144,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid));
     bufp->fullIData(oldp+145,(vlSelfRef.CpuTop__DOT__axiSram__DOT__rdataReg),32);
     bufp->fullIData(oldp+146,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_ready)
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
@@ -887,7 +887,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                     ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_wdata)
                                 : 0U)),32);
-    bufp->fullCData(oldp+149,(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb),4);
+    bufp->fullCData(oldp+149,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb),4);
     bufp->fullCData(oldp+150,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state),2);
     bufp->fullIData(oldp+151,(vlSelfRef.CpuTop__DOT__axiSram__DOT___paddrRead_data),32);
     bufp->fullIData(oldp+152,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire)
@@ -898,20 +898,20 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+153,((((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_ready) 
                                 & ((~ (IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)) 
                                    & (0x0000000fU == (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask))))
-                                ? 4U : (((0x0cU == (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)) 
-                                         | (3U == (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)))
+                                ? 4U : (((0x0cU == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)) 
+                                         | (3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)))
                                          ? 2U : (((8U 
-                                                   == (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)) 
+                                                   == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)) 
                                                   | ((4U 
-                                                      == (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)) 
+                                                      == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)) 
                                                      | ((2U 
-                                                         == (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)) 
+                                                         == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)) 
                                                         | (1U 
-                                                           == (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)))))
+                                                           == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)))))
                                                   ? 1U
                                                   : 4U)))),32);
     bufp->fullIData(oldp+154,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire)
-                                ? (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)
+                                ? (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb)
                                 : 0U)),32);
     bufp->fullIData(oldp+155,(vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out),32);
     bufp->fullIData(oldp+156,((0xfffffffcU & vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out)),32);

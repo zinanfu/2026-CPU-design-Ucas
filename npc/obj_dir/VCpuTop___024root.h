@@ -122,6 +122,8 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_ready;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_lsu_b_valid;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_lsu_b_ready;
+        CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid;
+        CData/*3:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb;
         CData/*1:0*/ CpuTop__DOT__axiArbiter__DOT__state;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_1;
@@ -129,8 +131,6 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_3;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_1;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_2;
-        CData/*0:0*/ CpuTop__DOT__axiSram__DOT__io_axi_ar_valid;
-        CData/*3:0*/ CpuTop__DOT__axiSram__DOT__io_axi_w_strb;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__rvalidReg;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__writeFire;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__bvalidreg;
