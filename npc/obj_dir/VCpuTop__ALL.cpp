@@ -4,7 +4,6 @@
 #include "VCpuTop___024root__0.cpp"
 #include "VCpuTop__Dpi.cpp"
 #include "VCpuTop__Trace__0.cpp"
-#include "VCpuTop__ConstPool__0__Slow.cpp"
 #include "VCpuTop___024root__Slow.cpp"
 #include "VCpuTop___024root__0__Slow.cpp"
 #include "VCpuTop__Syms__Slow.cpp"
