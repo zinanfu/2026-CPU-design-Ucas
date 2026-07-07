@@ -33,9 +33,11 @@ class IFU extends Module {
 
   // axi_if default
   io.axi_if.ar.addr  := pc
+  io.axi_if.ar.id    := 0.U
   io.axi_if.ar.valid := false.B
   io.axi_if.r.ready  := false.B
   io.axi_if.aw.addr  := 0.U
+  io.axi_if.aw.id    := 0.U
   io.axi_if.aw.valid := false.B
   io.axi_if.w.data   := 0.U
   io.axi_if.w.strb   := 0.U
@@ -62,6 +64,7 @@ class IFU extends Module {
     switch (state) {
       is (sIDLE) {
         io.axi_if.ar.addr  := pc
+        io.axi_if.ar.id    := 0.U
         io.axi_if.ar.valid := true.B
         when (io.axi_if.ar.valid && io.axi_if.ar.ready) {
           reqPcReg := pc
@@ -96,4 +99,3 @@ class IFU extends Module {
   }
 
 }
-

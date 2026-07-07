@@ -7,8 +7,6 @@ import chisel3.experimental.prefix
 
 
 class CpuTop(enableItrace: Boolean = true) extends Module {
-  
-  // override def localModulePrefix = Some("ysyx_26050162")
 
   val io = IO(new Bundle {
     // val inst            = Input(UInt(32.W))
@@ -42,15 +40,19 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   // shared AXI memory
   val axiArbiter = Module(new AxiArbiter)
-  val axiSram    = Module(new AXIsram(is_inst = false))
+  val xbar       = Module(new Xbar)
+  val axiSram    = Module(new AXIsram)
+  val axiUart    = Module(new AxiUart)
+  val axiClient  = Module(new AxiClient)
 
-  ifu.io.axi_if      <> axiArbiter.io.ifu
-  mem.io.axi_mem     <> axiArbiter.io.lsu
-  axiArbiter.io.mem  <> axiSram.io.axi
+  ifu.io.axi_if           <> axiArbiter.io.ifu
+  mem.io.axi_mem          <> axiArbiter.io.mem
+  axiArbiter.io.axi       <> xbar.io.in
+  xbar.io.mem             <> axiSram.io.axi
+  xbar.io.uart            <> axiUart.io.axi
+  xbar.io.clint           <> axiClient.io.axi
   
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
-  // printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
-  // printf("ID: redirect_valid = %d, target = %x\n", idu.io.redirect.valid, idu.io.redirect.bits.target)
   val redirect_target = Mux(exu.io.redirect.valid,
     exu.io.redirect.bits.target,
     idu.io.redirect.bits.target
