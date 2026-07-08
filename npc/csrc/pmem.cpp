@@ -118,6 +118,8 @@ static uint32_t uart_read(uint32_t addr) {
 }
 
 void init_pmem(size_t size, uint32_t base) {
+    init_uart_stdin();
+
     if (pmem) {
         free_pmem();
     }
