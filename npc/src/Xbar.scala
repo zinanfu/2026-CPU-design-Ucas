@@ -49,21 +49,25 @@ class Xbar extends Module {
   io.uart.w.valid  := false.B
   io.uart.b.ready  := false.B
 
-  val arReady = io.mem.ar.ready && io.uart.ar.ready
+  // val arReady = io.mem.ar.ready && io.uart.ar.ready
+  val MemArReady = io.mem.ar.ready
+  val UartArReady = io.uart.ar.ready
   // val writeReady = io.mem.aw.ready && io.mem.w.ready && io.uart.aw.ready && io.uart.w.ready
-  val arFire = io.in.ar.valid && arReady
+  // val arFire = io.in.ar.valid && arReady
   // val writeFire = io.in.aw.valid && io.in.w.valid && writeReady
   val UartWriteReady = io.uart.aw.ready && io.uart.w.ready
   val MemWriteReady = io.mem.aw.ready && io.mem.w.ready
 
   switch (state) {
     is (sIDLE) {
-      io.in.ar.ready := arReady
+      // io.in.ar.ready := arReady
 
       when (io.in.aw.addr === UART_ADDR) {
+        io.in.ar.ready := UartArReady
         io.in.aw.ready := UartWriteReady
         io.in.w.ready  := UartWriteReady
       }.otherwise {
+        io.in.ar.ready := MemArReady
         io.in.aw.ready := MemWriteReady
         io.in.w.ready  := MemWriteReady
       }
@@ -103,17 +107,17 @@ class Xbar extends Module {
         when (io.in.ar.addr === UART_ADDR) {
           io.uart.ar.addr  := io.in.ar.addr
           io.uart.ar.id    := io.in.ar.id
-          io.uart.ar.valid := arFire
+          io.uart.ar.valid := io.in.ar.valid && UartArReady
 
-          when (arFire) {
+          when (io.in.ar.valid && UartArReady) {
             state := sUARTREAD
           }
         }.otherwise {
           io.mem.ar.addr  := io.in.ar.addr
           io.mem.ar.id    := io.in.ar.id
-          io.mem.ar.valid := arFire
+          io.mem.ar.valid := io.in.ar.valid && MemArReady
 
-          when (arFire) {
+          when (io.in.ar.valid && MemArReady) {
             state := sMEMREAD
           }
         }
