@@ -7,8 +7,6 @@ import chisel3.experimental.prefix
 
 
 class CpuTop(enableItrace: Boolean = true) extends Module {
-  
-  // override def localModulePrefix = Some("ysyx_26050162")
 
   val io = IO(new Bundle {
     // val inst            = Input(UInt(32.W))
@@ -53,8 +51,6 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   xbar.io.uart            <> axiUart.io.axi
   
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
-  // printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
-  // printf("ID: redirect_valid = %d, target = %x\n", idu.io.redirect.valid, idu.io.redirect.bits.target)
   val redirect_target = Mux(exu.io.redirect.valid,
     exu.io.redirect.bits.target,
     idu.io.redirect.bits.target

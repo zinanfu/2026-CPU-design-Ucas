@@ -15,41 +15,41 @@ class Xbar extends Module {
   val sIDLE :: sREADREQ :: sMEMREAD :: sUARTREAD :: sWRITEREQ :: sMEMWRITE :: sUARTWRITE :: Nil = Enum(7)
   val state = RegInit(sIDLE)
 
-  val arAddrReg = RegInit(0.U(32.W))
-  val arIdReg = RegInit(0.U(1.W))
+  val arAddrReg   = RegInit(0.U(32.W))
+  val arIdReg     = RegInit(0.U(1.W))
   val arToUartReg = RegInit(false.B)
 
-  val awAddrReg = RegInit(0.U(32.W))
-  val awIdReg = RegInit(0.U(1.W))
+  val awAddrReg   = RegInit(0.U(32.W))
+  val awIdReg     = RegInit(0.U(1.W))
   val awToUartReg = RegInit(false.B)
-  val awFullReg = RegInit(false.B)
-  val wDataReg = RegInit(0.U(32.W))
-  val wStrbReg = RegInit(0.U(4.W))
-  val wFullReg = RegInit(false.B)
-  val awSentReg = RegInit(false.B)
-  val wSentReg = RegInit(false.B)
+  val awFullReg   = RegInit(false.B)
+  val wDataReg    = RegInit(0.U(32.W))
+  val wStrbReg    = RegInit(0.U(4.W))
+  val wFullReg    = RegInit(false.B)
+  val awSentReg   = RegInit(false.B)
+  val wSentReg    = RegInit(false.B)
 
   // default
-  io.in.ar.ready := false.B
-  io.in.r.data   := 0.U
-  io.in.r.resp   := 0.U
-  io.in.r.valid  := false.B
-  io.in.aw.ready := false.B
-  io.in.w.ready  := false.B
-  io.in.b.resp   := 0.U
-  io.in.b.valid  := false.B
+  io.in.ar.ready    := false.B
+  io.in.r.data      := 0.U
+  io.in.r.resp      := 0.U
+  io.in.r.valid     := false.B
+  io.in.aw.ready    := false.B
+  io.in.w.ready     := false.B
+  io.in.b.resp      := 0.U
+  io.in.b.valid     := false.B
 
-  io.mem.ar.addr  := 0.U
-  io.mem.ar.id    := 0.U
-  io.mem.ar.valid := false.B
-  io.mem.r.ready  := false.B
-  io.mem.aw.addr  := 0.U
-  io.mem.aw.id    := 0.U
-  io.mem.aw.valid := false.B
-  io.mem.w.data   := 0.U
-  io.mem.w.strb   := 0.U
-  io.mem.w.valid  := false.B
-  io.mem.b.ready  := false.B
+  io.mem.ar.addr    := 0.U
+  io.mem.ar.id      := 0.U
+  io.mem.ar.valid   := false.B
+  io.mem.r.ready    := false.B
+  io.mem.aw.addr    := 0.U
+  io.mem.aw.id      := 0.U
+  io.mem.aw.valid   := false.B
+  io.mem.w.data     := 0.U
+  io.mem.w.strb     := 0.U
+  io.mem.w.valid    := false.B
+  io.mem.b.ready    := false.B
 
   io.uart.ar.addr  := 0.U
   io.uart.ar.id    := 0.U
