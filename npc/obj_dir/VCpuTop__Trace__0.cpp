@@ -71,19 +71,19 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgIData(oldp+45,(vlSelfRef.CpuTop__DOT__reg_3_wb_data),32);
         bufp->chgBit(oldp+46,(vlSelfRef.CpuTop__DOT__reg_valid_3));
         bufp->chgIData(oldp+47,(vlSelfRef.CpuTop__DOT__ifu__DOT__pc),32);
-        bufp->chgIData(oldp+48,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid)
+        bufp->chgIData(oldp+48,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)
                                   ? vlSelfRef.CpuTop__DOT__reg_2_mem_addr
                                   : 0U)),32);
-        bufp->chgBit(oldp+49,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid));
-        bufp->chgBit(oldp+50,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_r_ready));
+        bufp->chgBit(oldp+49,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid));
+        bufp->chgBit(oldp+50,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready));
         bufp->chgIData(oldp+51,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                   ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_addr)),32);
-        bufp->chgBit(oldp+52,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_valid));
+        bufp->chgBit(oldp+52,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid));
         bufp->chgIData(oldp+53,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                   ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_wdata)),32);
         bufp->chgCData(oldp+54,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                   ? 0U : (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask))),4);
-        bufp->chgBit(oldp+55,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_b_ready));
+        bufp->chgBit(oldp+55,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready));
         bufp->chgCData(oldp+56,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state),2);
         bufp->chgIData(oldp+57,(vlSelfRef.CpuTop__DOT__axiSram__DOT__rdataReg),32);
         bufp->chgIData(oldp+58,(vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out),32);
@@ -328,20 +328,20 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
     }
     if (VL_UNLIKELY(((vlSelfRef.__Vm_traceActivity[1U] 
                       | vlSelfRef.__Vm_traceActivity[2U])))) {
-        bufp->chgBit(oldp+154,(((~ ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_valid) 
-                                    | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid))) 
+        bufp->chgBit(oldp+154,(((~ ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
+                                    | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid))) 
                                 & ((0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-                                   & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_ar_valid) 
-                                      & (0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)))))));
+                                   & ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
+                                      & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_ar_valid))))));
         bufp->chgIData(oldp+155,((((1U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                    | (0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))
-                                   ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_data)),32);
+                                   ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data)),32);
         bufp->chgBit(oldp+156,(((0U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                 & ((1U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid)))));
+                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid)))));
         bufp->chgIData(oldp+157,((((2U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                    | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_3))
-                                   ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_data)),32);
+                                   ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data)),32);
         bufp->chgIData(oldp+158,(((0x13U == (0x0000007fU 
                                              & vlSelfRef.CpuTop__DOT__reg_inst))
                                    ? vlSelfRef.CpuTop__DOT___idu_io_out_bits_csr_wdata
@@ -486,83 +486,83 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgBit(oldp+166,(vlSelfRef.CpuTop__DOT___exu_io_in_ready));
         bufp->chgBit(oldp+167,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_ar_valid));
         bufp->chgBit(oldp+168,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_r_ready));
-        bufp->chgBit(oldp+169,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_ready));
-        bufp->chgBit(oldp+170,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_r_valid));
-        bufp->chgBit(oldp+171,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_ready));
-        bufp->chgBit(oldp+172,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_b_valid));
-        bufp->chgIData(oldp+173,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr),32);
-        bufp->chgBit(oldp+174,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id));
-        bufp->chgBit(oldp+175,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid));
+        bufp->chgBit(oldp+169,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_ready));
+        bufp->chgBit(oldp+170,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid));
+        bufp->chgBit(oldp+171,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_ready));
+        bufp->chgBit(oldp+172,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_valid));
+        bufp->chgIData(oldp+173,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr),32);
+        bufp->chgBit(oldp+174,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_id));
+        bufp->chgBit(oldp+175,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_valid));
         bufp->chgBit(oldp+176,((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))));
-        bufp->chgIData(oldp+177,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_data),32);
-        bufp->chgBit(oldp+178,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid));
-        bufp->chgBit(oldp+179,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready));
-        bufp->chgIData(oldp+180,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr),32);
-        bufp->chgBit(oldp+181,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id));
-        bufp->chgBit(oldp+182,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid));
-        bufp->chgIData(oldp+183,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_data),32);
-        bufp->chgCData(oldp+184,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb),4);
-        bufp->chgBit(oldp+185,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_valid));
-        bufp->chgBit(oldp+186,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready));
+        bufp->chgIData(oldp+177,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data),32);
+        bufp->chgBit(oldp+178,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid));
+        bufp->chgBit(oldp+179,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready));
+        bufp->chgIData(oldp+180,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr),32);
+        bufp->chgBit(oldp+181,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_id));
+        bufp->chgBit(oldp+182,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid));
+        bufp->chgIData(oldp+183,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_data),32);
+        bufp->chgCData(oldp+184,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_strb),4);
+        bufp->chgBit(oldp+185,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_valid));
+        bufp->chgBit(oldp+186,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_ready));
         bufp->chgIData(oldp+187,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                   ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
-                                             | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)) 
+                                   ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
+                                             | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_valid)) 
                                                 | (0x10000000U 
-                                                   == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr))))
-                                       ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr)
+                                                   == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr))))
+                                       ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr)
                                    : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                        ? vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg
                                        : 0U))),32);
         bufp->chgBit(oldp+188,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                  ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1) 
                                     & ((0x10000000U 
-                                        != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr) 
-                                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id)))
+                                        != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr) 
+                                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_id)))
                                  : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
                                     & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))));
         bufp->chgBit(oldp+189,(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid));
         bufp->chgBit(oldp+190,(vlSelfRef.CpuTop__DOT__axiSram__DOT__rvalidReg));
         bufp->chgBit(oldp+191,(((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_7)) 
                                 & ((3U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready)))));
+                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready)))));
         bufp->chgIData(oldp+192,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                    ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_2)
-                                       ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr)
+                                       ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr)
                                    : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_11)
                                        ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg))),32);
         bufp->chgBit(oldp+193,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                 ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
+                                 ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
                                     & ((0x10000000U 
-                                        != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr) 
-                                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id)))
+                                        != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr) 
+                                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_id)))
                                  : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_3) 
                                     & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))));
         bufp->chgBit(oldp+194,(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire));
         bufp->chgIData(oldp+195,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                    ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_2)
-                                       ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_data)
+                                       ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_data)
                                    : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_11)
                                        ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__wdataReg))),32);
         bufp->chgCData(oldp+196,(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb),4);
         bufp->chgBit(oldp+197,(vlSelfRef.CpuTop__DOT__axiSram__DOT__bvalidreg));
         bufp->chgBit(oldp+198,(((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_16)) 
                                 & ((7U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready)))));
+                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_ready)))));
         bufp->chgIData(oldp+199,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid)
                                    ? ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                       ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
-                                                 | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)) 
+                                       ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
+                                                 | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_valid)) 
                                                     | (0x10000000U 
-                                                       == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr))))
-                                           ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr)
+                                                       == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr))))
+                                           ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr)
                                        : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                            ? vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg
                                            : 0U)) : 0U)),32);
         bufp->chgBit(oldp+200,(((~ ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                      ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1) 
                                         & ((0x10000000U 
-                                            != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr) 
-                                           & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id)))
+                                            != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr) 
+                                           & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_id)))
                                      : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
                                         & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))) 
                                 & (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid))));
@@ -570,7 +570,7 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgIData(oldp+202,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire)
                                    ? ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                        ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_2)
-                                           ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr)
+                                           ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr)
                                        : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_11)
                                            ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg))
                                    : 0U)),32);
@@ -579,10 +579,10 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
                                    ? (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)
                                    : 0U)),32);
         bufp->chgBit(oldp+205,(((~ ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                     ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
+                                     ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
                                         & ((0x10000000U 
-                                            != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr) 
-                                           & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id)))
+                                            != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr) 
+                                           & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_id)))
                                      : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_3) 
                                         & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))) 
                                 & (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire))));
@@ -591,10 +591,10 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgBit(oldp+208,(vlSelfRef.CpuTop__DOT__axiUart__DOT__rvalidReg));
         bufp->chgBit(oldp+209,(((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_4)) 
                                 & ((4U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready)))));
+                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready)))));
         bufp->chgIData(oldp+210,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                    ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_1)
-                                       ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr
+                                       ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr
                                        : 0U) : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_14)
                                                  ? 0U
                                                  : vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg))),32);
@@ -602,7 +602,7 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgBit(oldp+212,((1U & (~ (IData)(vlSelfRef.CpuTop__DOT__axiUart__DOT__bvalidReg)))));
         bufp->chgIData(oldp+213,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                    ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_1)
-                                       ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_data
+                                       ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_data
                                        : 0U) : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_14)
                                                  ? 0U
                                                  : vlSelfRef.CpuTop__DOT__xbar__DOT__wdataReg))),32);
@@ -610,7 +610,7 @@ void VCpuTop___024root__trace_chg_0_sub_0(VCpuTop___024root* vlSelf, VerilatedFs
         bufp->chgBit(oldp+215,(((~ ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_16) 
                                     | (7U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)))) 
                                 & ((8U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready)))));
+                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_ready)))));
         bufp->chgBit(oldp+216,(((IData)(vlSelfRef.CpuTop__DOT__axiUart__DOT__io_axi_aw_valid) 
                                 & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_18))));
         bufp->chgBit(oldp+217,(vlSelfRef.CpuTop__DOT___exu_io_redirect_valid));

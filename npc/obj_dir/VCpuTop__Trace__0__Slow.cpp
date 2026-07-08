@@ -91,44 +91,44 @@ VL_ATTR_COLD void VCpuTop___024root__trace_init_sub__TOP__0(VCpuTop___024root* v
     tracep->declBus(c+155,0,"io_ifu_r_data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
     tracep->declBit(c+156,0,"io_ifu_r_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+168,0,"io_ifu_r_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+48,0,"io_lsu_ar_addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+49,0,"io_lsu_ar_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+169,0,"io_lsu_ar_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+157,0,"io_lsu_r_data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+170,0,"io_lsu_r_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+50,0,"io_lsu_r_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+51,0,"io_lsu_aw_addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+52,0,"io_lsu_aw_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+171,0,"io_lsu_aw_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+53,0,"io_lsu_w_data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+54,0,"io_lsu_w_strb",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 3,0);
-    tracep->declBit(c+52,0,"io_lsu_w_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+171,0,"io_lsu_w_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+172,0,"io_lsu_b_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+55,0,"io_lsu_b_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+173,0,"io_mem_ar_addr",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+174,0,"io_mem_ar_id",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+175,0,"io_mem_ar_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+176,0,"io_mem_ar_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+177,0,"io_mem_r_data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+178,0,"io_mem_r_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+179,0,"io_mem_r_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+180,0,"io_mem_aw_addr",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBit(c+181,0,"io_mem_aw_id",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+182,0,"io_mem_aw_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+176,0,"io_mem_aw_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+183,0,"io_mem_w_data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
-    tracep->declBus(c+184,0,"io_mem_w_strb",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 3,0);
-    tracep->declBit(c+182,0,"io_mem_w_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+176,0,"io_mem_w_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+185,0,"io_mem_b_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+186,0,"io_mem_b_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+48,0,"io_mem_ar_addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+49,0,"io_mem_ar_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+169,0,"io_mem_ar_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+157,0,"io_mem_r_data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+170,0,"io_mem_r_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+50,0,"io_mem_r_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+51,0,"io_mem_aw_addr",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+52,0,"io_mem_aw_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+171,0,"io_mem_aw_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+53,0,"io_mem_w_data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+54,0,"io_mem_w_strb",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 3,0);
+    tracep->declBit(c+52,0,"io_mem_w_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+171,0,"io_mem_w_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+172,0,"io_mem_b_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+55,0,"io_mem_b_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+173,0,"io_axi_ar_addr",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+174,0,"io_axi_ar_id",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+175,0,"io_axi_ar_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+176,0,"io_axi_ar_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+177,0,"io_axi_r_data",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+178,0,"io_axi_r_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+179,0,"io_axi_r_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+180,0,"io_axi_aw_addr",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBit(c+181,0,"io_axi_aw_id",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+182,0,"io_axi_aw_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+176,0,"io_axi_aw_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBus(c+183,0,"io_axi_w_data",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 31,0);
+    tracep->declBus(c+184,0,"io_axi_w_strb",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 3,0);
+    tracep->declBit(c+182,0,"io_axi_w_valid",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+176,0,"io_axi_w_ready",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+185,0,"io_axi_b_valid",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+186,0,"io_axi_b_ready",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+56,0,"state",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
-    tracep->declBit(c+181,0,"io_mem_aw_id_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+182,0,"io_mem_aw_valid_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+182,0,"io_mem_w_valid_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+171,0,"io_lsu_w_ready_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBit(c+175,0,"io_mem_ar_valid_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+181,0,"io_axi_aw_id_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+182,0,"io_axi_aw_valid_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+182,0,"io_axi_w_valid_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+171,0,"io_mem_w_ready_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
+    tracep->declBit(c+175,0,"io_axi_ar_valid_0",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->popPrefix();
     tracep->pushPrefix("axiSram", VerilatedTracePrefixType::SCOPE_MODULE);
     tracep->declBit(c+233,0,"clock",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
@@ -700,19 +700,19 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+45,(vlSelfRef.CpuTop__DOT__reg_3_wb_data),32);
     bufp->fullBit(oldp+46,(vlSelfRef.CpuTop__DOT__reg_valid_3));
     bufp->fullIData(oldp+47,(vlSelfRef.CpuTop__DOT__ifu__DOT__pc),32);
-    bufp->fullIData(oldp+48,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid)
+    bufp->fullIData(oldp+48,(((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)
                                ? vlSelfRef.CpuTop__DOT__reg_2_mem_addr
                                : 0U)),32);
-    bufp->fullBit(oldp+49,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid));
-    bufp->fullBit(oldp+50,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_r_ready));
+    bufp->fullBit(oldp+49,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid));
+    bufp->fullBit(oldp+50,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready));
     bufp->fullIData(oldp+51,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_addr)),32);
-    bufp->fullBit(oldp+52,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_valid));
+    bufp->fullBit(oldp+52,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid));
     bufp->fullIData(oldp+53,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                ? 0U : vlSelfRef.CpuTop__DOT__reg_2_mem_wdata)),32);
     bufp->fullCData(oldp+54,(((IData)(vlSelfRef.CpuTop__DOT__mem__DOT___GEN_1)
                                ? 0U : (IData)(vlSelfRef.CpuTop__DOT__reg_2_mem_wmask))),4);
-    bufp->fullBit(oldp+55,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_b_ready));
+    bufp->fullBit(oldp+55,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready));
     bufp->fullCData(oldp+56,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state),2);
     bufp->fullIData(oldp+57,(vlSelfRef.CpuTop__DOT__axiSram__DOT__rdataReg),32);
     bufp->fullIData(oldp+58,(vlSelfRef.CpuTop__DOT__exu__DOT__alu__DOT__io_out),32);
@@ -951,20 +951,20 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+151,(vlSelfRef.CpuTop__DOT__mem__DOT__reqReg_csr_rdata),32);
     bufp->fullCData(oldp+152,(vlSelfRef.CpuTop__DOT__mem__DOT__req_load_addr),2);
     bufp->fullCData(oldp+153,(vlSelfRef.CpuTop__DOT__xbar__DOT__wstrbReg),4);
-    bufp->fullBit(oldp+154,(((~ ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_valid) 
-                                 | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_valid))) 
+    bufp->fullBit(oldp+154,(((~ ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
+                                 | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid))) 
                              & ((0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-                                & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_ar_valid) 
-                                   & (0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)))))));
+                                & ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
+                                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_ar_valid))))));
     bufp->fullIData(oldp+155,((((1U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                 | (0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))
-                                ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_data)),32);
+                                ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data)),32);
     bufp->fullBit(oldp+156,(((0U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                              & ((1U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid)))));
+                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid)))));
     bufp->fullIData(oldp+157,((((2U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                 | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_3))
-                                ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_data)),32);
+                                ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data)),32);
     bufp->fullIData(oldp+158,(((0x13U == (0x0000007fU 
                                           & vlSelfRef.CpuTop__DOT__reg_inst))
                                 ? vlSelfRef.CpuTop__DOT___idu_io_out_bits_csr_wdata
@@ -1100,81 +1100,81 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullBit(oldp+166,(vlSelfRef.CpuTop__DOT___exu_io_in_ready));
     bufp->fullBit(oldp+167,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_ar_valid));
     bufp->fullBit(oldp+168,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_r_ready));
-    bufp->fullBit(oldp+169,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_ar_ready));
-    bufp->fullBit(oldp+170,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_r_valid));
-    bufp->fullBit(oldp+171,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_ready));
-    bufp->fullBit(oldp+172,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_lsu_b_valid));
-    bufp->fullIData(oldp+173,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr),32);
-    bufp->fullBit(oldp+174,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id));
-    bufp->fullBit(oldp+175,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid));
+    bufp->fullBit(oldp+169,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_ready));
+    bufp->fullBit(oldp+170,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid));
+    bufp->fullBit(oldp+171,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_ready));
+    bufp->fullBit(oldp+172,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_valid));
+    bufp->fullIData(oldp+173,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr),32);
+    bufp->fullBit(oldp+174,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_id));
+    bufp->fullBit(oldp+175,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_valid));
     bufp->fullBit(oldp+176,((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))));
-    bufp->fullIData(oldp+177,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_data),32);
-    bufp->fullBit(oldp+178,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid));
-    bufp->fullBit(oldp+179,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready));
-    bufp->fullIData(oldp+180,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr),32);
-    bufp->fullBit(oldp+181,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id));
-    bufp->fullBit(oldp+182,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid));
-    bufp->fullIData(oldp+183,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_data),32);
-    bufp->fullCData(oldp+184,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb),4);
-    bufp->fullBit(oldp+185,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_valid));
-    bufp->fullBit(oldp+186,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready));
+    bufp->fullIData(oldp+177,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data),32);
+    bufp->fullBit(oldp+178,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid));
+    bufp->fullBit(oldp+179,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready));
+    bufp->fullIData(oldp+180,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr),32);
+    bufp->fullBit(oldp+181,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_id));
+    bufp->fullBit(oldp+182,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid));
+    bufp->fullIData(oldp+183,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_data),32);
+    bufp->fullCData(oldp+184,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_strb),4);
+    bufp->fullBit(oldp+185,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_valid));
+    bufp->fullBit(oldp+186,(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_ready));
     bufp->fullIData(oldp+187,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
-                                          | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)) 
+                                ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
+                                          | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_valid)) 
                                              | (0x10000000U 
-                                                == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr))))
-                                    ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr)
+                                                == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr))))
+                                    ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr)
                                 : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                     ? vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg
                                     : 0U))),32);
     bufp->fullBit(oldp+188,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                               ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1) 
-                                 & ((0x10000000U != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr) 
-                                    & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id)))
+                                 & ((0x10000000U != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr) 
+                                    & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_id)))
                               : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
                                  & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))));
     bufp->fullBit(oldp+189,(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid));
     bufp->fullBit(oldp+190,(vlSelfRef.CpuTop__DOT__axiSram__DOT__rvalidReg));
     bufp->fullBit(oldp+191,(((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_7)) 
                              & ((3U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready)))));
+                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready)))));
     bufp->fullIData(oldp+192,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_2)
-                                    ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr)
+                                    ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr)
                                 : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_11)
                                     ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg))),32);
     bufp->fullBit(oldp+193,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                              ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
-                                 & ((0x10000000U != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr) 
-                                    & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id)))
+                              ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
+                                 & ((0x10000000U != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr) 
+                                    & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_id)))
                               : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_3) 
                                  & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))));
     bufp->fullBit(oldp+194,(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire));
     bufp->fullIData(oldp+195,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_2)
-                                    ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_data)
+                                    ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_data)
                                 : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_11)
                                     ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__wdataReg))),32);
     bufp->fullCData(oldp+196,(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb),4);
     bufp->fullBit(oldp+197,(vlSelfRef.CpuTop__DOT__axiSram__DOT__bvalidreg));
     bufp->fullBit(oldp+198,(((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_16)) 
                              & ((7U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready)))));
+                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_ready)))));
     bufp->fullIData(oldp+199,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid)
                                 ? ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                    ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
-                                              | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)) 
+                                    ? ((1U & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
+                                              | ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_valid)) 
                                                  | (0x10000000U 
-                                                    == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr))))
-                                        ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr)
+                                                    == vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr))))
+                                        ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr)
                                     : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                         ? vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg
                                         : 0U)) : 0U)),32);
     bufp->fullBit(oldp+200,(((~ ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                   ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1) 
                                      & ((0x10000000U 
-                                         != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr) 
-                                        & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id)))
+                                         != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_addr) 
+                                        & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_ar_id)))
                                   : ((1U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
                                      & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))) 
                              & (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_ar_valid))));
@@ -1182,7 +1182,7 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullIData(oldp+202,(((IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire)
                                 ? ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                     ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_2)
-                                        ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr)
+                                        ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr)
                                     : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_11)
                                         ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg))
                                 : 0U)),32);
@@ -1191,10 +1191,10 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
                                 ? (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__io_axi_w_strb)
                                 : 0U)),32);
     bufp->fullBit(oldp+205,(((~ ((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
-                                  ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid) 
+                                  ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_valid) 
                                      & ((0x10000000U 
-                                         != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr) 
-                                        & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id)))
+                                         != vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr) 
+                                        & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_id)))
                                   : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_3) 
                                      & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__idReg)))) 
                              & (IData)(vlSelfRef.CpuTop__DOT__axiSram__DOT__writeFire))));
@@ -1203,24 +1203,24 @@ VL_ATTR_COLD void VCpuTop___024root__trace_full_0_sub_0(VCpuTop___024root* vlSel
     bufp->fullBit(oldp+208,(vlSelfRef.CpuTop__DOT__axiUart__DOT__rvalidReg));
     bufp->fullBit(oldp+209,(((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_4)) 
                              & ((4U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready)))));
+                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready)))));
     bufp->fullIData(oldp+210,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_1)
-                                    ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr
+                                    ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_addr
                                     : 0U) : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_14)
                                               ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__addrReg))),32);
     bufp->fullBit(oldp+211,(vlSelfRef.CpuTop__DOT__axiUart__DOT__io_axi_aw_valid));
     bufp->fullBit(oldp+212,((1U & (~ (IData)(vlSelfRef.CpuTop__DOT__axiUart__DOT__bvalidReg)))));
     bufp->fullIData(oldp+213,(((0U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state))
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_1)
-                                    ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_w_data
+                                    ? vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_w_data
                                     : 0U) : ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_14)
                                               ? 0U : vlSelfRef.CpuTop__DOT__xbar__DOT__wdataReg))),32);
     bufp->fullBit(oldp+214,(vlSelfRef.CpuTop__DOT__axiUart__DOT__bvalidReg));
     bufp->fullBit(oldp+215,(((~ ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_16) 
                                  | (7U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)))) 
                              & ((8U == (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__state)) 
-                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_b_ready)))));
+                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_b_ready)))));
     bufp->fullBit(oldp+216,(((IData)(vlSelfRef.CpuTop__DOT__axiUart__DOT__io_axi_aw_valid) 
                              & (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_18))));
     bufp->fullBit(oldp+217,(vlSelfRef.CpuTop__DOT___exu_io_redirect_valid));
