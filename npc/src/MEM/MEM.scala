@@ -52,9 +52,11 @@ class MEM extends Module {
   io.in.ready              := false.B
   io.out.valid             := false.B
   io.axi_mem.ar.addr       := 0.U
+  io.axi_mem.ar.id         := 1.U
   io.axi_mem.ar.valid      := false.B
   io.axi_mem.r.ready       := false.B
   io.axi_mem.aw.addr       := 0.U
+  io.axi_mem.aw.id         := 1.U
   io.axi_mem.aw.valid      := false.B
   io.axi_mem.w.data        := 0.U
   io.axi_mem.w.strb        := 0.U
@@ -66,6 +68,7 @@ class MEM extends Module {
     when (io.in.valid) {
       when (in.mem_ren) {
         io.axi_mem.ar.addr  := in.mem_addr
+        io.axi_mem.ar.id    := 1.U
         io.axi_mem.ar.valid := true.B
         io.in.ready         := io.axi_mem.ar.ready
 
@@ -75,6 +78,7 @@ class MEM extends Module {
         }
       }.elsewhen (in.mem_wen) {
         io.axi_mem.aw.addr  := in.mem_addr
+        io.axi_mem.aw.id    := 1.U
         io.axi_mem.aw.valid := true.B
         io.axi_mem.w.data   := in.mem_wdata
         io.axi_mem.w.strb   := in.mem_wmask

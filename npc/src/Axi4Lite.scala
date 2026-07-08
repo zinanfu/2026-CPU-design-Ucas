@@ -6,6 +6,7 @@ import chisel3.util._
 // ar
 class Axi4LiteAR extends Bundle {
   val addr  = Output(UInt(32.W))
+  val id    = Output(UInt(1.W))
   val valid = Output(Bool())
   val ready = Input(Bool())
 }
@@ -21,6 +22,7 @@ class Axi4LiteR extends Bundle {
 // aw
 class Axi4LiteAW extends Bundle {
   val addr  = Output(UInt(32.W))
+  val id    = Output(UInt(1.W))
   val valid = Output(Bool())
   val ready = Input(Bool())
 }

@@ -15,6 +15,7 @@ class Xbar extends Module {
   val sIDLE :: sMEM_READ :: sUartReadReq :: sMemReadResp :: sUartReadResp :: sMemWriteReq :: sUartWriteReq :: sMemWriteResp :: sUartWriteResp :: Nil = Enum(9)
   val state = RegInit(sIDLE)
   val addrReg = RegInit(0.U(32.W))
+  val idReg = RegInit(0.U(1.W))
   val wdataReg = RegInit(0.U(32.W))
   val wstrbReg = RegInit(0.U(4.W))
 
@@ -29,9 +30,11 @@ class Xbar extends Module {
   io.in.b.valid  := false.B
 
   io.mem.ar.addr  := 0.U
+  io.mem.ar.id    := 0.U
   io.mem.ar.valid := false.B
   io.mem.r.ready  := false.B
   io.mem.aw.addr  := 0.U
+  io.mem.aw.id    := 0.U
   io.mem.aw.valid := false.B
   io.mem.w.data   := 0.U
   io.mem.w.strb   := 0.U
@@ -39,9 +42,11 @@ class Xbar extends Module {
   io.mem.b.ready  := false.B
 
   io.uart.ar.addr  := 0.U
+  io.uart.ar.id    := 0.U
   io.uart.ar.valid := false.B
   io.uart.r.ready  := false.B
   io.uart.aw.addr  := 0.U
+  io.uart.aw.id    := 0.U
   io.uart.aw.valid := false.B
   io.uart.w.data   := 0.U
   io.uart.w.strb   := 0.U
@@ -56,11 +61,13 @@ class Xbar extends Module {
 
       when (io.in.aw.valid && io.in.w.valid) {
         addrReg        := io.in.aw.addr
+        idReg          := io.in.aw.id
         wdataReg       := io.in.w.data
         wstrbReg       := io.in.w.strb
 
         when (io.in.aw.addr === UART_ADDR) {
           io.uart.aw.addr  := io.in.aw.addr
+          io.uart.aw.id    := io.in.aw.id
           io.uart.aw.valid := true.B
           io.uart.w.data   := io.in.w.data
           io.uart.w.strb   := io.in.w.strb
@@ -73,6 +80,7 @@ class Xbar extends Module {
           }
         }.otherwise {
           io.mem.aw.addr  := io.in.aw.addr
+          io.mem.aw.id    := io.in.aw.id
           io.mem.aw.valid := true.B
           io.mem.w.data   := io.in.w.data
           io.mem.w.strb   := io.in.w.strb
@@ -86,9 +94,11 @@ class Xbar extends Module {
         }
       }.elsewhen (io.in.ar.valid) {
         addrReg        := io.in.ar.addr
+        idReg          := io.in.ar.id
 
         when (io.in.ar.addr === UART_ADDR) {
           io.uart.ar.addr  := io.in.ar.addr
+          io.uart.ar.id    := io.in.ar.id
           io.uart.ar.valid := true.B
 
           when (io.uart.ar.valid && io.uart.ar.ready) {
@@ -98,6 +108,7 @@ class Xbar extends Module {
           }
         }.otherwise {
           io.mem.ar.addr  := io.in.ar.addr
+          io.mem.ar.id    := io.in.ar.id
           io.mem.ar.valid := true.B
 
           when (io.mem.ar.valid && io.mem.ar.ready) {
@@ -111,6 +122,7 @@ class Xbar extends Module {
 
     is (sMEM_READ) {
       io.mem.ar.addr  := addrReg
+      io.mem.ar.id    := idReg
       io.mem.ar.valid := true.B
 
       when (io.mem.ar.valid && io.mem.ar.ready) {
@@ -120,6 +132,7 @@ class Xbar extends Module {
 
     is (sUartReadReq) {
       io.uart.ar.addr  := addrReg
+      io.uart.ar.id    := idReg
       io.uart.ar.valid := true.B
 
       when (io.uart.ar.valid && io.uart.ar.ready) {
@@ -151,6 +164,7 @@ class Xbar extends Module {
 
     is (sMemWriteReq) {
       io.mem.aw.addr  := addrReg
+      io.mem.aw.id    := idReg
       io.mem.aw.valid := true.B
       io.mem.w.data   := wdataReg
       io.mem.w.strb   := wstrbReg
@@ -163,6 +177,7 @@ class Xbar extends Module {
 
     is (sUartWriteReq) {
       io.uart.aw.addr  := addrReg
+      io.uart.aw.id    := idReg
       io.uart.aw.valid := true.B
       io.uart.w.data   := wdataReg
       io.uart.w.strb   := wstrbReg

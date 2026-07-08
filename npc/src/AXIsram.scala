@@ -5,8 +5,7 @@ import chisel3.util._
 import npc.PaddrReadDPI
 import npc.PaddrWriteDPI
 
-// 取指和访存分别使用两个sram，用 is_inst 区分
-class AXIsram(is_inst: Boolean = false) extends Module {
+class AXIsram extends Module {
   val io = IO(new Bundle {
     val axi = new Axi4LiteSlaveIO
   })
@@ -24,7 +23,7 @@ class AXIsram(is_inst: Boolean = false) extends Module {
 
   paddrRead.io.addr    := Mux(arFire, io.axi.ar.addr, 0.U)
   paddrRead.io.len     := 4.U
-  paddrRead.io.is_inst := is_inst.B
+  paddrRead.io.is_inst := arFire && io.axi.ar.id === 0.U
 
   val arFire_d = RegNext(arFire, false.B)
   val rdata_d  = RegNext(paddrRead.io.data, 0.U(32.W))
@@ -63,7 +62,7 @@ class AXIsram(is_inst: Boolean = false) extends Module {
     "b1100".U -> 2.U,
     "b1111".U -> 4.U
   ))
-  paddrWrite.io.is_inst := is_inst.B
+  paddrWrite.io.is_inst := writeFire && io.axi.aw.id === 0.U
 
   when (writeFire) {
     bvalidreg := true.B

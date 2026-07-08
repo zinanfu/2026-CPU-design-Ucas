@@ -122,10 +122,12 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_lsu_aw_ready;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_lsu_b_valid;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_lsu_b_ready;
+        CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_ar_id;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_ar_ready;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready;
+        CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_aw_id;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_aw_valid;
         CData/*3:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_w_strb;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_b_valid;
@@ -135,19 +137,19 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_1;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_2;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_3;
-        CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_4;
-        CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_6;
+        CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT___GEN_5;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_1;
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_2;
         CData/*3:0*/ CpuTop__DOT__xbar__DOT__state;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT__idReg;
         CData/*3:0*/ CpuTop__DOT__xbar__DOT__wstrbReg;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_1;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_2;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_4;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_5;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_6;
     };
     struct {
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_5;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_6;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_7;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_8;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_9;
@@ -164,6 +166,7 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_2;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_3;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_4;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__io_axi_ar_valid;
         CData/*3:0*/ CpuTop__DOT__axiSram__DOT__io_axi_w_strb;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__rvalidReg;
@@ -209,11 +212,11 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__reg_1_csr_wdata;
         IData/*31:0*/ CpuTop__DOT__reg_1_csr_zimm;
         IData/*31:0*/ CpuTop__DOT__reg_2_pc;
+    };
+    struct {
         IData/*31:0*/ CpuTop__DOT__reg_2_inst;
         IData/*31:0*/ CpuTop__DOT__reg_2_alu_result;
         IData/*31:0*/ CpuTop__DOT__reg_2_mem_addr;
-    };
-    struct {
         IData/*31:0*/ CpuTop__DOT__reg_2_mem_wdata;
         IData/*31:0*/ CpuTop__DOT__reg_2_pc_plus4;
         IData/*31:0*/ CpuTop__DOT__reg_2_csr_rdata;
@@ -275,11 +278,11 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_ar_addr;
         IData/*31:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_r_data;
         IData/*31:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_aw_addr;
+    };
+    struct {
         IData/*31:0*/ CpuTop__DOT__axiArbiter__DOT__io_mem_w_data;
         IData/*31:0*/ CpuTop__DOT__xbar__DOT__addrReg;
         IData/*31:0*/ CpuTop__DOT__xbar__DOT__wdataReg;
-    };
-    struct {
         IData/*31:0*/ CpuTop__DOT__axiSram__DOT___paddrRead_data;
         IData/*31:0*/ CpuTop__DOT__axiSram__DOT__rdataReg;
         IData/*31:0*/ CpuTop__DOT__axiSram__DOT____Vcellinp__paddrWrite__len;
