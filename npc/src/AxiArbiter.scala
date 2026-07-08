@@ -10,8 +10,21 @@ class AxiArbiter extends Module {
     val axi = new Axi4LiteMasterIO
   })
 
-  val sIDLE :: sIFUREAD :: sLSUREAD :: sLSUWRITE :: Nil = Enum(4)
+  val sIDLE :: sREADREQ :: sIFUREAD :: sLSUREAD :: sWRITEREQ :: sLSUWRITE :: Nil = Enum(6)
   val state = RegInit(sIDLE)
+
+  val readAddrReg = RegInit(0.U(32.W))
+  val readIdReg = RegInit(0.U(1.W))
+  val readFromMemReg = RegInit(false.B)
+
+  val awAddrReg = RegInit(0.U(32.W))
+  val awIdReg = RegInit(0.U(1.W))
+  val awFullReg = RegInit(false.B)
+  val wDataReg = RegInit(0.U(32.W))
+  val wStrbReg = RegInit(0.U(4.W))
+  val wFullReg = RegInit(false.B)
+  val awSentReg = RegInit(false.B)
+  val wSentReg = RegInit(false.B)
 
   // default
   io.ifu.ar.ready := false.B
@@ -44,40 +57,69 @@ class AxiArbiter extends Module {
   io.axi.w.valid  := false.B
   io.axi.b.ready  := false.B
 
+  val memAwFire = io.mem.aw.valid && io.mem.aw.ready
+  val memWFire  = io.mem.w.valid  && io.mem.w.ready
+  val memArFire = io.mem.ar.valid && io.mem.ar.ready
+  val ifuArFire = io.ifu.ar.valid && io.ifu.ar.ready
+  val axiArFire = io.axi.ar.valid && io.axi.ar.ready
+  val axiAwFire = io.axi.aw.valid && io.axi.aw.ready
+  val axiWFire  = io.axi.w.valid  && io.axi.w.ready
+
   switch (state) {
     is (sIDLE) {
-      when (io.mem.aw.valid && io.mem.w.valid) {
-        io.axi.aw.addr  := io.mem.aw.addr
-        io.axi.aw.id    := io.mem.aw.id
-        io.axi.aw.valid := io.mem.aw.valid
-        io.axi.w.data   := io.mem.w.data
-        io.axi.w.strb   := io.mem.w.strb
-        io.axi.w.valid  := io.mem.w.valid
+      io.mem.aw.ready := !awFullReg
+      io.mem.w.ready  := !wFullReg
 
-        io.mem.aw.ready := io.axi.aw.ready && io.axi.w.ready
-        io.mem.w.ready  := io.axi.aw.ready && io.axi.w.ready
+      val writePendingOrIncoming = awFullReg || wFullReg || io.mem.aw.valid || io.mem.w.valid
+      when (writePendingOrIncoming) {
+        when (memAwFire) {
+          awAddrReg := io.mem.aw.addr
+          awIdReg   := io.mem.aw.id
+          awFullReg := true.B
+        }
+        when (memWFire) {
+          wDataReg  := io.mem.w.data
+          wStrbReg  := io.mem.w.strb
+          wFullReg  := true.B
+        }
 
-        when (io.axi.aw.valid && io.axi.aw.ready && io.axi.w.valid && io.axi.w.ready) {
-          state := sLSUWRITE
+        when ((awFullReg || memAwFire) && (wFullReg || memWFire)) {
+          awSentReg := false.B
+          wSentReg  := false.B
+          state     := sWRITEREQ
         }
       }.elsewhen (io.mem.ar.valid) {
+        io.mem.ar.ready := true.B
         io.axi.ar.addr  := io.mem.ar.addr
         io.axi.ar.id    := io.mem.ar.id
-        io.axi.ar.valid := io.mem.ar.valid
-        io.mem.ar.ready := io.axi.ar.ready
-
-        when (io.axi.ar.valid && io.axi.ar.ready) {
-          state := sLSUREAD
+        io.axi.ar.valid := true.B
+        when (memArFire) {
+          readAddrReg    := io.mem.ar.addr
+          readIdReg      := io.mem.ar.id
+          readFromMemReg := true.B
+          state          := Mux(axiArFire, sLSUREAD, sREADREQ)
         }
       }.elsewhen (io.ifu.ar.valid) {
+        io.ifu.ar.ready := true.B
         io.axi.ar.addr  := io.ifu.ar.addr
         io.axi.ar.id    := io.ifu.ar.id
-        io.axi.ar.valid := io.ifu.ar.valid
-        io.ifu.ar.ready := io.axi.ar.ready
-
-        when (io.axi.ar.valid && io.axi.ar.ready) {
-          state := sIFUREAD
+        io.axi.ar.valid := true.B
+        when (ifuArFire) {
+          readAddrReg    := io.ifu.ar.addr
+          readIdReg      := io.ifu.ar.id
+          readFromMemReg := false.B
+          state          := Mux(axiArFire, sIFUREAD, sREADREQ)
         }
+      }
+    }
+
+    is (sREADREQ) {
+      io.axi.ar.addr  := readAddrReg
+      io.axi.ar.id    := readIdReg
+      io.axi.ar.valid := true.B
+
+      when (axiArFire) {
+        state := Mux(readFromMemReg, sLSUREAD, sIFUREAD)
       }
     }
 
@@ -100,6 +142,29 @@ class AxiArbiter extends Module {
 
       when (io.axi.r.valid && io.mem.r.ready) {
         state := sIDLE
+      }
+    }
+
+    is (sWRITEREQ) {
+      io.axi.aw.addr  := awAddrReg
+      io.axi.aw.id    := awIdReg
+      io.axi.aw.valid := awFullReg && !awSentReg
+      io.axi.w.data   := wDataReg
+      io.axi.w.strb   := wStrbReg
+      io.axi.w.valid  := wFullReg && !wSentReg
+
+      val awDone = awSentReg || axiAwFire
+      val wDone  = wSentReg  || axiWFire
+
+      when (awDone && wDone) {
+        awFullReg := false.B
+        wFullReg  := false.B
+        awSentReg := false.B
+        wSentReg  := false.B
+        state     := sLSUWRITE
+      }.otherwise {
+        when (axiAwFire) { awSentReg := true.B }
+        when (axiWFire)  { wSentReg  := true.B }
       }
     }
 

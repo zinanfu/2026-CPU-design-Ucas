@@ -25,18 +25,40 @@ class AxiUart extends Module {
     rvalidReg := false.B
   }
 
-  io.axi.aw.ready := !bvalidReg
-  io.axi.w.ready  := !bvalidReg
+  val awAddrReg = RegInit(0.U(32.W))
+  val awFullReg = RegInit(false.B)
+  val wDataReg = RegInit(0.U(32.W))
+  val wFullReg = RegInit(false.B)
+
+  io.axi.aw.ready := !awFullReg && !bvalidReg
+  io.axi.w.ready  := !wFullReg && !bvalidReg
   io.axi.b.resp   := 0.U
   io.axi.b.valid  := bvalidReg
 
-  val writeFire = io.axi.aw.valid && io.axi.aw.ready && io.axi.w.valid && io.axi.w.ready
+  val awFire = io.axi.aw.valid && io.axi.aw.ready
+  val wFire  = io.axi.w.valid  && io.axi.w.ready
+  val writeAddr = Mux(awFullReg, awAddrReg, io.axi.aw.addr)
+  val writeData = Mux(wFullReg, wDataReg, io.axi.w.data)
+  val writeFire = !bvalidReg && (awFullReg || awFire) && (wFullReg || wFire)
+
   when (writeFire) {
+    awFullReg := false.B
+    wFullReg  := false.B
     bvalidReg := true.B
-    when (io.axi.aw.addr === UART_ADDR) {
-      printf("%c", io.axi.w.data(7, 0))
+    when (writeAddr === UART_ADDR) {
+      printf("%c", writeData(7, 0))
     }
-  }.elsewhen (io.axi.b.valid && io.axi.b.ready) {
-    bvalidReg := false.B
+  }.otherwise {
+    when (awFire) {
+      awAddrReg := io.axi.aw.addr
+      awFullReg := true.B
+    }
+    when (wFire) {
+      wDataReg := io.axi.w.data
+      wFullReg := true.B
+    }
+    when (io.axi.b.valid && io.axi.b.ready) {
+      bvalidReg := false.B
+    }
   }
 }

@@ -27,7 +27,7 @@ class MEM extends Module {
   })
   
   val mem_rdata = WireDefault(0.U(32.W))
-  val sIDLE :: sREAD :: sWRITE :: Nil = Enum(3)
+  val sIDLE :: sREAD :: sWRITEREQ :: sWRITE :: Nil = Enum(4)
   val state = RegInit(sIDLE)
   val in = io.in.bits
   val reqReg = Reg(new ExToMemMessage)  // 保存访存指令
@@ -63,6 +63,13 @@ class MEM extends Module {
   io.axi_mem.w.valid       := false.B
   io.axi_mem.b.ready       := false.B
 
+  val awSentReg = RegInit(false.B)
+  val wSentReg = RegInit(false.B)
+
+  val axiArFire = io.axi_mem.ar.valid && io.axi_mem.ar.ready
+  val axiAwFire = io.axi_mem.aw.valid && io.axi_mem.aw.ready
+  val axiWFire  = io.axi_mem.w.valid  && io.axi_mem.w.ready
+
   // axi
   when (state === sIDLE) {
     when (io.in.valid) {
@@ -72,23 +79,16 @@ class MEM extends Module {
         io.axi_mem.ar.valid := true.B
         io.in.ready         := io.axi_mem.ar.ready
 
-        when (io.axi_mem.ar.valid && io.axi_mem.ar.ready) {
+        when (axiArFire) {
           reqReg := in
           state  := sREAD
         }
       }.elsewhen (in.mem_wen) {
-        io.axi_mem.aw.addr  := in.mem_addr
-        io.axi_mem.aw.id    := 1.U
-        io.axi_mem.aw.valid := true.B
-        io.axi_mem.w.data   := in.mem_wdata
-        io.axi_mem.w.strb   := in.mem_wmask
-        io.axi_mem.w.valid  := true.B
-        io.in.ready         := io.axi_mem.aw.ready && io.axi_mem.w.ready
-
-        when (io.axi_mem.aw.valid && io.axi_mem.aw.ready && io.axi_mem.w.valid && io.axi_mem.w.ready) {
-          reqReg := in
-          state  := sWRITE
-        }
+        reqReg      := in
+        awSentReg   := false.B
+        wSentReg    := false.B
+        io.in.ready := true.B
+        state       := sWRITEREQ
       }.otherwise { // 非访存
         io.in.ready  := io.out.ready
         io.out.valid := true.B
@@ -105,6 +105,27 @@ class MEM extends Module {
 
     when (io.axi_mem.r.valid && io.axi_mem.r.ready) {
       state := sIDLE
+    }
+  }.elsewhen (state === sWRITEREQ) {
+    io.in.ready := false.B
+
+    io.axi_mem.aw.addr  := req.mem_addr
+    io.axi_mem.aw.id    := 1.U
+    io.axi_mem.aw.valid := !awSentReg
+    io.axi_mem.w.data   := req.mem_wdata
+    io.axi_mem.w.strb   := req.mem_wmask
+    io.axi_mem.w.valid  := !wSentReg
+
+    val awDone = awSentReg || axiAwFire
+    val wDone  = wSentReg  || axiWFire
+
+    when (awDone && wDone) {
+      awSentReg := false.B
+      wSentReg  := false.B
+      state     := sWRITE
+    }.otherwise {
+      when (axiAwFire) { awSentReg := true.B }
+      when (axiWFire)  { wSentReg  := true.B }
     }
   }.elsewhen (state === sWRITE) {
     io.in.ready := false.B

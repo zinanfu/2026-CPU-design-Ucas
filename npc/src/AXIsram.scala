@@ -17,16 +17,13 @@ class AXIsram extends Module {
   val rvalidReg = RegInit(false.B)
   val rdataReg  = RegInit(0.U(32.W))
 
-  io.axi.ar.ready := true.B
+  io.axi.ar.ready := !rvalidReg
 
   val arFire = io.axi.ar.valid && io.axi.ar.ready
 
   paddrRead.io.addr    := Mux(arFire, io.axi.ar.addr, 0.U)
   paddrRead.io.len     := 4.U
   paddrRead.io.is_inst := arFire && io.axi.ar.id === 0.U
-
-  val arFire_d = RegNext(arFire, false.B)
-  val rdata_d  = RegNext(paddrRead.io.data, 0.U(32.W))
 
   when (arFire) {
     rvalidReg := true.B
@@ -40,20 +37,31 @@ class AXIsram extends Module {
   io.axi.r.resp  := 0.U
 
   // write
-  io.axi.aw.ready := true.B
-  io.axi.w.ready  := true.B
+  val awAddrReg = RegInit(0.U(32.W))
+  val awIdReg = RegInit(0.U(1.W))
+  val awFullReg = RegInit(false.B)
+  val wDataReg = RegInit(0.U(32.W))
+  val wStrbReg = RegInit(0.U(4.W))
+  val wFullReg = RegInit(false.B)
+  val bvalidReg = RegInit(false.B)
 
-  val awFire    = io.axi.aw.valid && io.axi.aw.ready
-  val wFire     = io.axi.w.valid  && io.axi.w.ready
+  io.axi.aw.ready := !awFullReg && !bvalidReg
+  io.axi.w.ready  := !wFullReg && !bvalidReg
 
-  val writeFire = awFire && wFire
-  val bvalidreg = RegInit(false.B)
+  val awFire = io.axi.aw.valid && io.axi.aw.ready
+  val wFire  = io.axi.w.valid  && io.axi.w.ready
 
-  paddrWrite.io.wen     := writeFire
-  paddrWrite.io.addr    := Mux(writeFire, io.axi.aw.addr, 0.U)
-  paddrWrite.io.data    := io.axi.w.data
-  paddrWrite.io.wmask   := Mux(writeFire, Cat(Fill(28, 0.U), io.axi.w.strb), 0.U)
-  paddrWrite.io.len     := MuxLookup(io.axi.w.strb, 4.U)(Seq(
+  val writeAddr = Mux(awFullReg, awAddrReg, io.axi.aw.addr)
+  val writeId   = Mux(awFullReg, awIdReg, io.axi.aw.id)
+  val writeData = Mux(wFullReg, wDataReg, io.axi.w.data)
+  val writeStrb = Mux(wFullReg, wStrbReg, io.axi.w.strb)
+  val writeFire = !bvalidReg && (awFullReg || awFire) && (wFullReg || wFire)
+
+  paddrWrite.io.wen   := writeFire
+  paddrWrite.io.addr  := Mux(writeFire, writeAddr, 0.U)
+  paddrWrite.io.data  := writeData
+  paddrWrite.io.wmask := Mux(writeFire, Cat(Fill(28, 0.U), writeStrb), 0.U)
+  paddrWrite.io.len   := MuxLookup(writeStrb, 4.U)(Seq(
     "b0001".U -> 1.U,
     "b0010".U -> 1.U,
     "b0100".U -> 1.U,
@@ -62,18 +70,28 @@ class AXIsram extends Module {
     "b1100".U -> 2.U,
     "b1111".U -> 4.U
   ))
-  paddrWrite.io.is_inst := writeFire && io.axi.aw.id === 0.U
+  paddrWrite.io.is_inst := writeFire && writeId === 0.U
 
   when (writeFire) {
-    bvalidreg := true.B
-  }.elsewhen (io.axi.b.valid && io.axi.b.ready) {
-    bvalidreg := false.B
+    awFullReg := false.B
+    wFullReg  := false.B
+    bvalidReg := true.B
+  }.otherwise {
+    when (awFire) {
+      awAddrReg := io.axi.aw.addr
+      awIdReg   := io.axi.aw.id
+      awFullReg := true.B
+    }
+    when (wFire) {
+      wDataReg := io.axi.w.data
+      wStrbReg := io.axi.w.strb
+      wFullReg := true.B
+    }
+    when (io.axi.b.valid && io.axi.b.ready) {
+      bvalidReg := false.B
+    }
   }
 
-  io.axi.b.valid := bvalidreg
-
-  // val writeFire_d = RegNext(writeFire, false.B)
-
-  // io.axi.b.valid := writeFire_d
+  io.axi.b.valid := bvalidReg
   io.axi.b.resp  := 0.U
 }
