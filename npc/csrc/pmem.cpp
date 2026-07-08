@@ -4,7 +4,11 @@
 #include <cstring>
 #include <cassert>
 #include <sys/time.h>
-#include <fcntl.h>
+#include <cerrno>
+#include <csignal>
+#include <deque>
+#include <mutex>
+#include <thread>
 #include <termios.h>
 #include <unistd.h>
 
@@ -18,16 +22,36 @@ static uint64_t rtc_boot_us = 0;
 
 static int uart_rx_cached = -1;
 static bool uart_stdin_ready = false;
-static int uart_stdin_flags = -1;
 static struct termios uart_stdin_termios;
 static bool uart_stdin_has_termios = false;
+static std::mutex uart_rx_lock;
+static std::deque<unsigned char> uart_rx_queue;
 
 static void restore_uart_stdin() {
-    if (uart_stdin_flags >= 0) {
-        fcntl(STDIN_FILENO, F_SETFL, uart_stdin_flags);
-    }
     if (uart_stdin_has_termios) {
         tcsetattr(STDIN_FILENO, TCSANOW, &uart_stdin_termios);
+        uart_stdin_has_termios = false;
+    }
+}
+
+static void handle_uart_signal(int sig) {
+    restore_uart_stdin();
+    signal(sig, SIG_DFL);
+    raise(sig);
+}
+
+static void uart_input_thread() {
+    while (true) {
+        unsigned char ch = 0;
+        ssize_t n = read(STDIN_FILENO, &ch, 1);
+        if (n == 1) {
+            std::lock_guard<std::mutex> guard(uart_rx_lock);
+            uart_rx_queue.push_back(ch);
+        } else if (n == 0) {
+            usleep(10000);
+        } else if (errno != EINTR) {
+            usleep(10000);
+        }
     }
 }
 
@@ -45,13 +69,11 @@ static void init_uart_stdin() {
         }
     }
 
-    int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
-    if (flags >= 0) {
-        uart_stdin_flags = flags;
-        fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
-    }
-
     atexit(restore_uart_stdin);
+    signal(SIGINT, handle_uart_signal);
+    signal(SIGTERM, handle_uart_signal);
+
+    std::thread(uart_input_thread).detach();
 }
 
 static int uart_rx_peek() {
@@ -61,13 +83,12 @@ static int uart_rx_peek() {
         return uart_rx_cached;
     }
 
-    unsigned char ch = 0;
-    ssize_t n = read(STDIN_FILENO, &ch, 1);
-    if (n == 1) {
-        uart_rx_cached = ch;
+    std::lock_guard<std::mutex> guard(uart_rx_lock);
+    if (!uart_rx_queue.empty()) {
+        uart_rx_cached = uart_rx_queue.front();
+        uart_rx_queue.pop_front();
         return uart_rx_cached;
     }
-
     return -1;
 }
 
