@@ -59,7 +59,7 @@ class Xbar extends Module {
     is (sIDLE) {
       // io.in.ar.ready := arReady
 
-      when (io.in.aw.addr === UART_ADDR || io.in.ar.addr === UART_ADDR) {
+      when (io.in.aw.addr === UART_ADDR) {
         io.in.ar.ready := UartArReady
         io.in.aw.ready := UartWriteReady
         io.in.w.ready  := UartWriteReady
