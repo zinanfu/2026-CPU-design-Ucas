@@ -1,0 +1,216 @@
+From f47a83f0804f173b0dfd4d868fc5ff1920007579 Mon Sep 17 00:00:00 2001
+From: 2023K8009929017-Fu Zinan <fuzinan23@mails.ucas.ac.cn>
+Date: Sun, 5 Jul 2026 10:41:37 +0800
+Subject: [PATCH 1/2] RT-thread done
+
+---
+ bsp/abstract-machine/src/context.c | 130 +++++++++++++++++++++++++++--
+ bsp/abstract-machine/src/uart.c    |  29 +++++++
+ 2 files changed, 153 insertions(+), 6 deletions(-)
+
+diff --git a/bsp/abstract-machine/src/context.c b/bsp/abstract-machine/src/context.c
+index ee38829ae..68988239d 100644
+--- a/bsp/abstract-machine/src/context.c
++++ b/bsp/abstract-machine/src/context.c
+@@ -2,8 +2,79 @@
+ #include <klib.h>
+ #include <rtthread.h>
+ 
++typedef struct {
++  void (*tentry)(void *);
++  void *parameter;
++  void (*texit)(void);
++} thread_args_t;
++
++// 全局变量（多线程后删除）
++// static rt_ubase_t tran_from;
++// static rt_ubase_t tran_to;
++
++// PCB 传参
++typedef struct {
++  rt_ubase_t from;
++  rt_ubase_t to;
++  rt_ubase_t saved_user_data;
++}switch_info_t;
++
++// 包裹函数: kcontext() 的真正入口
++// kcontext 通过 GPR1 将 arg (指向 thread_args_t 的指针) 传入
++// __am_kcontext_start 会调用 entry(arg), 即 thread_wrapper(args)
++// 若 tentry 返回, 则调用 texit (RT-Thread 保证 texit 不会返回)
++static void thread_wrapper(void *arg) {
++  thread_args_t *args = (thread_args_t *)arg;
++  // 暂存，以免被栈覆盖
++  void (*tentry)(void *) = args->tentry;
++  void *parameter         = args->parameter;
++  void (*texit)(void)     = args->texit;
++  tentry(parameter);
++  texit();
++}
++
++static Context* do_yield(Context *c) {
++  // if (tran_from) {
++  //   *(Context **)tran_from = c;
++  // }
++
++  rt_thread_t self = rt_thread_self();
++
++  switch_info_t *info = (switch_info_t *)self->user_data;
++
++  self->user_data = info->saved_user_data;
++
++  if (info->from) {
++    *(Context **)info->from = c;
++  }
++
++  return *(Context **)info->to;
++
++}
++
++
++static Context *intr_switch_to   = NULL;
++static rt_ubase_t intr_switch_from = 0;
++
+ static Context* ev_handler(Event e, Context *c) {
+   switch (e.event) {
++    case EVENT_YIELD: return do_yield(c);
++    case EVENT_IRQ_TIMER:
++      rt_interrupt_enter();
++      rt_tick_increase();
++      rt_interrupt_leave();
++      if (intr_switch_to) {
++        
++        if (intr_switch_from) {
++          *(Context **)intr_switch_from = c;
++        }
++        Context *to = intr_switch_to;
++        intr_switch_to   = NULL;
++        intr_switch_from = 0;
++        return to;
++      }
++      break;
++    // case EVENT_ERROR: printf("Error: event wrong\n"); break;
+     default: printf("Unhandled event ID = %d\n", e.event); assert(0);
+   }
+   return c;
+@@ -14,18 +85,65 @@ void __am_cte_init() {
+ }
+ 
+ void rt_hw_context_switch_to(rt_ubase_t to) {
+-  assert(0);
++  // assert(0);
++
++  rt_thread_t self = rt_thread_self();
++  switch_info_t info;
++
++  info.from = 0;
++  info.to = to;
++  info.saved_user_data = self->user_data;
++
++  self->user_data = (rt_ubase_t)&info;
++
++  // iset(1);
++  yield();
++  // iset(0);
++
++  // 保险代码
++  self->user_data = info.saved_user_data;
++
+ }
+ 
+ void rt_hw_context_switch(rt_ubase_t from, rt_ubase_t to) {
+-  assert(0);
++  // assert(0);
++  // printf("[SWITCH]\n");
++  rt_thread_t self = rt_thread_self();
++  switch_info_t info;
++
++  info.from = from;
++  info.to = to;
++  info.saved_user_data = self->user_data;
++
++  self->user_data = (rt_ubase_t)&info;
++
++  // iset(1);
++  yield();
++  // iset(0);
++
++  self->user_data = info.saved_user_data;
+ }
+ 
+-void rt_hw_context_switch_interrupt(void *context, rt_ubase_t from, rt_ubase_t to, struct rt_thread *to_thread) {
+-  assert(0);
++void rt_hw_context_switch_interrupt(rt_ubase_t from, rt_ubase_t to,
++                                    rt_thread_t from_thread,
++                                    rt_thread_t to_thread) {
++  intr_switch_from = from;
++  intr_switch_to   = *(Context **)to;
+ }
+ 
+ rt_uint8_t *rt_hw_stack_init(void *tentry, void *parameter, rt_uint8_t *stack_addr, void *texit) {
+-  assert(0);
+-  return NULL;
++
++  // 对齐到 sizeof(uintptr_t)
++  stack_addr = (rt_uint8_t *)((uintptr_t)stack_addr & ~(sizeof(uintptr_t) - 1));
++
++  // kcontext 将 Context 放在 kstack.end - sizeof(Context) 处，将 thread_args_t 放在 Context 的下方 (低地址方向)
++  thread_args_t *args = (thread_args_t *)((uint8_t *)stack_addr - sizeof(Context) - sizeof(thread_args_t));
++
++  args->tentry    = (void (*)(void *))tentry;
++  args->parameter = parameter;
++  args->texit     = (void (*)(void))texit;
++
++  Area kstack = { .start = args, .end = stack_addr };
++
++  return (rt_uint8_t *)kcontext(kstack, thread_wrapper, args);
+ }
+diff --git a/bsp/abstract-machine/src/uart.c b/bsp/abstract-machine/src/uart.c
+index e4eb86689..150d21cb8 100644
+--- a/bsp/abstract-machine/src/uart.c
++++ b/bsp/abstract-machine/src/uart.c
+@@ -11,6 +11,9 @@
+ #include <rtthread.h>
+ #include <am.h>
+ #include <klib.h>
++#ifdef __ISA_NATIVE__
++#include <stdio.h>
++#endif
+ 
+ #define UART_DEFAULT_BAUDRATE 115200
+ 
+@@ -39,6 +42,32 @@ static int _uart_putc(struct rt_serial_device *serial, char c) {
+ static int _uart_getc(struct rt_serial_device *serial) {
+   static const char *p = "help\ndate\nversion\nfree\nps\npwd\nls\nmemtrace\nmemcheck\nutest_list\n";
+   return (*p != '\0' ? *(p ++) : -1);
++
++// #ifdef __ISA_NATIVE__
++//   /* AM library sets stdin to O_NONBLOCK, so fgetc() returns EOF
++//    * immediately when no input is ready.  Sleep 1 tick (10 ms) to
++//    * let timer interrupts fire and other threads run. */
++//   int ch = fgetc(stdin);
++//   if (ch != EOF) return ch;
++//   rt_thread_mdelay(1);
++//   return -1;
++// #else
++//   /* Poll 16550-compatible UART via MMIO.
++//    * Offset 5 = LSR (Line Status Register), bit 0 = Data Ready
++//    * Offset 0 = RBR (Receiver Buffer Register / RX data)
++//    *
++//    * If the NPC simulator does not implement UART RX yet, LSR
++//    * always reads 0 and we fall through to the delay below so the
++//    * shell thread does not busy-spin. */
++//   uintptr_t base = (uintptr_t)uart0_base;
++//   if (*(volatile uint8_t *)(base + 5) & 0x01) {
++//     return *(volatile uint8_t *)base;
++//   }
++//   /* No character available – sleep one tick to avoid starving
++//    * other threads (idle, timer) while waiting for input. */
++//   rt_thread_mdelay(1);
++//   return -1;
++// #endif
+ }
+ 
+ const struct rt_uart_ops _uart_ops = {
+-- 
+2.34.1
+

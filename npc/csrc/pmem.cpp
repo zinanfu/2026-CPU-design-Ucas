@@ -4,13 +4,122 @@
 #include <cstring>
 #include <cassert>
 #include <sys/time.h>
+#include <cerrno>
+#include <csignal>
+#include <deque>
+#include <mutex>
+#include <thread>
+#include <termios.h>
+#include <unistd.h>
 
 static uint8_t *pmem = nullptr;
 static size_t pmem_size = 0;
 static uint32_t pmem_base_addr = 0;
 static uint64_t rtc_boot_us = 0;
 
+#define SERIAL_LSR_PORT (SERIAL_PORT + 5)
+#define UART_LSR_DR 0x01u
+
+static int uart_rx_cached = -1;
+static bool uart_stdin_ready = false;
+static struct termios uart_stdin_termios;
+static bool uart_stdin_has_termios = false;
+static std::mutex uart_rx_lock;
+static std::deque<unsigned char> uart_rx_queue;
+
+static void restore_uart_stdin() {
+    if (uart_stdin_has_termios) {
+        tcsetattr(STDIN_FILENO, TCSANOW, &uart_stdin_termios);
+        uart_stdin_has_termios = false;
+    }
+}
+
+static void handle_uart_signal(int sig) {
+    restore_uart_stdin();
+    signal(sig, SIG_DFL);
+    raise(sig);
+}
+
+static void uart_input_thread() {
+    while (true) {
+        unsigned char ch = 0;
+        ssize_t n = read(STDIN_FILENO, &ch, 1);
+        if (n == 1) {
+            std::lock_guard<std::mutex> guard(uart_rx_lock);
+            uart_rx_queue.push_back(ch);
+        } else if (n == 0) {
+            usleep(10000);
+        } else if (errno != EINTR) {
+            usleep(10000);
+        }
+    }
+}
+
+static void init_uart_stdin() {
+    if (uart_stdin_ready) return;
+    uart_stdin_ready = true;
+
+    if (isatty(STDIN_FILENO) && tcgetattr(STDIN_FILENO, &uart_stdin_termios) == 0) {
+        struct termios raw = uart_stdin_termios;
+        raw.c_lflag &= ~(ICANON | ECHO);
+        raw.c_cc[VMIN] = 1;
+        raw.c_cc[VTIME] = 0;
+        if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) == 0) {
+            uart_stdin_has_termios = true;
+        }
+    }
+
+    atexit(restore_uart_stdin);
+    signal(SIGINT, handle_uart_signal);
+    signal(SIGTERM, handle_uart_signal);
+
+    std::thread(uart_input_thread).detach();
+}
+
+static int uart_rx_peek() {
+    init_uart_stdin();
+
+    if (uart_rx_cached >= 0) {
+        return uart_rx_cached;
+    }
+
+    std::lock_guard<std::mutex> guard(uart_rx_lock);
+    if (!uart_rx_queue.empty()) {
+        uart_rx_cached = uart_rx_queue.front();
+        uart_rx_queue.pop_front();
+        return uart_rx_cached;
+    }
+    return -1;
+}
+
+static int uart_rx_pop() {
+    int ch = uart_rx_peek();
+    if (ch >= 0) {
+        uart_rx_cached = -1;
+    }
+    return ch;
+}
+
+static uint32_t uart_read(uint32_t addr) {
+    if (addr == SERIAL_PORT) {
+        int ch = uart_rx_pop();
+        return ch >= 0 ? (uint8_t)ch : 0;
+    }
+
+    uint32_t lsr = uart_rx_peek() >= 0 ? UART_LSR_DR : 0;
+    if (addr == SERIAL_LSR_PORT) {
+        return lsr;
+    }
+    if (addr == (SERIAL_LSR_PORT & ~0x3u)) {
+        return lsr << ((SERIAL_LSR_PORT & 0x3u) * 8);
+    }
+
+    return 0;
+}
+
 void init_pmem(size_t size, uint32_t base) {
+    init_uart_stdin();
+
     if (pmem) {
         free_pmem();
     }
@@ -76,6 +185,9 @@ extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
 
         
 
+        if (addr >= SERIAL_PORT && addr < SERIAL_PORT + 8) {
+            return uart_read(addr);
+        }
 
         // MMIO: provide RTC value (microseconds since start)
         if (addr == RTC_ADDR || addr == RTC_ADDR + 4) {

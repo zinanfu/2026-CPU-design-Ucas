@@ -12,6 +12,7 @@ class Xbar extends Module {
   })
 
   val UART_ADDR = "h10000000".U(32.W)
+  val UART_END  = "h10000008".U(32.W)
   val RTC_ADDR  = "h10000010".U(32.W)
 
   val tMem :: tUart :: tClint :: Nil = Enum(3)
@@ -34,8 +35,12 @@ class Xbar extends Module {
   val awSentReg = RegInit(false.B)
   val wSentReg = RegInit(false.B)
 
+  def isUartAddr(addr: UInt): Bool = {
+    addr >= UART_ADDR && addr < UART_END
+  }
+
   def addrTarget(addr: UInt): UInt = {
-    Mux(addr === UART_ADDR, tUart,
+    Mux(isUartAddr(addr), tUart,
       Mux(addr === RTC_ADDR || addr === RTC_ADDR + 4.U, tClint, tMem))
   }
 

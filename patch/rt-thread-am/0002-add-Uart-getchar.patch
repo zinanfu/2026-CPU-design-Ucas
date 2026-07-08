@@ -1,0 +1,67 @@
+From 630b42c2c2a0d918cfcc548f088008136d511e3d Mon Sep 17 00:00:00 2001
+From: 2023K8009929017-Fu Zinan <fuzinan23@mails.ucas.ac.cn>
+Date: Thu, 9 Jul 2026 01:46:15 +0800
+Subject: [PATCH 2/2] add Uart getchar
+
+---
+ bsp/abstract-machine/src/uart.c | 43 +++++++++++++--------------------
+ 1 file changed, 17 insertions(+), 26 deletions(-)
+
+diff --git a/bsp/abstract-machine/src/uart.c b/bsp/abstract-machine/src/uart.c
+index 150d21cb8..f31acfa8e 100644
+--- a/bsp/abstract-machine/src/uart.c
++++ b/bsp/abstract-machine/src/uart.c
+@@ -41,33 +41,24 @@ static int _uart_putc(struct rt_serial_device *serial, char c) {
+ 
+ static int _uart_getc(struct rt_serial_device *serial) {
+   static const char *p = "help\ndate\nversion\nfree\nps\npwd\nls\nmemtrace\nmemcheck\nutest_list\n";
+-  return (*p != '\0' ? *(p ++) : -1);
++  if (*p != '\0') {
++    return *(p ++);
++  }
+ 
+-// #ifdef __ISA_NATIVE__
+-//   /* AM library sets stdin to O_NONBLOCK, so fgetc() returns EOF
+-//    * immediately when no input is ready.  Sleep 1 tick (10 ms) to
+-//    * let timer interrupts fire and other threads run. */
+-//   int ch = fgetc(stdin);
+-//   if (ch != EOF) return ch;
+-//   rt_thread_mdelay(1);
+-//   return -1;
+-// #else
+-//   /* Poll 16550-compatible UART via MMIO.
+-//    * Offset 5 = LSR (Line Status Register), bit 0 = Data Ready
+-//    * Offset 0 = RBR (Receiver Buffer Register / RX data)
+-//    *
+-//    * If the NPC simulator does not implement UART RX yet, LSR
+-//    * always reads 0 and we fall through to the delay below so the
+-//    * shell thread does not busy-spin. */
+-//   uintptr_t base = (uintptr_t)uart0_base;
+-//   if (*(volatile uint8_t *)(base + 5) & 0x01) {
+-//     return *(volatile uint8_t *)base;
+-//   }
+-//   /* No character available – sleep one tick to avoid starving
+-//    * other threads (idle, timer) while waiting for input. */
+-//   rt_thread_mdelay(1);
+-//   return -1;
+-// #endif
++#ifdef __ISA_NATIVE__
++  int ch = fgetc(stdin);
++  if (ch != EOF) {
++    return ch;
++  }
++  rt_thread_mdelay(1);
++#else
++  uintptr_t base = (uintptr_t)uart0_base;
++  if (*(volatile uint8_t *)(base + 5) & 0x01) {
++    return *(volatile uint8_t *)base;
++  }
++#endif
++
++  return -1;
+ }
+ 
+ const struct rt_uart_ops _uart_ops = {
+-- 
+2.34.1
+
