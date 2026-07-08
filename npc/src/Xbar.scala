@@ -41,7 +41,7 @@ class Xbar extends Module {
 
   def addrTarget(addr: UInt): UInt = {
     Mux(isUartAddr(addr), tUart,
-      Mux(addr === RTC_ADDR || addr === RTC_ADDR + 4.U, tClint, tMem))
+    Mux(addr === RTC_ADDR || addr === RTC_ADDR + 4.U, tClint, tMem))
   }
 
   // default
