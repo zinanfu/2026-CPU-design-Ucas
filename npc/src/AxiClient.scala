@@ -35,8 +35,6 @@ class AxiClient extends Module {
     rvalidReg := false.B
   }
 
-  
-
   io.axi.aw.ready := !awFullReg && !bvalidReg
   io.axi.w.ready  := !wFullReg && !bvalidReg
   io.axi.b.resp   := 0.U
