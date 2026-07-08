@@ -142,22 +142,21 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         CData/*0:0*/ CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_2;
         CData/*2:0*/ CpuTop__DOT__xbar__DOT__state;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT__arFire;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT__writeFire;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_0;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_1;
-    };
-    struct {
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_2;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_3;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_4;
+    };
+    struct {
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_5;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_6;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_7;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_0;
-        CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_3;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_8;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT___GEN_9;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_4;
         CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_5;
+        CData/*0:0*/ CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_6;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__io_axi_ar_valid;
         CData/*3:0*/ CpuTop__DOT__axiSram__DOT__io_axi_w_strb;
         CData/*0:0*/ CpuTop__DOT__axiSram__DOT__rvalidReg;
@@ -212,9 +211,9 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         IData/*31:0*/ CpuTop__DOT__reg_3_wb_data;
         IData/*31:0*/ CpuTop__DOT__ifu__DOT__pc;
         IData/*31:0*/ CpuTop__DOT__ifu__DOT__reqPcReg;
+        IData/*31:0*/ CpuTop__DOT__ifu__DOT__outPcReg;
     };
     struct {
-        IData/*31:0*/ CpuTop__DOT__ifu__DOT__outPcReg;
         IData/*31:0*/ CpuTop__DOT__ifu__DOT__outInstReg;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__immI;
         IData/*31:0*/ CpuTop__DOT__idu__DOT__regfile__DOT__io_rdata1;
@@ -278,8 +277,6 @@ class alignas(VL_CACHE_LINE_BYTES) VCpuTop___024root final {
         VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
         VlUnpacked<QData/*63:0*/, 1> __VnbaTriggered;
-    };
-    struct {
         VlUnpacked<CData/*0:0*/, 3> __Vm_traceActivity;
     };
 
