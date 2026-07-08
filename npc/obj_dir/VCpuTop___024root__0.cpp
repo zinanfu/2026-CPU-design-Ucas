@@ -92,8 +92,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
     __Vdly__CpuTop__DOT__axiArbiter__DOT__awSentReg = 0;
     CData/*0:0*/ __Vdly__CpuTop__DOT__axiArbiter__DOT__awIdReg;
     __Vdly__CpuTop__DOT__axiArbiter__DOT__awIdReg = 0;
-    CData/*0:0*/ __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg;
-    __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg = 0;
     CData/*0:0*/ __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg;
     __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg = 0;
     CData/*0:0*/ __Vdly__CpuTop__DOT__xbar__DOT__awFullReg;
@@ -115,8 +113,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         = vlSelfRef.CpuTop__DOT__axiArbiter__DOT__awSentReg;
     __Vdly__CpuTop__DOT__axiArbiter__DOT__wSentReg 
         = vlSelfRef.CpuTop__DOT__axiArbiter__DOT__wSentReg;
-    __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg 
-        = vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readFromMemReg;
     __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg 
         = vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg;
     __Vdly__CpuTop__DOT__mem__DOT__wSentReg = vlSelfRef.CpuTop__DOT__mem__DOT__wSentReg;
@@ -263,7 +259,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         __Vdly__CpuTop__DOT__ifu__DOT__state = 0U;
         __Vdly__CpuTop__DOT__axiArbiter__DOT__awSentReg = 0U;
         __Vdly__CpuTop__DOT__axiArbiter__DOT__wSentReg = 0U;
-        __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg = 0U;
         __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg = 0U;
         __Vdly__CpuTop__DOT__mem__DOT__wSentReg = 0U;
         __Vdly__CpuTop__DOT__mem__DOT__awSentReg = 0U;
@@ -333,7 +328,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                 = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_16)) 
                    & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__wSentReg));
         } else if ((1U & (~ ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_9) 
-                             | (4U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))))) {
+                             | (2U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))))) {
             __Vdly__CpuTop__DOT__axiArbiter__DOT__awSentReg 
                 = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_12)) 
                    & ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__axiAwFire) 
@@ -345,21 +340,12 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         }
         if ((1U & (~ ((0U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                       | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__writePendingOrIncoming))))) {
-            if (vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid) {
-                __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg 
-                    = ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__memArFire) 
-                       | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readFromMemReg));
-                __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg 
-                    = ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__memArFire) 
-                       | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg));
-            } else {
-                __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg 
-                    = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_2)) 
-                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readFromMemReg));
-                __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg 
-                    = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_2)) 
-                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg));
-            }
+            __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg 
+                = ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)
+                    ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__memArFire) 
+                       | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg))
+                    : ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_2)) 
+                       & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg)));
         }
         if ((0U == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state))) {
             __Vdly__CpuTop__DOT__mem__DOT__wSentReg 
@@ -889,8 +875,6 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         = __Vdly__CpuTop__DOT__axiArbiter__DOT__awSentReg;
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT__wSentReg 
         = __Vdly__CpuTop__DOT__axiArbiter__DOT__wSentReg;
-    vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readFromMemReg 
-        = __Vdly__CpuTop__DOT__axiArbiter__DOT__readFromMemReg;
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg 
         = __Vdly__CpuTop__DOT__axiArbiter__DOT__readIdReg;
     vlSelfRef.CpuTop__DOT__mem__DOT__wSentReg = __Vdly__CpuTop__DOT__mem__DOT__wSentReg;
@@ -1250,7 +1234,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                       | (~ ((1U == (IData)(vlSelfRef.CpuTop__DOT__ifu__DOT__state)) 
                             & (IData)(vlSelfRef.CpuTop__DOT__ifu__DOT___GEN_4))))))) {
             vlSelfRef.CpuTop__DOT__ifu__DOT__outInstReg 
-                = (((2U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+                = (((3U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                     | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_5))
                     ? 0U : vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_data);
         }
@@ -1749,8 +1733,8 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
               & (0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_9 
         = ((1U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-           | ((2U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-              | (3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))));
+           | ((3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+              | (4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_ready 
         = ((0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
            & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_1));
@@ -1783,7 +1767,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                   | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_ready)));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_7 
         = ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_5) 
-           | (2U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)));
+           | (3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_18 
         = ((0U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
            & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_17));
@@ -1791,22 +1775,22 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         = ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__writePendingOrIncoming) 
            & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_0));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_11 
-        = ((4U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+        = ((2U != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
            | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_10));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_1 
         = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_10)) 
-           & (4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)));
+           & (2U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)));
     vlSelfRef.CpuTop__DOT___exu_io_in_ready = (1U & 
                                                ((~ (IData)(vlSelfRef.CpuTop__DOT__reg_valid_2)) 
                                                 | (IData)(vlSelfRef.CpuTop__DOT___mem_io_in_ready)));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_valid 
         = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_7)) 
-           & ((3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+           & ((4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
               & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid)));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT____VdfgRegularize_h6ac6c79f_0_3 
         = ((~ ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_7) 
-               | ((3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
-                  | (4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))))) 
+               | ((4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+                  | (2U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))))) 
            & (5U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)));
     vlSelfRef.CpuTop__DOT__mem__DOT__mem_rdata = ((
                                                    (1U 
@@ -1815,7 +1799,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                                                       == (IData)(vlSelfRef.CpuTop__DOT__mem__DOT__state)))
                                                    ? 0U
                                                    : 
-                                                  (((3U 
+                                                  (((4U 
                                                      != (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                                     | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_7))
                                                     ? 0U
@@ -1999,7 +1983,7 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
         = ((IData)(vlSelfRef.CpuTop__DOT___mem_io_out_valid) 
            & (IData)(vlSelfRef.CpuTop__DOT___mem_io_out_bits_wb_en));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_20 
-        = (1U & ((~ ((4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+        = (1U & ((~ ((2U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                      & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_12))) 
                  | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_9)));
     vlSelfRef.CpuTop__DOT__xbar__DOT___GEN_17 = ((IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__writePendingOrIncoming) 
@@ -2264,15 +2248,15 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
               & ((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_12)) 
                  & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_aw_ready))));
     vlSelfRef.CpuTop__DOT__ifu__DOT___GEN_4 = (((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_5)) 
-                                                & ((2U 
+                                                & ((3U 
                                                     == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                                                    & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid))) 
                                                & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_r_ready));
     vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_ready 
         = ((~ (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_5)) 
-           & ((2U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
+           & ((3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                ? (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_r_ready)
-               : ((3U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
+               : ((4U == (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)) 
                   & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready))));
     vlSelfRef.CpuTop__DOT__ifu__DOT___GEN_3 = ((0U 
                                                 == (IData)(vlSelfRef.CpuTop__DOT__ifu__DOT__state)) 
@@ -2283,30 +2267,30 @@ void VCpuTop___024root___nba_sequent__TOP__0(VCpuTop___024root* vlSelf) {
                 ? (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_15)
                 : ((1U & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                     ? (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_15)
-                    : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_12)
-                        ? 5U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))))
+                    : (((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid) 
+                        & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready))
+                        ? 0U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))))
             : ((2U & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                 ? ((1U & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                     ? (((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid) 
-                        & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_r_ready))
-                        ? 0U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
-                    : (((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_axi_r_valid) 
                         & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_ifu_r_ready))
-                        ? 0U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))
+                        ? 0U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
+                    : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_12)
+                        ? 5U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))
                 : ((1U & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                     ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__axiArFire)
-                        ? (2U | (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readFromMemReg))
-                        : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
+                        ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__readIdReg)
+                            ? 4U : 3U) : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                     : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__writePendingOrIncoming)
                         ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_0)
-                            ? 4U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
+                            ? 2U : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
                         : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__io_mem_ar_valid)
                             ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__memArFire)
-                                ? (1U | ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__axiArFire) 
-                                         << 1U)) : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
-                            : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_2)
                                 ? ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__axiArFire)
-                                    ? 2U : 1U) : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))))));
+                                    ? 4U : 1U) : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state))
+                            : ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT___GEN_2)
+                                ? (1U | ((IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__axiArFire) 
+                                         << 1U)) : (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__state)))))));
     vlSelfRef.CpuTop__DOT__xbar__DOT____VdfgRegularize_h8eba6f27_0_1 
         = ((~ (IData)(vlSelfRef.CpuTop__DOT__xbar__DOT__writePendingOrIncoming)) 
            & (IData)(vlSelfRef.CpuTop__DOT__axiArbiter__DOT__axiArFire));

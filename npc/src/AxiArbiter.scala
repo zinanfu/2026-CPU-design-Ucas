@@ -10,12 +10,11 @@ class AxiArbiter extends Module {
     val axi = new Axi4LiteMasterIO
   })
 
-  val sIDLE :: sREADREQ :: sIFUREAD :: sLSUREAD :: sWRITEREQ :: sLSUWRITE :: Nil = Enum(6)
+  val sIDLE :: sREADREQ :: sWRITEREQ :: sIFUREAD :: sLSUREAD :: sLSUWRITE :: Nil = Enum(6)
   val state = RegInit(sIDLE)
 
   val readAddrReg = RegInit(0.U(32.W))
   val readIdReg = RegInit(0.U(1.W))
-  val readFromMemReg = RegInit(false.B)
 
   val awAddrReg = RegInit(0.U(32.W))
   val awIdReg = RegInit(0.U(1.W))
@@ -96,7 +95,6 @@ class AxiArbiter extends Module {
         when (memArFire) {
           readAddrReg    := io.mem.ar.addr
           readIdReg      := io.mem.ar.id
-          readFromMemReg := true.B
           state          := Mux(axiArFire, sLSUREAD, sREADREQ)
         }
       }.elsewhen (io.ifu.ar.valid) {
@@ -107,7 +105,6 @@ class AxiArbiter extends Module {
         when (ifuArFire) {
           readAddrReg    := io.ifu.ar.addr
           readIdReg      := io.ifu.ar.id
-          readFromMemReg := false.B
           state          := Mux(axiArFire, sIFUREAD, sREADREQ)
         }
       }
@@ -119,7 +116,7 @@ class AxiArbiter extends Module {
       io.axi.ar.valid := true.B
 
       when (axiArFire) {
-        state := Mux(readFromMemReg, sLSUREAD, sIFUREAD)
+        state := Mux(readIdReg === 1.U, sLSUREAD, sIFUREAD)
       }
     }
 
