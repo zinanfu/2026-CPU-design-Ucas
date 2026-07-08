@@ -10,9 +10,10 @@ class AxiArbiter extends Module {
     val mem = new Axi4LiteMasterIO
   })
 
-  val sIdle :: sIFURead :: sLSURead :: sLSUWrite :: Nil = Enum(4)
-  val state = RegInit(sIdle)
+  val sIDLE :: sIFUREAD :: sLSUREAD :: sLSUWRITE :: Nil = Enum(4)
+  val state = RegInit(sIDLE)
 
+  // default
   io.ifu.ar.ready := false.B
   io.ifu.r.data   := 0.U
   io.ifu.r.resp   := 0.U
@@ -42,7 +43,7 @@ class AxiArbiter extends Module {
   io.mem.b.ready  := false.B
 
   switch (state) {
-    is (sIdle) {
+    is (sIDLE) {
       when (io.lsu.aw.valid && io.lsu.w.valid) {
         io.mem.aw.addr  := io.lsu.aw.addr
         io.mem.aw.valid := io.lsu.aw.valid
@@ -54,7 +55,7 @@ class AxiArbiter extends Module {
         io.lsu.w.ready  := io.mem.aw.ready && io.mem.w.ready
 
         when (io.mem.aw.valid && io.mem.aw.ready && io.mem.w.valid && io.mem.w.ready) {
-          state := sLSUWrite
+          state := sLSUWRITE
         }
       }.elsewhen (io.lsu.ar.valid) {
         io.mem.ar.addr  := io.lsu.ar.addr
@@ -62,7 +63,7 @@ class AxiArbiter extends Module {
         io.lsu.ar.ready := io.mem.ar.ready
 
         when (io.mem.ar.valid && io.mem.ar.ready) {
-          state := sLSURead
+          state := sLSUREAD
         }
       }.elsewhen (io.ifu.ar.valid) {
         io.mem.ar.addr  := io.ifu.ar.addr
@@ -70,40 +71,40 @@ class AxiArbiter extends Module {
         io.ifu.ar.ready := io.mem.ar.ready
 
         when (io.mem.ar.valid && io.mem.ar.ready) {
-          state := sIFURead
+          state := sIFUREAD
         }
       }
     }
 
-    is (sIFURead) {
+    is (sIFUREAD) {
       io.ifu.r.data  := io.mem.r.data
       io.ifu.r.resp  := io.mem.r.resp
       io.ifu.r.valid := io.mem.r.valid
       io.mem.r.ready := io.ifu.r.ready
 
       when (io.mem.r.valid && io.ifu.r.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
 
-    is (sLSURead) {
+    is (sLSUREAD) {
       io.lsu.r.data  := io.mem.r.data
       io.lsu.r.resp  := io.mem.r.resp
       io.lsu.r.valid := io.mem.r.valid
       io.mem.r.ready := io.lsu.r.ready
 
       when (io.mem.r.valid && io.lsu.r.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
 
-    is (sLSUWrite) {
+    is (sLSUWRITE) {
       io.lsu.b.resp  := io.mem.b.resp
       io.lsu.b.valid := io.mem.b.valid
       io.mem.b.ready := io.lsu.b.ready
 
       when (io.mem.b.valid && io.lsu.b.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
   }

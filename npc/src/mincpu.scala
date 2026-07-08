@@ -42,11 +42,15 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
 
   // shared AXI memory
   val axiArbiter = Module(new AxiArbiter)
+  val xbar       = Module(new Xbar)
   val axiSram    = Module(new AXIsram(is_inst = false))
+  val axiUart    = Module(new AxiUart)
 
   ifu.io.axi_if      <> axiArbiter.io.ifu
   mem.io.axi_mem     <> axiArbiter.io.lsu
-  axiArbiter.io.mem  <> axiSram.io.axi
+  axiArbiter.io.mem  <> xbar.io.in
+  xbar.io.mem        <> axiSram.io.axi
+  xbar.io.uart       <> axiUart.io.axi
   
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
   // printf("EX: redirect_valid = %d, target = %x\n", exu.io.redirect.valid, exu.io.redirect.bits.target)
