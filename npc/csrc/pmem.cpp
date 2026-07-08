@@ -62,7 +62,7 @@ static void init_uart_stdin() {
     if (isatty(STDIN_FILENO) && tcgetattr(STDIN_FILENO, &uart_stdin_termios) == 0) {
         struct termios raw = uart_stdin_termios;
         raw.c_lflag &= ~(ICANON | ECHO);
-        raw.c_cc[VMIN] = 0;
+        raw.c_cc[VMIN] = 1;
         raw.c_cc[VTIME] = 0;
         if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) == 0) {
             uart_stdin_has_termios = true;
