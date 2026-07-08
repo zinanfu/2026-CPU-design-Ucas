@@ -59,10 +59,13 @@ class AxiArbiter extends Module {
   io.axi.b.ready  := false.B
 
   // 握手
+  val memArFire = io.mem.ar.valid && io.mem.ar.ready
   val memAwFire = io.mem.aw.valid && io.mem.aw.ready
   val memWFire  = io.mem.w.valid  && io.mem.w.ready
-  val memArFire = io.mem.ar.valid && io.mem.ar.ready
+  
+
   val ifuArFire = io.ifu.ar.valid && io.ifu.ar.ready
+
   val axiArFire = io.axi.ar.valid && io.axi.ar.ready
   val axiAwFire = io.axi.aw.valid && io.axi.aw.ready
   val axiWFire  = io.axi.w.valid  && io.axi.w.ready

@@ -38,11 +38,11 @@ class AXIsram extends Module {
 
   // write
   val awAddrReg = RegInit(0.U(32.W))
-  val awIdReg = RegInit(0.U(1.W))
+  val awIdReg   = RegInit(0.U(1.W))
   val awFullReg = RegInit(false.B)
-  val wDataReg = RegInit(0.U(32.W))
-  val wStrbReg = RegInit(0.U(4.W))
-  val wFullReg = RegInit(false.B)
+  val wDataReg  = RegInit(0.U(32.W))
+  val wStrbReg  = RegInit(0.U(4.W))
+  val wFullReg  = RegInit(false.B)
   val bvalidReg = RegInit(false.B)
 
   io.axi.aw.ready := !awFullReg && !bvalidReg

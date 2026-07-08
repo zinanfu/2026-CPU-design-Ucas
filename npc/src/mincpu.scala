@@ -43,12 +43,14 @@ class CpuTop(enableItrace: Boolean = true) extends Module {
   val xbar       = Module(new Xbar)
   val axiSram    = Module(new AXIsram)
   val axiUart    = Module(new AxiUart)
+  val axiClient  = Module(new AxiClient)
 
   ifu.io.axi_if           <> axiArbiter.io.ifu
   mem.io.axi_mem          <> axiArbiter.io.mem
   axiArbiter.io.axi       <> xbar.io.in
   xbar.io.mem             <> axiSram.io.axi
   xbar.io.uart            <> axiUart.io.axi
+  xbar.io.clint           <> axiClient.io.axi
   
   val redirect_valid  = exu.io.redirect.valid || idu.io.redirect.valid
   val redirect_target = Mux(exu.io.redirect.valid,
