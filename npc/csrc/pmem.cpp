@@ -27,11 +27,6 @@ static bool uart_stdin_has_termios = false;
 static std::mutex uart_rx_lock;
 static std::deque<unsigned char> uart_rx_queue;
 
-static bool uart_debug_enabled() {
-    static int enabled = getenv("NPC_UART_DEBUG") != nullptr;
-    return enabled;
-}
-
 static void restore_uart_stdin() {
     if (uart_stdin_has_termios) {
         tcsetattr(STDIN_FILENO, TCSANOW, &uart_stdin_termios);
@@ -50,9 +45,6 @@ static void uart_input_thread() {
         unsigned char ch = 0;
         ssize_t n = read(STDIN_FILENO, &ch, 1);
         if (n == 1) {
-            if (uart_debug_enabled()) {
-                fprintf(stderr, "[uart stdin 0x%02x]\n", ch);
-            }
             std::lock_guard<std::mutex> guard(uart_rx_lock);
             uart_rx_queue.push_back(ch);
         } else if (n == 0) {
@@ -103,9 +95,6 @@ static int uart_rx_peek() {
 static int uart_rx_pop() {
     int ch = uart_rx_peek();
     if (ch >= 0) {
-        if (uart_debug_enabled()) {
-            fprintf(stderr, "[uart pop 0x%02x]\n", ch);
-        }
         uart_rx_cached = -1;
     }
     return ch;
