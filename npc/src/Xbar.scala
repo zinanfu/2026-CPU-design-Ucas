@@ -50,15 +50,26 @@ class Xbar extends Module {
   io.uart.b.ready  := false.B
 
   val arReady = io.mem.ar.ready && io.uart.ar.ready
-  val writeReady = io.mem.aw.ready && io.mem.w.ready && io.uart.aw.ready && io.uart.w.ready
+  // val writeReady = io.mem.aw.ready && io.mem.w.ready && io.uart.aw.ready && io.uart.w.ready
   val arFire = io.in.ar.valid && arReady
   val writeFire = io.in.aw.valid && io.in.w.valid && writeReady
+  val UartWriteReady = io.uart.aw.ready && io.uart.w.ready
+  val MemWriteReady = io.mem.aw.ready && io.mem.w.ready
 
   switch (state) {
     is (sIDLE) {
       io.in.ar.ready := arReady
-      io.in.aw.ready := writeReady
-      io.in.w.ready  := writeReady
+
+      when (io.in.aw.addr === UART_ADDR) {
+        io.in.aw.ready := UartWriteReady
+        io.in.w.ready  := UartWriteReady
+      }.otherwise {
+        io.in.aw.ready := MemWriteReady
+        io.in.w.ready  := MemWriteReady
+      }
+
+      // io.in.aw.ready := writeReady
+      // io.in.w.ready  := writeReady
 
       when (io.in.aw.valid && io.in.w.valid) {
         when (io.in.aw.addr === UART_ADDR) {
