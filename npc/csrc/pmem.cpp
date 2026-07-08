@@ -4,11 +4,98 @@
 #include <cstring>
 #include <cassert>
 #include <sys/time.h>
+#include <cerrno>
+#include <fcntl.h>
+#include <termios.h>
+#include <unistd.h>
 
 static uint8_t *pmem = nullptr;
 static size_t pmem_size = 0;
 static uint32_t pmem_base_addr = 0;
 static uint64_t rtc_boot_us = 0;
+
+#define SERIAL_LSR_PORT (SERIAL_PORT + 5)
+#define UART_LSR_DR 0x01u
+
+static int uart_rx_cached = -1;
+static bool uart_stdin_ready = false;
+static int uart_stdin_flags = -1;
+static struct termios uart_stdin_termios;
+static bool uart_stdin_has_termios = false;
+
+static void restore_uart_stdin() {
+    if (uart_stdin_flags >= 0) {
+        fcntl(STDIN_FILENO, F_SETFL, uart_stdin_flags);
+    }
+    if (uart_stdin_has_termios) {
+        tcsetattr(STDIN_FILENO, TCSANOW, &uart_stdin_termios);
+    }
+}
+
+static void init_uart_stdin() {
+    if (uart_stdin_ready) return;
+    uart_stdin_ready = true;
+
+    if (isatty(STDIN_FILENO) && tcgetattr(STDIN_FILENO, &uart_stdin_termios) == 0) {
+        struct termios raw = uart_stdin_termios;
+        raw.c_lflag &= ~(ICANON | ECHO);
+        raw.c_cc[VMIN] = 0;
+        raw.c_cc[VTIME] = 0;
+        if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) == 0) {
+            uart_stdin_has_termios = true;
+        }
+    }
+
+    int flags = fcntl(STDIN_FILENO, F_GETFL, 0);
+    if (flags >= 0) {
+        uart_stdin_flags = flags;
+        fcntl(STDIN_FILENO, F_SETFL, flags | O_NONBLOCK);
+    }
+
+    atexit(restore_uart_stdin);
+}
+
+static int uart_rx_peek() {
+    init_uart_stdin();
+
+    if (uart_rx_cached >= 0) {
+        return uart_rx_cached;
+    }
+
+    unsigned char ch = 0;
+    ssize_t n = read(STDIN_FILENO, &ch, 1);
+    if (n == 1) {
+        uart_rx_cached = ch;
+        return uart_rx_cached;
+    }
+
+    return -1;
+}
+
+static int uart_rx_pop() {
+    int ch = uart_rx_peek();
+    if (ch >= 0) {
+        uart_rx_cached = -1;
+    }
+    return ch;
+}
+
+static uint32_t uart_read(uint32_t addr) {
+    if (addr == SERIAL_PORT) {
+        int ch = uart_rx_pop();
+        return ch >= 0 ? (uint8_t)ch : 0;
+    }
+
+    uint32_t lsr = uart_rx_peek() >= 0 ? UART_LSR_DR : 0;
+    if (addr == SERIAL_LSR_PORT) {
+        return lsr;
+    }
+    if (addr == (SERIAL_LSR_PORT & ~0x3u)) {
+        return lsr << ((SERIAL_LSR_PORT & 0x3u) * 8);
+    }
+
+    return 0;
+}
 
 void init_pmem(size_t size, uint32_t base) {
     if (pmem) {
@@ -76,6 +163,9 @@ extern "C" uint32_t paddr_read(uint32_t addr, int len, bool is_inst) {
 
         
 
+        if (addr >= SERIAL_PORT && addr < SERIAL_PORT + 8) {
+            return uart_read(addr);
+        }
 
         // MMIO: provide RTC value (microseconds since start)
         if (addr == RTC_ADDR || addr == RTC_ADDR + 4) {

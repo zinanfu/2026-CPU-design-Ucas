@@ -2,31 +2,41 @@ package logic
 
 import chisel3._
 import chisel3.util._
+import npc.PaddrReadDPI
+import npc.PaddrWriteDPI
 
 class AxiUart extends Module {
   val io = IO(new Bundle {
     val axi = new Axi4LiteSlaveIO
   })
 
-  val UART_ADDR = "h10000000".U(32.W)
+  val paddrRead  = Module(new PaddrReadDPI)
+  val paddrWrite = Module(new PaddrWriteDPI)
 
   val rvalidReg = RegInit(false.B)
+  val rdataReg  = RegInit(0.U(32.W))
   val awAddrReg = RegInit(0.U(32.W))
   val awFullReg = RegInit(false.B)
   val wDataReg  = RegInit(0.U(32.W))
+  val wStrbReg  = RegInit(0.U(4.W))
   val wFullReg  = RegInit(false.B)
   val bvalidReg = RegInit(false.B)
 
   io.axi.ar.ready := !rvalidReg
-  // 不能读
-  io.axi.r.data   := 0.U
+  io.axi.r.data   := rdataReg
   io.axi.r.resp   := 0.U
   io.axi.r.valid  := rvalidReg
 
   val arFire = io.axi.ar.valid && io.axi.ar.ready
   val rFire  = io.axi.r.valid && io.axi.r.ready
+
+  paddrRead.io.addr    := Mux(arFire, io.axi.ar.addr, 0.U)
+  paddrRead.io.len     := 4.U
+  paddrRead.io.is_inst := false.B
+
   when (arFire) {
     rvalidReg := true.B
+    rdataReg  := paddrRead.io.data
   }.elsewhen (rFire) {
     rvalidReg := false.B
   }
@@ -40,15 +50,28 @@ class AxiUart extends Module {
   val wFire     = io.axi.w.valid  && io.axi.w.ready
   val writeAddr = Mux(awFullReg, awAddrReg, io.axi.aw.addr)
   val writeData = Mux(wFullReg, wDataReg, io.axi.w.data)
+  val writeStrb = Mux(wFullReg, wStrbReg, io.axi.w.strb)
   val writeFire = !bvalidReg && (awFullReg || awFire) && (wFullReg || wFire)
+
+  paddrWrite.io.wen   := writeFire
+  paddrWrite.io.addr  := Mux(writeFire, writeAddr, 0.U)
+  paddrWrite.io.data  := writeData
+  paddrWrite.io.wmask := Mux(writeFire, Cat(Fill(28, 0.U), writeStrb), 0.U)
+  paddrWrite.io.len   := MuxLookup(writeStrb, 4.U)(Seq(
+    "b0001".U -> 1.U,
+    "b0010".U -> 1.U,
+    "b0100".U -> 1.U,
+    "b1000".U -> 1.U,
+    "b0011".U -> 2.U,
+    "b1100".U -> 2.U,
+    "b1111".U -> 4.U
+  ))
+  paddrWrite.io.is_inst := false.B
 
   when (writeFire) {
     awFullReg := false.B
     wFullReg  := false.B
     bvalidReg := true.B
-    when (writeAddr === UART_ADDR) {
-      printf("%c", writeData(7, 0))
-    }
   }.otherwise {
     when (awFire) {
       awAddrReg := io.axi.aw.addr
@@ -56,6 +79,7 @@ class AxiUart extends Module {
     }
     when (wFire) {
       wDataReg := io.axi.w.data
+      wStrbReg := io.axi.w.strb
       wFullReg := true.B
     }
     when (io.axi.b.valid && io.axi.b.ready) {
