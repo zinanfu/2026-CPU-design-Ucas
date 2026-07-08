@@ -12,12 +12,13 @@ class Xbar extends Module {
 
   val UART_ADDR = "h10000000".U(32.W)
 
-  val sIdle :: sMemReadReq :: sUartReadReq :: sMemReadResp :: sUartReadResp :: sMemWriteReq :: sUartWriteReq :: sMemWriteResp :: sUartWriteResp :: Nil = Enum(9)
-  val state = RegInit(sIdle)
+  val sIDLE :: sMEM_READ :: sUartReadReq :: sMemReadResp :: sUartReadResp :: sMemWriteReq :: sUartWriteReq :: sMemWriteResp :: sUartWriteResp :: Nil = Enum(9)
+  val state = RegInit(sIDLE)
   val addrReg = RegInit(0.U(32.W))
   val wdataReg = RegInit(0.U(32.W))
   val wstrbReg = RegInit(0.U(4.W))
 
+  // default
   io.in.ar.ready := false.B
   io.in.r.data   := 0.U
   io.in.r.resp   := 0.U
@@ -48,7 +49,7 @@ class Xbar extends Module {
   io.uart.b.ready  := false.B
 
   switch (state) {
-    is (sIdle) {
+    is (sIDLE) {
       io.in.ar.ready := true.B
       io.in.aw.ready := true.B
       io.in.w.ready  := true.B
@@ -102,13 +103,13 @@ class Xbar extends Module {
           when (io.mem.ar.valid && io.mem.ar.ready) {
             state := sMemReadResp
           }.otherwise {
-            state := sMemReadReq
+            state := sMEM_READ
           }
         }
       }
     }
 
-    is (sMemReadReq) {
+    is (sMEM_READ) {
       io.mem.ar.addr  := addrReg
       io.mem.ar.valid := true.B
 
@@ -133,7 +134,7 @@ class Xbar extends Module {
       io.mem.r.ready := io.in.r.ready
 
       when (io.mem.r.valid && io.in.r.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
 
@@ -144,7 +145,7 @@ class Xbar extends Module {
       io.uart.r.ready := io.in.r.ready
 
       when (io.uart.r.valid && io.in.r.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
 
@@ -178,7 +179,7 @@ class Xbar extends Module {
       io.mem.b.ready := io.in.b.ready
 
       when (io.mem.b.valid && io.in.b.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
 
@@ -188,7 +189,7 @@ class Xbar extends Module {
       io.uart.b.ready := io.in.b.ready
 
       when (io.uart.b.valid && io.in.b.ready) {
-        state := sIdle
+        state := sIDLE
       }
     }
   }
