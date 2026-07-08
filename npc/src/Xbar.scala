@@ -12,7 +12,7 @@ class Xbar extends Module {
 
   val UART_ADDR = "h10000000".U(32.W)
 
-  val sIDLE :: sMemReadResp :: sUartReadResp :: sMemWriteResp :: sUartWriteResp :: Nil = Enum(5)
+  val sIDLE :: sMEMREAD :: sUARTREAD :: sMEMWRITE :: sUARTWRITE :: Nil = Enum(5)
   val state = RegInit(sIDLE)
 
   // default
@@ -49,8 +49,6 @@ class Xbar extends Module {
   io.uart.w.valid  := false.B
   io.uart.b.ready  := false.B
 
-  val arToUart = io.in.ar.addr === UART_ADDR
-  val awToUart = io.in.aw.addr === UART_ADDR
   val arReady = io.mem.ar.ready && io.uart.ar.ready
   val writeReady = io.mem.aw.ready && io.mem.w.ready && io.uart.aw.ready && io.uart.w.ready
   val arFire = io.in.ar.valid && arReady
@@ -63,7 +61,7 @@ class Xbar extends Module {
       io.in.w.ready  := writeReady
 
       when (io.in.aw.valid && io.in.w.valid) {
-        when (awToUart) {
+        when (io.in.aw.addr === UART_ADDR) {
           io.uart.aw.addr  := io.in.aw.addr
           io.uart.aw.id    := io.in.aw.id
           io.uart.aw.valid := writeFire
@@ -72,7 +70,7 @@ class Xbar extends Module {
           io.uart.w.valid  := writeFire
 
           when (writeFire) {
-            state := sUartWriteResp
+            state := sUARTWRITE
           }
         }.otherwise {
           io.mem.aw.addr  := io.in.aw.addr
@@ -83,17 +81,17 @@ class Xbar extends Module {
           io.mem.w.valid  := writeFire
 
           when (writeFire) {
-            state := sMemWriteResp
+            state := sMEMWRITE
           }
         }
       }.elsewhen (io.in.ar.valid) {
-        when (arToUart) {
+        when (io.in.ar.addr === UART_ADDR) {
           io.uart.ar.addr  := io.in.ar.addr
           io.uart.ar.id    := io.in.ar.id
           io.uart.ar.valid := arFire
 
           when (arFire) {
-            state := sUartReadResp
+            state := sUARTREAD
           }
         }.otherwise {
           io.mem.ar.addr  := io.in.ar.addr
@@ -101,13 +99,13 @@ class Xbar extends Module {
           io.mem.ar.valid := arFire
 
           when (arFire) {
-            state := sMemReadResp
+            state := sMEMREAD
           }
         }
       }
     }
 
-    is (sMemReadResp) {
+    is (sMEMREAD) {
       io.in.r.data   := io.mem.r.data
       io.in.r.resp   := io.mem.r.resp
       io.in.r.valid  := io.mem.r.valid
@@ -118,7 +116,7 @@ class Xbar extends Module {
       }
     }
 
-    is (sUartReadResp) {
+    is (sUARTREAD) {
       io.in.r.data    := io.uart.r.data
       io.in.r.resp    := io.uart.r.resp
       io.in.r.valid   := io.uart.r.valid
@@ -129,7 +127,7 @@ class Xbar extends Module {
       }
     }
 
-    is (sMemWriteResp) {
+    is (sMEMWRITE) {
       io.in.b.resp   := io.mem.b.resp
       io.in.b.valid  := io.mem.b.valid
       io.mem.b.ready := io.in.b.ready
@@ -139,7 +137,7 @@ class Xbar extends Module {
       }
     }
 
-    is (sUartWriteResp) {
+    is (sUARTWRITE) {
       io.in.b.resp    := io.uart.b.resp
       io.in.b.valid   := io.uart.b.valid
       io.uart.b.ready := io.in.b.ready
